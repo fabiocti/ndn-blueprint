@@ -1,0 +1,109 @@
+# NDN Compression Regime Registry
+# Defines the available compression configurations.
+
+regimes:
+
+  - id: S16
+    name: Structured-16
+    latent_count: 16
+    latent_groups: "8,4,4"
+    compression_ratio: ~8x
+    sequence_length: 128
+    description: >
+      Frontier / experimental regime. Maximum compression at the cost of
+      reconstruction fidelity and corruption resilience.
+    typical_use:
+      - Highly structured, repetitive content
+      - Research probes for compression limits
+    tradeoffs:
+      pros:
+        - Highest compression ratio
+        - Useful for understanding compression limits
+      cons:
+        - Extreme corruption fragility
+        - Fine-grained details systematically lost
+        - Not recommended for production use
+    validated_domains:
+      - NLK (experimental, 2 seeds)
+    notes: >
+      Validated as a viable frontier regime: 8x compression works on
+      structured domains, but corruption sensitivity is too high for
+      practical use. Primarily a research tool.
+
+  - id: S32
+    name: Structured-32
+    latent_count: 32
+    latent_groups: "16,8,8"
+    compression_ratio: ~4x
+    sequence_length: 128
+    description: >
+      The primary production regime for structured content. Best
+      compression-quality balance for most domains.
+    typical_use:
+      - Encyclopedic prose (NLK)
+      - Operational state traces (OSA)
+      - Regulated text (HPRT)
+      - Agent operational journals (AOJ)
+    tradeoffs:
+      pros:
+        - Strong compression ratio (4x)
+        - High retention on structured, in-distribution content (still lossy; rare entities and exact wording can fail)
+        - Good corruption resilience
+        - Best exact value recovery among regimes for structured domains
+      cons:
+        - Can lose fine-grained binding on complex content
+        - Less headroom for unstructured / irregular text
+    validated_domains:
+      - NLK (champion)
+      - OSA (champion)
+      - HPRT (champion)
+      - AOJ (champion)
+      - FTA (viable but S64 preferred)
+      - HWM (viable but S64 preferred)
+    notes: >
+      The workhorse regime. Preferred for structured, regular content when
+      S32's tradeoffs fit the domain. For complex or irregular content, S64 is
+      usually the better fit.
+
+  - id: S64
+    name: Structured-64
+    latent_count: 64
+    latent_groups: "32,16,16"
+    compression_ratio: ~2x
+    sequence_length: 128
+    description: >
+      Higher-fidelity regime for complex, irregular, or high-dependence
+      content. Lower compression but better reconstruction quality.
+    typical_use:
+      - Source code (FTA)
+      - Conversation (CONV)
+      - Human working memory text (HWM)
+    tradeoffs:
+      pros:
+        - Higher reconstruction fidelity
+        - Better fine-grained binding (variables, entities)
+        - Handles irregular structure better
+        - More resilient on complex content
+      cons:
+        - Only 2x compression (less space savings)
+        - Diminishing returns on already-structured content
+    validated_domains:
+      - FTA (champion)
+      - CONV (champion)
+      - HWM (champion)
+      - NLK (viable but S32 preferred)
+      - OSA (viable but S32 preferred)
+    notes: >
+      Preferred when content has high latent dependence or when a single
+      wrong token would corrupt meaning (code, conversation).
+
+# Training configuration shared across all regimes:
+training_defaults:
+  base_model: gpt2
+  sequence_length: 128
+  learning_rate: 1.0e-4
+  warmup_ratio: 0.15
+  batch_size: 32
+  num_epochs: 10
+  precision: bf16
+  seed: 137

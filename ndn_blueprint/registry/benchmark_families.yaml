@@ -1,0 +1,195 @@
+# NDN Benchmark Family Registry
+# Each family is a set of evaluation probes designed to test specific capabilities.
+
+benchmark_families:
+
+  # --- Domain-Native Probe Families ---
+
+  - id: NIAH
+    name: Needle-in-a-Haystack
+    type: domain_native
+    description: >
+      Can the model preserve a specific fact embedded in a longer passage?
+      Tests whether compression loses isolated details.
+    applicable_domains: [NLK, FTA, OSA, HWM, HPRT]
+    protocol: >
+      Embed a target fact at a controlled position in a passage. Compress
+      and reconstruct. Check whether the target fact survives.
+    variants:
+      - WIKI-NIAH (NLK domain)
+      - CODE-NIAH (FTA domain)
+      - STATE-NIAH (OSA domain)
+      - REG-NIAH (HPRT domain)
+    status: complete
+
+  - id: FACT
+    name: Fact Binding (Single-Hop and Two-Hop)
+    type: domain_native
+    description: >
+      Tests entity-attribute binding. FACT1: single-hop (entity → attribute).
+      FACT2: two-hop (entity → intermediate → attribute).
+    applicable_domains: [NLK, FTA, OSA, HPRT]
+    protocol: >
+      Embed entity-attribute pairs in text. Compress and reconstruct.
+      Check whether the binding (which entity has which attribute) survives.
+    variants:
+      - WIKI-FACT1, WIKI-FACT2 (NLK)
+      - CODE-FACT1, CODE-FACT2 (FTA)
+      - STATE-FACT1, STATE-FACT2 (OSA)
+      - REG-FACT1, REG-FACT2 (HPRT)
+    status: complete
+
+  - id: EXACT
+    name: Exact Value Recovery
+    type: domain_native
+    description: >
+      Tests whether specific values (numbers, names, codes, identifiers)
+      survive compression and reconstruction exactly.
+    applicable_domains: [NLK, FTA, OSA, HPRT]
+    protocol: >
+      Embed specific exact values in text. Compress and reconstruct.
+      Check for exact string match.
+    variants:
+      - WIKI-EXACT (NLK)
+      - CODE-EXACT (FTA)
+      - REG-EXACT (HPRT)
+    status: complete
+
+  - id: TRACK
+    name: State Tracking
+    type: domain_native
+    description: >
+      Tests whether the model correctly tracks state through sequential
+      updates. Given a sequence of changes, can the model report the final state?
+    applicable_domains: [OSA, HPRT]
+    protocol: >
+      Create a sequence of state updates (some overriding earlier values).
+      Compress and reconstruct. Check whether the final state is correct.
+    variants:
+      - STATE-TRACK (OSA)
+      - CODE-TRACK (FTA — execution state tracking)
+      - REG-TRACK (HPRT)
+    status: complete
+
+  - id: OVERRIDE
+    name: Override Detection
+    type: domain_native
+    description: >
+      Tests whether later updates supersede earlier ones. Critical for
+      operational state where the latest value is what matters.
+    applicable_domains: [OSA, HPRT]
+    protocol: >
+      Create conflicting updates at different timestamps. Compress and
+      reconstruct. Check whether the later value wins.
+    variants:
+      - STATE-OVERRIDE (OSA)
+      - REG-OVERRIDE (HPRT)
+    status: complete
+
+  - id: POS
+    name: Positional Uniformity
+    type: domain_native
+    description: >
+      Tests whether facts at different positions in the text (beginning,
+      middle, end) are preserved equally.
+    applicable_domains: [NLK, HWM, HPRT]
+    protocol: >
+      Place target facts at different positions. Compress and reconstruct.
+      Check for position-dependent quality degradation.
+    variants:
+      - WIKI-POS (NLK)
+      - REG-POS (HPRT)
+    status: complete
+
+  - id: CONTROL
+    name: Baseline Control
+    type: domain_native
+    description: >
+      Control benchmark establishing baseline accuracy on straightforward
+      domain content. No adversarial placement or multi-hop reasoning.
+    applicable_domains: [HPRT]
+    variants:
+      - REG-CONTROL (HPRT)
+    status: complete
+
+  # --- Public / External Benchmarks ---
+
+  - id: LONGMEMEVAL
+    name: LongMemEval
+    type: public_external
+    description: >
+      Public conversational memory benchmark. 500 questions across 6
+      categories testing long-term memory in conversation.
+    applicable_domains: [CONV]
+    protocol: >
+      Compress-then-read pipeline: CNDX encodes conversation context into
+      latents, decodes back to text, reader LLM (Qwen2.5-7B-Instruct)
+      answers questions from reconstructed text. Compare to uncompressed baseline.
+    categories:
+      - knowledge-update (78 questions)
+      - multi-session (133 questions)
+      - single-session-assistant (56 questions)
+      - single-session-preference (30 questions)
+      - single-session-user (70 questions)
+      - temporal-reasoning (133 questions)
+    results:
+      conv_s64_v2:
+        overall_f1_retention: 94.9%
+        overall_kw_retention: 93.6%
+        overall_containment_retention: 85.1%
+        categories_exceeding_baseline: 2  # single-session-user, multi-session
+    status: complete
+
+  # --- Real-World A/B Testing ---
+
+  - id: OPENCLAW_AB
+    name: OpenClaw Real A/B Test
+    type: real_world_ab
+    description: >
+      Head-to-head comparison of NDN memory vs raw markdown memory on
+      real OpenClaw bug-bounty agent sessions. The gold standard evaluation.
+    applicable_domains: [OSA, AOJ]
+    protocol: >
+      5 real session slices from OpenClaw bounty agent. Each slice tests
+      fact recovery, continuity, noise, and repeated-work signals.
+      Side A = raw markdown (MEMORY.md + journals). Side B = NDN-compressed
+      memory (routed, compressed, retrieved, reconstructed).
+    slices:
+      - S1: 4 targets recon'd
+      - S2: All 5 targets complete
+      - S3: Mid-campaign
+      - S4: Heavy history (800 turns)
+      - S5: Full campaign (1400+ turns)
+    results:
+      aoj_s32_v2:
+        fact_recovery: 73%
+        compression: 1.69x
+        continuity: 0.92
+        score: "NDN 2/6, Markdown 4/6"
+        verdict: "Markdown wins. NDN reconstruction quality is the bottleneck."
+      aoj_s32_v3:
+        fact_recovery: 66%
+        compression: 1.66x
+        continuity: 0.92
+        score: "NDN 2/6, Markdown 4/6"
+        verdict: "Regression from v2. Loss weighting over-corrected."
+    status: complete
+
+  # --- Held-Out Reconstruction ---
+
+  - id: AOJ_HELDOUT
+    name: AOJ Held-Out Reconstruction
+    type: held_out
+    description: >
+      Internal held-out evaluation of AOJ checkpoints on synthetic eval
+      data (different seed from training). Tests generalization within
+      the synthetic distribution.
+    applicable_domains: [AOJ]
+    protocol: >
+      Evaluate on 2,000 synthetic samples generated with seed offset
+      +555555 from training. Measure val_loss, exact_match, numeric_token_acc.
+    caveat: >
+      Synthetic held-out can be misleading. AOJ v3 had better held-out
+      metrics than v2 but regressed on real A/B. Real-world evaluation
+      always takes precedence.
+    status: complete

@@ -1,0 +1,95 @@
+# === Model weights (too large for git) ===
+*.pt
+*.bin
+*.safetensors
+*.onnx
+checkpoints/
+
+# === Python ===
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# === Results / logs ===
+results/
+server_results/
+archive/
+ab_sessions/
+overnight_*.json
+sweep_results_*.json
+*.log
+
+# === Secrets / credentials ===
+.env
+*.pem
+*.key
+
+# === Lab scripts (one-off experiments, not public) ===
+provision_*.py
+check_*.py
+nuke_*.py
+kill_*.py
+wait_*.py
+list_*.py
+find_*.py
+run_*.sh
+run_*.py
+train_*.sh
+queue.sh
+retrain_*.sh
+extract_*.py
+parse_*.py
+compare_*.py
+analyze_*.py
+diagnose_*.py
+debug_*.py
+inspect_*.py
+show_*.py
+slice_*.py
+read_*.py
+score_*.py
+verify_*.py
+apply_*.py
+test_*.py
+local_*.py
+install_*.py
+sanity_*.py
+zoom_*.py
+timer.ps1
+ab_diagnostic.py
+diag_*.py
+
+# === Private integration code (not ready for public) ===
+openclaw_memory/
+
+# === Personal / non-public files ===
+*.docx
+*.pdf
+*.jfif
+*.png
+*.tar
+*.txt
+!ndn_blueprint/**/*.txt
+
+# === Old design docs (superseded by blueprint) ===
+NDN_ARCHITECTURE.md
+OPENCLAW_MEMORY_LAYER_PLAN.md
+CONVERSATION_DOMAIN_LESSONS.md
+RESULT_SUMMARY.md
+AOJ_PROVENANCE.md
+StatePatch Research.txt
+Note1.txt
+zoom_results.json
+exp58.log
+
+# === IDE / OS ===
+.vscode/
+.idea/
+*.swp
+Thumbs.db
+.DS_Store

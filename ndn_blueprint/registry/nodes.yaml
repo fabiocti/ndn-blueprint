@@ -1,0 +1,336 @@
+# NDN Node Registry
+# Each entry represents a trained checkpoint and its evaluation profile.
+
+nodes:
+
+  # --- Natural Language Knowledge ---
+
+  - node_id: nlk_s32
+    domain: NLK
+    subdomain: null
+    checkpoint_name: wiki_s32
+    regime: S32
+    maturity: champion
+    champion_status: true
+    local_path: checkpoints/wiki_s32/
+    model_pt: true
+    best_for:
+      - Encyclopedic factual prose
+      - Entity-fact binding
+      - Reference material compression
+    known_failure_modes:
+      - Minor degradation on very rare proper nouns
+      - Not suitable for exact-wording requirements
+    benchmark_status:
+      val_loss: 0.72
+      ablation_gap: 7.27
+      shuffled_gap: 1.46
+      domain_native: WIKI-NIAH, WIKI-FACT1, WIKI-FACT2, WIKI-EXACT
+    notes: Most thoroughly tested node.
+
+  - node_id: nlk_s64
+    domain: NLK
+    subdomain: null
+    checkpoint_name: wiki_s64
+    regime: S64
+    maturity: benchmarked
+    champion_status: false
+    local_path: checkpoints/wiki_s64/
+    model_pt: true
+    best_for:
+      - When lower compression is acceptable for higher fidelity
+    known_failure_modes:
+      - Same as S32 but with less compression benefit
+    benchmark_status:
+      val_loss: 0.72
+      domain_native: WIKI-NIAH, WIKI-FACT1, WIKI-FACT2, WIKI-EXACT
+    notes: S32 preferred for this domain (structured content compresses well at 4x).
+
+  # --- Formal Technical Artifacts ---
+
+  - node_id: fta_s64
+    domain: FTA
+    subdomain: null
+    checkpoint_name: code_s64
+    regime: S64
+    maturity: champion
+    champion_status: true
+    local_path: checkpoints/code_s64/
+    model_pt: true
+    best_for:
+      - Python function-level code
+      - Fine-grained variable binding
+      - Syntax and structure preservation
+    known_failure_modes:
+      - Occasional variable name substitution in complex nested scopes
+      - Exact string literal recovery degrades for long literals
+      - Python only — other languages untested
+    benchmark_status:
+      val_loss: 0.30
+      ablation_gap: 8.34
+      shuffled_gap: 3.02
+      domain_native: CODE-NIAH, CODE-FACT1, CODE-FACT2, CODE-EXACT, CODE-TRACK
+    notes: S64 preferred for safety margin on fine-grained binding.
+
+  - node_id: fta_s32
+    domain: FTA
+    subdomain: null
+    checkpoint_name: code_s32
+    regime: S32
+    maturity: benchmarked
+    champion_status: false
+    local_path: checkpoints/code_s32/
+    model_pt: true
+    best_for:
+      - When 4x compression is needed for code
+    known_failure_modes:
+      - Slightly lower fine-grained binding than S64
+    benchmark_status:
+      domain_native: CODE-NIAH, CODE-FACT1, CODE-FACT2, CODE-EXACT, CODE-TRACK
+    notes: Viable but S64 preferred for code.
+
+  # --- Operational State Artifacts ---
+
+  - node_id: osa_s32
+    domain: OSA
+    subdomain: null
+    checkpoint_name: state_s32
+    regime: S32
+    maturity: champion
+    champion_status: true
+    local_path: checkpoints/state_s32/
+    model_pt: true
+    best_for:
+      - Timestamped event traces
+      - Sequential state updates
+      - Override detection
+    known_failure_modes:
+      - Long chains (>20 updates) show minor drift
+      - Unusual entity names in state keys
+      - Expects structured format — markdown prose compresses poorly
+    benchmark_status:
+      val_loss: 0.18
+      ablation_gap: 8.86
+      shuffled_gap: 3.64
+      domain_native: STATE-NIAH, STATE-FACT1, STATE-FACT2, STATE-TRACK, STATE-OVERRIDE
+    notes: >
+      Cleanest metrics of any domain. Fails as proxy for agent journals
+      (14% fact recovery) — this failure justified the AOJ subdomain.
+
+  - node_id: osa_s64
+    domain: OSA
+    subdomain: null
+    checkpoint_name: state_s64
+    regime: S64
+    maturity: benchmarked
+    champion_status: false
+    local_path: checkpoints/state_s64/
+    model_pt: true
+    best_for:
+      - State tracking when 2x compression is acceptable
+    benchmark_status:
+      domain_native: STATE-NIAH, STATE-FACT1, STATE-FACT2, STATE-TRACK, STATE-OVERRIDE
+    notes: S32 preferred for this domain.
+
+  # --- Human Working Memory Text ---
+
+  - node_id: hwm_s64
+    domain: HWM
+    subdomain: null
+    checkpoint_name: hwm_s64
+    regime: S64
+    maturity: champion
+    champion_status: true
+    local_path: checkpoints/hwm_s64/
+    model_pt: true
+    best_for:
+      - Fragmented notes and reminders
+      - Unstructured, irregular text
+    known_failure_modes:
+      - Lowest metrics overall (domain is inherently hard)
+      - Strong domain prior projects onto other domains
+      - Fine-grained details often lost
+    benchmark_status:
+      domain_native: HWM benchmarks
+    notes: >
+      Tested as proxy for agent journals: 24% fact recovery. Failed via
+      domain-prior projection (reconstructed journals as messy notes).
+
+  - node_id: hwm_s32
+    domain: HWM
+    subdomain: null
+    checkpoint_name: hwm_s32
+    regime: S32
+    maturity: benchmarked
+    champion_status: false
+    local_path: checkpoints/hwm_s32/
+    model_pt: true
+    notes: S64 preferred for this domain.
+
+  # --- High-Precision Regulated Text ---
+
+  - node_id: hprt_s32
+    domain: HPRT
+    subdomain: null
+    checkpoint_name: reg_s32
+    regime: S32
+    maturity: champion
+    champion_status: true
+    local_path: checkpoints/reg_s32/
+    model_pt: false  # model.pt not present locally
+    best_for:
+      - Policy documents with exact dates and thresholds
+      - Compliance text
+      - Formal procedures with conditional logic
+    known_failure_modes:
+      - Complex multi-layered conditional structures
+    benchmark_status:
+      domain_native: REG-CONTROL, REG-NIAH, REG-FACT1, REG-FACT2, REG-OVERRIDE, REG-TRACK, REG-POS, REG-EXACT
+    notes: Most demanding domain for precision.
+
+  - node_id: hprt_s64
+    domain: HPRT
+    subdomain: null
+    checkpoint_name: reg_s64
+    regime: S64
+    maturity: benchmarked
+    champion_status: false
+    local_path: checkpoints/reg_s64/
+    model_pt: false
+    notes: S32 preferred for this domain.
+
+  # --- Conversational Memory ---
+
+  - node_id: conv_s64_v2
+    domain: CONV
+    subdomain: null
+    checkpoint_name: conv_s64_v2
+    regime: S64
+    maturity: champion
+    champion_status: true
+    local_path: checkpoints/conv_s64_v2/
+    model_pt: false  # model.pt not present locally (only results.json and train.log)
+    best_for:
+      - Multi-turn chat conversations
+      - Conversation history compression
+      - Cross-session context
+    known_failure_modes:
+      - Specific digits still degrade
+      - Entity names in dense passages can blur
+      - Isolated local facts buried in long conversations can be lost
+      - Absolute benchmark scores are low (partial fidelity, not lossless)
+    benchmark_status:
+      val_loss: 1.82
+      ablation_gap: 12.00
+      shuffled_gap: 13.30
+      public_benchmark: "LongMemEval: 94.9% F1 retention, 93.6% KW retention, 85.1% containment retention (500 questions)"
+    notes: >
+      Highest latent dependence of any domain. Two improvement passes (v1 → v2).
+      model.pt not stored locally.
+
+  # --- AOJ (OSA Subdomain) ---
+
+  - node_id: aoj_s32_v1
+    domain: OSA
+    subdomain: AOJ
+    checkpoint_name: aoj_s32_v1
+    regime: S32
+    maturity: deprecated
+    champion_status: false
+    local_path: checkpoints/aoj_s32_v1/
+    model_pt: false  # Lost when Verda instance was terminated
+    best_for:
+      - Agent operational journals (superseded by v2)
+    benchmark_status:
+      val_loss: 0.0002
+      shuffled_gap: 4.02
+      exact_match: 10%
+      ab_fact_recovery: 54%
+      ab_compression: 1.56x
+    notes: >
+      First dedicated AOJ training. Showed dedicated training outperformed
+      proxy nodes on this test. Superseded by v2. Checkpoint lost.
+
+  - node_id: aoj_s32_v2
+    domain: OSA
+    subdomain: AOJ
+    checkpoint_name: aoj_s32_v2
+    regime: S32
+    maturity: champion
+    champion_status: true
+    local_path: checkpoints/aoj_s32_v2/
+    model_pt: false  # Lost when Verda instance was terminated — reproducible from training script
+    best_for:
+      - Agent operational journals
+      - Recon summaries
+      - Tool output + host count preservation
+      - Multi-target interleaved entries
+    known_failure_modes:
+      - Exact numeric counts (58% of remaining misses)
+      - OOV domain names (25%)
+      - Error/status strings (17%)
+    benchmark_status:
+      val_loss: 0.0016
+      shuffled_gap: 4.31
+      exact_match: 100%
+      ab_fact_recovery: 73%
+      ab_compression: 1.69x
+      ab_continuity: 0.92
+    notes: >
+      CURRENT BEST AOJ CHECKPOINT. model.pt lost but reproducible from
+      train_aoj_s32_v2.sh. Entity-diverse corpus (204 SLDs, 52 TLDs,
+      5% real data mix, digit_weight=3.0).
+
+  - node_id: aoj_s32_v3
+    domain: OSA
+    subdomain: AOJ
+    checkpoint_name: aoj_s32_v3
+    regime: S32
+    maturity: experimental
+    champion_status: false
+    local_path: checkpoints/aoj_s32_v3/
+    model_pt: true  # 316MB, preserved locally
+    best_for:
+      - NOTHING — regressed on real A/B. Preserved for reference only.
+    known_failure_modes:
+      - Over-corrected loss weighting distorted contextual recall
+      - Internal metrics improved but real A/B regressed
+    benchmark_status:
+      val_loss: 0.0001
+      shuffled_gap: 4.37
+      exact_match: 100%
+      ab_fact_recovery: 66%  # REGRESSION from v2's 73%
+      ab_compression: 1.66x
+    notes: >
+      FAILED EXPERIMENT. Token-ID entity weighting (122 tokens, 3.0x) +
+      digit weight 5.0x. Better internal metrics than v2 but 7pp worse on
+      real A/B.       Documented negative result: loss weighting alone is not the path to
+      entity preservation.
+
+  # --- Frontier Probes ---
+
+  - node_id: nlk_s16_seed137
+    domain: NLK
+    subdomain: null
+    checkpoint_name: s16_seed137
+    regime: S16
+    maturity: experimental
+    champion_status: false
+    local_path: checkpoints/s16_seed137/
+    model_pt: true
+    best_for:
+      - Frontier compression testing (8x ratio)
+    known_failure_modes:
+      - Extreme corruption fragility
+    notes: S16 frontier probe. Validates that 8x compression works on structured domains but with high fragility.
+
+  - node_id: nlk_s16_seed256
+    domain: NLK
+    subdomain: null
+    checkpoint_name: s16_seed256
+    regime: S16
+    maturity: experimental
+    champion_status: false
+    local_path: checkpoints/s16_seed256/
+    model_pt: true
+    notes: Second S16 seed for reproducibility check.

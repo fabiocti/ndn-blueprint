@@ -1,0 +1,46 @@
+# NDN Subdomain Registry
+# Subdomains are specializations within a top-level domain, justified by
+# evidence that parent-domain proxy nodes fail on the target text type.
+
+subdomains:
+
+  - id: AOJ
+    name: Agent Operational Journals
+    parent_domain: OSA
+    canonical_name: OSA / Agent Operational Journals
+    description: >
+      Markdown-formatted agent workflow logs: recon summaries, tool outputs,
+      host counts, findings lists, phase/status transitions, blockers,
+      and operational notes. The "what did the agent do, find, and decide" memory.
+    why_exists: >
+      The parent OSA node was trained on timestamped key-value state traces.
+      When tested on real agent operational journals (markdown-formatted),
+      OSA-S32 projected journal text into its training format, losing all
+      domain-specific facts. OSA-S32 recovered only 14% of facts. HWM-S64
+      recovered only 24%. Both proxy nodes failed via domain-prior projection.
+    target_artifacts:
+      - Per-target recon journals
+      - Phase/status transitions (e.g., "Phase 1A: COMPLETED")
+      - Tool-result-count triples (e.g., "subfinder: 555 hosts")
+      - Target/domain name references
+      - Aggregate counts and host classifications
+      - Error/blocker notes
+      - Repeated recon iterations with updated counts
+      - Multi-target interleaved entries
+    best_regime: S32
+    current_champion: aoj_s32_v2
+    champion_fact_recovery: 73%
+    champion_compression: 1.69x
+    markdown_baseline: 100%
+    maturity: validated
+    status: >
+      v2 is champion. v3 attempted loss weighting, regressed to 66%.
+      Remaining gap (27pp to markdown) characterized as: exact numeric
+      counts (58%), OOV domain names (25%), error/status strings (17%).
+    proxy_failure_evidence:
+      - node: OSA-S32
+        fact_recovery: 14%
+        failure_type: domain-prior projection (reconstructed as key-value traces)
+      - node: HWM-S64
+        fact_recovery: 24%
+        failure_type: wrong domain entirely (reconstructed as messy notes)

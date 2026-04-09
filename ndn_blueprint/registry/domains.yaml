@@ -1,0 +1,112 @@
+# NDN Domain Registry
+# Each entry defines a top-level domain in the Neural Domain Network.
+
+domains:
+
+  - id: NLK
+    name: Natural Language Knowledge
+    description: >
+      Encyclopedic, factual, expository prose. Stable factual knowledge
+      that rarely changes. The "what do I know about X" memory.
+    typical_artifacts:
+      - Encyclopedia entries
+      - Documentation summaries
+      - Research findings
+      - Factual descriptions
+    best_regime: S32
+    maturity: high
+    validated: true
+    notes: >
+      Most thoroughly tested domain. Multiple compression regimes validated.
+      Domain-native benchmark suite complete.
+
+  - id: FTA
+    name: Formal Technical Artifacts
+    description: >
+      Source code, function definitions, technical specifications.
+      The "what does this code do" memory.
+    typical_artifacts:
+      - Function and class definitions
+      - API signatures
+      - Code review context
+      - Technical specifications
+    best_regime: S64
+    maturity: high
+    validated: true
+    notes: >
+      Trained on Python function-level code. S64 preferred for fine-grained
+      variable binding safety margin. Other languages untested.
+
+  - id: OSA
+    name: Operational State Artifacts
+    description: >
+      Structured event traces, state updates, workflow logs.
+      The "what happened and what is the current state" memory.
+    typical_artifacts:
+      - Timestamped event traces
+      - State update sequences
+      - Workflow progress markers
+      - System status records
+    best_regime: S32
+    maturity: high
+    validated: true
+    has_subdomains: true
+    notes: >
+      Strong internal metrics on synthetic state-trace probes. Not
+      near-lossless in general — the same node fails as a proxy on markdown
+      agent journals (14% fact recovery), so surface format still matters.
+      Has one validated subdomain (AOJ).
+
+  - id: HWM
+    name: Human Working Memory Text
+    description: >
+      Fragmented notes, reminders, partial plans, stream-of-consciousness text.
+      The "messy scratchpad" memory.
+    typical_artifacts:
+      - Handwritten-style notes
+      - Incomplete plans and drafts
+      - Reminder lists with context
+      - Brainstorm fragments
+    best_regime: S64
+    maturity: medium
+    validated: true
+    notes: >
+      Lowest metrics overall — the domain is inherently hard. Strong domain
+      prior that projects onto other domains when used as proxy.
+
+  - id: HPRT
+    name: High-Precision Regulated Text
+    description: >
+      Policy documents, compliance text, formal procedures.
+      The "exact rules and thresholds" memory.
+    typical_artifacts:
+      - Regulatory compliance documents
+      - Policy procedures with exact dates and thresholds
+      - Formal specifications with conditional logic
+      - Legal/contractual text
+    best_regime: S32
+    maturity: medium
+    validated: true
+    notes: >
+      Most demanding domain for precision. Complex multi-layered
+      conditional structures are the primary failure mode.
+
+  - id: CONV
+    name: Conversational Memory
+    description: >
+      Multi-turn dialogue, conversation transcripts, chat history.
+      The "what did we talk about" memory.
+    typical_artifacts:
+      - Multi-turn chat conversations
+      - Interview transcripts
+      - Discussion threads
+      - Agent-user interaction history
+    best_regime: S64
+    maturity: medium-high
+    validated: true
+    public_benchmark: LongMemEval (94.9% F1 retention, 500 questions)
+    notes: >
+      Highest latent dependence of any domain (ablation_gap +12.00,
+      shuffled_gap +13.30). Two improvement passes completed (v1 → v2).
+      Real data essential — synthetic conversation templates caused
+      catastrophic overfitting.
