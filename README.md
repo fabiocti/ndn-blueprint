@@ -46,7 +46,7 @@ NDN has 7 champion nodes across 6 domains and 1 subdomain. All nodes use a ~70M 
 **Validated:**
 - Domain-specific training consistently beats cross-domain use
 - Wrong-node failures are diagnostic (they reveal learned priors)
-- AOJ subdomain achieves 73% fact recovery vs 14–24% from proxy nodes
+- AOJ subdomain achieves 73% fact recovery vs 14–24% from proxy nodes (test data was in training corpus; see [evidence/aoj_subdomain_case.md](evidence/aoj_subdomain_case.md) for caveats)
 - CONV-S64 v2 achieves 94.9% F1 retention on LongMemEval
 
 **Honest limitations:**

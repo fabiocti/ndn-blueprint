@@ -128,7 +128,7 @@ Internal metrics were misleading: every single internal metric improved, yet rea
 | AOJ v3 | 66% | Failed (regression) |
 | Markdown | 100% | Still wins overall |
 
-**AOJ v2 is the current champion.** The v2 model.pt was lost when the training server was terminated. It is reproducible from the saved training script and data configuration.
+**AOJ v2 is the current champion.** The v2 model.pt was lost when the original training server was terminated, then recovered via retrain on 9 Apr 2026 using the same script and data configuration. The checkpoint is present locally.
 
 ---
 
@@ -150,6 +150,6 @@ Internal metrics were misleading: every single internal metric improved, yet rea
 
 1. **Markdown still wins overall.** 100% vs 73%. The gap requires architectural changes (copy/pointer mechanisms, entity-aware attention), not more loss engineering.
 
-2. **The champion checkpoint is lost.** Reproducible from training configuration, but requires a GPU instance to retrain.
+2. **The champion checkpoint has been recovered.** Retrained 9 Apr 2026 from saved configuration. Present locally.
 
-3. **The test data has a leakage caveat.** The 5 journals were in training. A fully clean held-out test would use new, unseen agent sessions.
+3. **The test data has a leakage caveat.** The 5 journals used in the A/B test were included in v2's training corpus (5% of total). A fully clean held-out test would use new, unseen agent sessions. The 73% figure should be interpreted with this caveat.
