@@ -12,7 +12,7 @@
 | **Version** | `v2` |
 | **Status** | `champion` |
 | **Date trained** | `2026-04-09` |
-| **Training hardware** | `1x H100 80GB (Verda)` |
+| **Training hardware** | `1x H100 80GB` |
 
 ## Purpose
 
@@ -55,11 +55,11 @@ Compresses and reconstructs agent operational journals — structured logs from 
 | Metric | Value |
 |---|---|
 | train_loss | — |
-| val_loss | `0.0014` |
+| val_loss | `0.0016` |
 | first_token_accuracy | `100%` |
 | exact_match | `100%` |
 | ablation_gap | — |
-| shuffled_gap | `2.36` |
+| shuffled_gap | `4.31` |
 | c25 / c50 / c75 | — |
 | numeric_token_acc | `99.98%` |
 
@@ -103,9 +103,10 @@ _No public benchmarks applied._
 
 | Version | Key Metric | Value | Notes |
 |---|---|---|---|
-| v1 (implicit) | — | — | OSA parent node: 14% fact recovery on agent journals |
-| **v2 (champion)** | Fact recovery | 73% | 5.2x improvement over parent OSA proxy |
-| v3 (attempted) | Fact recovery | 66% | Regressed with stronger loss weighting; v2 remains champion |
+| OSA proxy (baseline) | Fact recovery | 14% | OSA parent node used as proxy — failed on agent journals |
+| AOJ v1 | Fact recovery | 54% | First dedicated AOJ training; 3.9x over OSA proxy |
+| **AOJ v2 (champion)** | Fact recovery | 73% | 1.35x over v1 (73/54), 5.2x over OSA proxy (73/14) |
+| AOJ v3 (attempted) | Fact recovery | 66% | Regressed with stronger loss weighting; v2 remains champion |
 
 ## Provenance
 
@@ -121,7 +122,7 @@ _No public benchmarks applied._
 
 ## Notes
 
-**Retrained 9 Apr 2026 on Verda H100.** val_loss=0.0014, exact=100%, num_tok_acc=99.98%. Entity weight=2.5 still matched 0 tokens (regex bug), so this is effectively digit_weight=3.0 only.
+**Retrained 9 Apr 2026 on H100.** val_loss=0.0014, exact=100%, num_tok_acc=99.98%, shuffled_gap=2.36. Entity weight=2.5 still matched 0 tokens (regex bug), so this is effectively digit_weight=3.0 only.
 
 _AOJ was created as a subdomain of OSA after two proxy failures: OSA parent (14% fact recovery) and HWM (24% fact recovery, domain-prior projection). The v2 node achieves 73% fact recovery with 1.69x compression and 0.92 continuity on real agent journals, but Markdown still outperforms NDN compression in head-to-head A/B (MD wins 4/6 vs NDN 2/6)._
 

@@ -4,7 +4,7 @@
 
 The Neural Domain Network is a modular memory system for AI agents. It replaces monolithic memory with a network of specialized compression nodes, each trained to handle a specific type of information.
 
-The system has five phases:
+The system has five phases (simplified from the full eight-step lifecycle detailed in 02_ARCHITECTURE.md):
 
 1. **Route** — classify incoming text to the appropriate domain node
 2. **Compress** — encode text into a compact latent representation using the domain-specific encoder
@@ -56,12 +56,12 @@ Proven with empirical evidence:
 2. Six top-level domains trained and evaluated with internal metrics and domain-native benchmarks
 3. One subdomain (AOJ) validated with real-world A/B testing
 4. Public benchmark result: 94.9% F1 retention on LongMemEval (500 questions, conversation domain)
-5. 2x-4x compression with substantial information retention
+5. 2x–4x compression at the champion node level with substantial information retention (S16 at ~8x exists but is experimental-only)
 6. Wrong-node failures are diagnostic and guide taxonomy refinement
 
 ## What Still Needs Proof
 
-1. NDN has not yet beaten raw markdown on a real-world agent A/B test (best: 73% vs 100% fact recovery)
+1. NDN has not yet beaten raw markdown on a real-world agent A/B test (best: 73% vs 100% fact recovery) (test data was included in training corpus; see evidence/aoj_subdomain_case.md for caveats)
 2. Rare entity preservation remains unsolved at the architecture level
 3. Routing calibration and multi-domain retrieval are basic
 4. No production deployment exists

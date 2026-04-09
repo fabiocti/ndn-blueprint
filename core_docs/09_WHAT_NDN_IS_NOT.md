@@ -16,7 +16,7 @@ An AI agent needs an orchestrator (the LLM that reads context, decides actions, 
 
 As of April 2026, raw markdown still wins the most demanding real-world A/B test:
 - Markdown: 100% fact recovery
-- NDN (best checkpoint): 73% fact recovery, 1.69x compression
+- NDN (best checkpoint): 73% fact recovery (with data leakage caveat — see evidence docs), 1.69x compression
 
 NDN offers compression and noise reduction. Markdown offers perfect fidelity. For tasks where every fact matters and context window is not a constraint, markdown is currently superior. Claiming otherwise would be false.
 
@@ -34,7 +34,7 @@ Adding a new domain or subdomain to the NDN requires empirical evidence:
 The project has a documented case where internal metrics improved while real-world performance regressed:
 
 - AOJ v3 internal: lower val_loss, earlier exact match, higher shuffled_gap than v2
-- AOJ v3 real A/B: 66% fact recovery (down from v2's 73%)
+- AOJ v3 real A/B: 66% fact recovery (down from v2's 73%, with data leakage caveat — see evidence docs)
 
 Training metrics are necessary for monitoring convergence. They are not sufficient for claiming practical value. When they conflict with real-world A/B results, the A/B results take precedence for practical claims.
 

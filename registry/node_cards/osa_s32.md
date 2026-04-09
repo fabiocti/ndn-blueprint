@@ -103,7 +103,7 @@ _First version. No prior versions._
 | Training script | — |
 | Training log | — |
 | Checkpoint location | `checkpoints/state_s32/` |
-| model.pt | Yes (315 MB) |
+| model.pt | Yes (316 MB) |
 | Dataset composition | 100% synthetic (synthetic_state_traces_v1) |
 | Held-out policy | — |
 | Data leakage notes | — |

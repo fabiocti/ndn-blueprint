@@ -25,7 +25,7 @@ Training data has been identified or generated. The proposal has been reviewed f
 
 ### 3. Experimental
 
-A model has been trained and internal evaluation is complete. Training curves, val_loss, ablation_gap, shuffled_gap, and corruption sensitivity are documented. The node has not yet been tested on held-out or real-world data.
+A model has been trained and internal evaluation is complete. Training curves, val_loss, ablation_gap, shuffled_gap, and corruption sensitivity (loss increase when N% of input tokens are randomly corrupted) are documented. The node has not yet been tested on held-out or real-world data.
 
 **Requirements to enter**:
 - Trained checkpoint

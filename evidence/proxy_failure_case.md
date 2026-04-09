@@ -1,5 +1,7 @@
 # Case Study: Proxy Failures and Wrong-Node Diagnostics
 
+> **Note: Target names have been anonymized.**
+
 ## Summary
 
 Wrong-node failures — using a model trained on one domain to reconstruct text from another — are the most informative failure mode in the NDN. They reveal domain-specific representational priors and directly motivate taxonomy expansion.
@@ -27,7 +29,7 @@ The HWM (Human Working Memory) model was trained on fragmented notes, reminders,
 - subfinder: 555 hosts
 - httpx: 169 live
 - Total merged: 673 hosts
-- Target: vfsglobal.com
+- Target: corp-alpha.example.com
 ```
 
 ### What happened
@@ -74,7 +76,7 @@ The HWM model reconstructed conversations as task-list-style notes. Speaker turn
 - **What it tells us**: The HWM latent space encodes a "messy notes" representational prior that dominates reconstruction regardless of input type. This is not a bug — it is evidence that the latent space has learned domain-specific structure.
 
 ### Why this mattered
-This was a central diagnostic finding: the domain prior is real, measurable, and consistent. It supports treating CNDX models as learning domain-shaped representations rather than as domain-agnostic compressors.
+This was a central diagnostic finding: the domain prior is real, measurable, and consistent. It supports treating NDN models as learning domain-shaped representations rather than as domain-agnostic compressors.
 
 ---
 

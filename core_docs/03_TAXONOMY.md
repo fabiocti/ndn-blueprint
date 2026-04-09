@@ -30,7 +30,7 @@ The taxonomy is a living structure. New domains and subdomains are added when ev
 - Strong factual reconstruction at 4x compression on internal and domain-native evals (not bit-exact or lossless storage)
 - Strong entity-fact binding (person → attribute)
 - Positional uniformity (facts at any position are preserved)
-- Champion val_loss 0.085 at S32 with shuffled_gap 18.75 (highest latent dependence of any domain)
+- Champion val_loss 0.085 at S32 with shuffled_gap 18.750 (highest shuffled_gap of any domain)
 
 **Weaknesses**:
 - Minor degradation on very rare proper nouns
@@ -83,7 +83,7 @@ The taxonomy is a living structure. New domains and subdomains are added when ev
 - Strong state tracking on tested sequences (high final-state recovery after sequential updates; long chains can still drift)
 - Strong override detection (later update supersedes earlier)
 - Temporal ordering preserved
-- Highest raw metrics of any domain (val_loss 0.18)
+- Highest raw metrics of any domain (val_loss 0.000)
 
 **Weaknesses**:
 - Very long chains (>20 sequential updates) can show minor drift
@@ -159,7 +159,7 @@ The taxonomy is a living structure. New domains and subdomains are added when ev
 - Preserves conversation structure and speaker turns
 - Strong temporal ordering (98.3% F1 retention on temporal-reasoning)
 - General topics and gist well-preserved
-- Highest latent dependence of any domain (ablation_gap +12.00, shuffled_gap +13.30)
+- Highest ablation_gap of any domain (+12.00), with shuffled_gap +13.30
 
 **Weaknesses**:
 - Specific digits still degrade (phone numbers, exact dates)
@@ -190,7 +190,7 @@ The taxonomy is a living structure. New domains and subdomains are added when ev
 
 **Best known regime**: S32 (4x compression)
 
-**Current status**: Validated. AOJ v2 is the current champion checkpoint (73% fact recovery on real OpenClaw A/B, 1.69x compression). AOJ v3 attempted stronger loss weighting but regressed to 66%. The remaining gap to markdown (27pp) is characterized as exact numeric counts (58%), OOV domain names (25%), and error/status strings (17%).
+**Current status**: Validated. AOJ v2 is the current champion checkpoint (73% fact recovery on real OpenClaw A/B (test data was in training corpus), 1.69x compression). AOJ v3 attempted stronger loss weighting but regressed to 66%. The remaining gap to markdown (27pp) is characterized as exact numeric counts (58%), OOV domain names (25%), and error/status strings (17%).
 
 **Progression**:
 

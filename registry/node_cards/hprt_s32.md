@@ -83,7 +83,7 @@ _No A/B tests conducted._
 
 ## Known Weaknesses
 
-1. Hardest domain tested — no individual probe exceeds 75%
+1. Hardest domain tested — no full exact-match probe exceeds 75%
 2. Complex conditionals are challenging — nested logic and multi-clause rules degrade reconstruction
 3. Entity tracking is weak (20%) — long-range entity following through regulated text is unreliable
 
@@ -123,4 +123,4 @@ S32 chosen over S64 because it scores higher on the two most practically importa
 
 _HPRT is the hardest domain tested in the NDN system. Despite low absolute probe scores, S32 was selected as champion over S64 based on operationally critical metrics (FACT1 and OVERRIDE)._
 
-**Retrained 9 Apr 2026 on Verda H100.** Metrics match original: val_loss=0.0000, exact=60%, 1st_tok=100%.
+**Retrained 9 Apr 2026 on H100.** Metrics match original: val_loss=0.0000, exact=60%, 1st_tok=100%.

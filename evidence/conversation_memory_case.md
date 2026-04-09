@@ -26,7 +26,7 @@ Switching to real conversational data immediately fixed the training problem:
 - **Blended Skill Talk**: multi-turn task-oriented conversations
 - **OpenAssistant**: real user-assistant interactions
 
-The model began learning conversation structure within the first epoch. A key lesson from Phase 12: **real data beats synthetic for organic domains** in this setup.
+The model began learning conversation structure within the first epoch. A key lesson from the conversation domain experiments: **real data beats synthetic for organic domains** in this setup.
 
 ---
 
@@ -34,7 +34,7 @@ The model began learning conversation structure within the first epoch. A key le
 
 Trained on real conversation data. Benchmarked on LongMemEval (500 questions):
 
-| Category | Baseline F1 | CNDX v1 F1 | Retention |
+| Category | Baseline F1 | NDN v1 F1 | Retention |
 |---|---|---|---|
 | knowledge-update | 0.079 | 0.067 | 84.8% |
 | multi-session | 0.043 | 0.041 | 95.3% |
@@ -89,14 +89,14 @@ Added entity-dense synthetic conversations (names, handles, URLs, products, plac
 | Category | BL F1 | v1 F1 | v2 F1 | v2 Retention |
 |---|---|---|---|---|
 | knowledge-update | 0.079 | 0.067 | 0.075 | 94.9% |
-| multi-session | 0.043 | 0.041 | 0.044 | **102.5%** |
+| multi-session | 0.043 | 0.041 | 0.044 | **102.3%** |
 | single-session-assistant | 0.103 | 0.062 | 0.089 | 86.4% |
 | single-session-preference | 0.161 | 0.133 | 0.147 | 91.3% |
-| single-session-user | 0.097 | 0.076 | 0.110 | **113.6%** |
-| temporal-reasoning | 0.073 | 0.072 | 0.072 | 98.3% |
+| single-session-user | 0.097 | 0.076 | 0.110 | **113.4%** |
+| temporal-reasoning | 0.073 | 0.072 | 0.072 | 98.6% |
 | **Overall** | **0.078** | **0.066** | **0.074** | **94.9%** |
 
-Two categories now exceed the uncompressed baseline (single-session-user and multi-session). Per-question: 226 wins vs 151 losses vs 123 ties (60% win rate over v1).
+Two categories now exceed the uncompressed baseline (single-session-user and multi-session). Per-question: 226 wins vs 151 losses vs 123 ties (60% win rate excluding ties, or 45% of all 500 questions).
 
 ---
 

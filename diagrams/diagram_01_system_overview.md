@@ -17,6 +17,7 @@ graph TB
         NLK["NLK S32"]
         FTA["FTA S64"]
         OSA["OSA S32"]
+        AOJ["AOJ S32"]
         HWM["HWM S64"]
         HPRT["HPRT S32"]
         CONV["CONV S64"]
@@ -32,6 +33,7 @@ graph TB
     R --> NLK
     R --> FTA
     R --> OSA
+    R --> AOJ
     R --> HWM
     R --> HPRT
     R --> CONV
@@ -39,6 +41,7 @@ graph TB
     NLK --> ENC
     FTA --> ENC
     OSA --> ENC
+    AOJ --> ENC
     HWM --> ENC
     HPRT --> ENC
     CONV --> ENC
@@ -53,6 +56,8 @@ graph TB
 The NDN sits between the raw world (text artifacts) and the agent LLM, providing compressed, domain-native memory. The agent LLM never sees latent tensors — it reads reconstructed text.
 
 ## Layout
+
+> **Note:** The Layout below describes the system conceptually from top (agent) to bottom (input). The Mermaid diagram above uses `graph TB` and flows top-to-bottom from raw text input down to the agent LLM — the visual order is inverted relative to this description.
 
 ### Top layer: Agent LLM
 - Single large box: "Agent LLM (GPT / Claude / Qwen / etc.)"

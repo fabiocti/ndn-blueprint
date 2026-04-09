@@ -92,6 +92,7 @@ PUBLIC_RELEASE_CHECKLIST.md
 ndn_blueprint/
 
 # === Training code (separate release) ===
+# Training code (not part of public release)
 cndx/
 
 # === Data ===

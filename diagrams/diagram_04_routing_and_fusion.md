@@ -22,6 +22,7 @@ flowchart TB
         FTA["FTA-S64"]
         AOJ["AOJ-S32"]
         CONV["CONV-S64"]
+        MISS["⚠ misroute target"]
     end
 
     STORE[("Packet Store<br/>compressed packets")]
@@ -60,7 +61,7 @@ flowchart TB
 
     FUSE --> LLM
 
-    ROUTER -.->|"misrouting risk"| NODES
+    ROUTER -.->|"misrouting risk"| MISS
     FUSE -.->|"budget risk"| LLM
 ```
 
@@ -116,10 +117,10 @@ def process_targets(hosts):
 
 [MEMORY — AOJ]
 ## Phase 1A: Subdomain Collection — COMPLETED
-- subfinder: 555 hosts...
+- subfinder: 555 hosts (corp-alpha)...
 
 [MEMORY — CONV]
-User: Can you check the vfsglobal results?
+User: Can you check the corp-alpha results?
 Assistant: I found 169 live hosts...
 ```
 

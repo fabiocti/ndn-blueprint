@@ -81,7 +81,7 @@ Contributions that will be rejected:
 
 ## The Long-Term Goal
 
-The NDN aims to become a **benchmarked memory lattice** — a growing network of domain-specialized compression nodes, each with a documented quality profile, connected by a calibrated router, and governed by benchmark discipline.
+The NDN aims to become a **benchmarked memory network** — a growing network of domain-specialized compression nodes, each with a documented quality profile, connected by a calibrated router, and governed by benchmark discipline.
 
 This is a research project with working code, not a finished product. The honest current state is:
 

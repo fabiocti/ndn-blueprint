@@ -1,5 +1,7 @@
 # Case Study: AOJ Subdomain Validation
 
+> **Note: Target names in this case study have been anonymized.**
+
 ## Summary
 
 Agent Operational Journals (AOJ) is the first validated subdomain in the NDN. It demonstrates the full subdomain lifecycle: proxy failure → dedicated training → progressive improvement → regression from over-tuning → champion checkpoint established.
@@ -78,10 +80,10 @@ The remaining 24 misses across 5 slices were fully taxonomized:
 | Failure Type | % of Misses | Examples |
 |---|---|---|
 | Exact numeric counts | 58% | `1623`, `1946`, `769`, `27 live hosts` |
-| OOV domain names | 25% | `bostonacoustics.com`, `xvtest.net`, `jbl.com.br` |
+| OOV domain names | 25% | `northwind-audio.com`, `testbed-labs.net`, `sonartech.com.br` |
 | Error/status strings | 17% | `502 Bad Gateway`, `REPAIR_NEEDED` |
 
-The same facts missed repeatedly: `1623` (5/5 times), `bostonacoustics.com` (4/5), `27 live hosts` (4/5). Concentrated, reproducible, targetable.
+The same facts missed repeatedly: `1623` (5/5 times), `northwind-audio.com` (4/5), `27 live hosts` (4/5). Concentrated, reproducible, targetable.
 
 ### Important caveat
 The 5 real journals used in A/B testing were also in v2's training data (5% of corpus). The model saw this data and still only got 73%. This makes the misses more significant, but the result has a data leakage caveat for public claims.
@@ -93,7 +95,7 @@ The 5 real journals used in A/B testing were also in v2's training data (5% of c
 ### What changed
 - Entity weight mechanism fixed: token-ID-based approach (encode known entity strings, collect sub-word IDs). 122 entity tokens identified at 3.0x weight.
 - Digit weight increased: 3.0 → 5.0
-- OOV SLDs added: `bostonacoustics`, `xvtest`, `jbl`, etc. from A/B miss analysis
+- OOV SLDs added: `northwind-audio`, `testbed-labs`, `sonartech`, etc. from A/B miss analysis
 - Common tokens excluded from entity set
 
 ### Results
@@ -138,7 +140,7 @@ Internal metrics were misleading: every single internal metric improved, yet rea
 
 2. **Dedicated training produced measurable improvement.** v1 jumped to 54%, v2 to 73%. Each version directly addressed diagnosed failure modes.
 
-3. **The improvement survived real-world A/B testing.** Not just internal metrics — real agent journal data on held-out session slices.
+3. **The improvement survived real-world A/B testing.** Not just internal metrics — real agent journal data on real-world session slices (note: test data was in training corpus).
 
 4. **The remaining gap is characterized.** Not vague "needs improvement." Exactly: numeric counts, OOV entities, error strings. The failure taxonomy is documented.
 

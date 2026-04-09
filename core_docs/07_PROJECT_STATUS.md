@@ -10,7 +10,7 @@
 These claims have empirical evidence behind them and have survived held-out or real-world evaluation.
 
 ### Domain-specific training works
-Models trained on domain-specific data consistently outperform cross-domain usage. This has been measured via shuffled_gap (range 0.88–13.30 across domains), ablation_gap, and held-out benchmarks. A model trained on the wrong domain reconstructs text in its own style, not the input style. This is reproducible across all six domains.
+Models trained on domain-specific data consistently outperform cross-domain usage. This has been measured via shuffled_gap (range 1.14–18.75 across domains), ablation_gap, and held-out benchmarks. A model trained on the wrong domain reconstructs text in its own style, not the input style. This is reproducible across all six domains.
 
 ### Six top-level domains are validated
 NLK, FTA, OSA, HWM, HPRT, and CONV have all been trained, evaluated with internal metrics, and tested with domain-native benchmark suites. Each domain shows distinct characteristics:
@@ -25,7 +25,7 @@ NLK, FTA, OSA, HWM, HPRT, and CONV have all been trained, evaluated with interna
 | CONV | conv_s64_v2 | 1.821 | 13.30 | LongMemEval 94.9% F1 ret |
 
 ### AOJ is a validated subdomain
-Agent Operational Journals under OSA. Proxy nodes failed (14-24% fact recovery). Dedicated training achieved 54% (v1) and 73% (v2). The improvement survives real-world A/B testing.
+Agent Operational Journals under OSA. Proxy nodes failed (14-24% fact recovery). Dedicated training achieved 54% (v1) and 73% (v2) (test data was in training corpus; see evidence/aoj_subdomain_case.md for caveats). The improvement survives real-world A/B testing.
 
 ### Wrong-node failures are diagnostic
 When a model trained on domain A reconstructs domain B text, the result reveals domain-specific priors. HWM-trained models reconstruct everything as notes. Wiki-trained models reconstruct code as prose. This phenomenon is consistent and informative.
@@ -46,13 +46,13 @@ Formulaic synthetic templates caused catastrophic overfitting on conversation. S
 These results are encouraging but require further validation before strong claims.
 
 ### AOJ v2's fact recovery improvement is real but not sufficient
-73% fact recovery at 1.69x compression is a large improvement over proxy nodes (14-24%) and v1 (54%). But markdown still wins at 100%. The gap (27pp) is characterized but not closed.
+73% fact recovery (test data was in training corpus) at 1.69x compression is a large improvement over proxy nodes (14-24%) and v1 (54%). But markdown still wins at 100%. The gap (27pp) is characterized but not closed.
 
 ### Repeated-work signals reduced (OpenClaw A/B)
 In that test, NDN-compressed memory showed 97.8% fewer repeated-work signals than the markdown arm. That is one metric on one harness; it suggests less redundant-looking context under compression, not a general guarantee, and fact recovery on the same test remained below markdown.
 
 ### The architecture scales to many nodes cheaply
-Each node is ~70M parameters (~280MB). Six nodes together use <2GB VRAM. The architecture is designed for many specialized nodes running concurrently, and the memory overhead is trivial compared to the reader LLM. But this has not been tested at scale (>6 nodes).
+Each node is ~70M parameters (~280MB). Seven champion nodes together use ~2GB VRAM. The architecture is designed for many specialized nodes running concurrently, and the memory overhead is trivial compared to the reader LLM. But this has not been tested at scale (>6 nodes).
 
 ### Latent dependence varies meaningfully across domains
 Conversation shows ablation_gap +12.00 and shuffled_gap +13.30 — far higher than any other domain. This means the latent representation is doing more representational work for conversation than for structured text. The practical implications are still being explored.
@@ -62,7 +62,7 @@ Conversation shows ablation_gap +12.00 and shuffled_gap +13.30 — far higher th
 ## Unresolved
 
 ### Markdown still wins the real-world A/B
-On the most demanding test (real OpenClaw sessions), raw markdown achieves 100% fact recovery vs NDN's 73%. NDN compresses and reduces noise, but does not yet match markdown on raw fact retention.
+On the most demanding test (real OpenClaw sessions), raw markdown achieves 100% fact recovery vs NDN's 73% (test data was in training corpus). NDN compresses and reduces noise, but does not yet match markdown on raw fact retention.
 
 ### Rare entity preservation
 The model reconstructs the correct structure but substitutes out-of-vocabulary entities (domain names, exact counts, error strings) with training priors. This accounts for the majority of remaining misses (58% exact numeric counts, 25% OOV domain names, 17% error/status strings).
@@ -84,7 +84,7 @@ The taxonomy has 6 domains and 1 subdomain. How to govern taxonomy growth at sca
 ## Failed / Falsified
 
 ### AOJ v3: Token-level loss weighting regressed real-world performance
-Token-ID entity weighting (3.0x on 122 entity tokens) + digit weight (5.0x) produced better internal metrics (lower val_loss, earlier exact match, higher shuffled_gap) but regressed real A/B fact recovery from 73% to 66%. The intervention over-corrected, optimizing for entity token reproduction at the expense of broader contextual recall. This disproves "harder entity pressure = better real-world recall."
+Token-ID entity weighting (3.0x on 122 entity tokens) + digit weight (5.0x) produced better internal metrics (lower val_loss, earlier exact match, higher shuffled_gap) but regressed real A/B fact recovery from 73% (test data was in training corpus) to 66%. The intervention over-corrected, optimizing for entity token reproduction at the expense of broader contextual recall. This disproves "harder entity pressure = better real-world recall."
 
 ### Entity weight via regex: complete failure
 In AOJ v2, entity weighting was set to 2.5x but identified 0 matching tokens because regex patterns don't match individual sub-word tokens from the tokenizer. The mechanism was completely ineffective. Corrected in v3 via token-ID approach (which then over-corrected in a different way).
@@ -116,6 +116,5 @@ Priority order, not all required immediately:
 
 1. **Architectural entity preservation** — copy/pointer mechanisms, entity-aware attention, or retrieval augmentation for rare identifiers. This addresses the primary remaining bottleneck.
 2. **Router improvement** — learned routing with calibrated confidence. Misrouting is currently the largest failure mode after entity preservation.
-3. **AOJ v2 checkpoint** — recovered via retrain (9 Apr 2026); `model.pt` is available locally.
-4. **Additional domain A/B tests** — test CONV and other domains on real-world tasks, not just AOJ on OpenClaw.
-5. **Multi-domain integration test** — test the full NDN (multiple nodes active, router selecting, fusion assembling) on a realistic agent workflow.
+3. **Additional domain A/B tests** — test CONV and other domains on real-world tasks, not just AOJ on OpenClaw.
+4. **Multi-domain integration test** — test the full NDN (multiple nodes active, router selecting, fusion assembling) on a realistic agent workflow.

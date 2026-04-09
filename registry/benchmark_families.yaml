@@ -45,7 +45,7 @@ benchmark_families:
     description: >
       Tests whether specific values (numbers, names, codes, identifiers)
       survive compression and reconstruction exactly.
-    applicable_domains: [NLK, FTA, OSA, HPRT]
+    applicable_domains: [NLK, FTA, HPRT]
     protocol: >
       Embed specific exact values in text. Compress and reconstruct.
       Check for exact string match.
@@ -61,7 +61,7 @@ benchmark_families:
     description: >
       Tests whether the model correctly tracks state through sequential
       updates. Given a sequence of changes, can the model report the final state?
-    applicable_domains: [OSA, HPRT]
+    applicable_domains: [OSA, FTA, HPRT]
     protocol: >
       Create a sequence of state updates (some overriding earlier values).
       Compress and reconstruct. Check whether the final state is correct.
@@ -122,7 +122,7 @@ benchmark_families:
       categories testing long-term memory in conversation.
     applicable_domains: [CONV]
     protocol: >
-      Compress-then-read pipeline: CNDX encodes conversation context into
+      Compress-then-read pipeline: NDN encodes conversation context into
       latents, decodes back to text, reader LLM (Qwen2.5-7B-Instruct)
       answers questions from reconstructed text. Compare to uncompressed baseline.
     categories:
@@ -165,13 +165,13 @@ benchmark_families:
         fact_recovery: 73%
         compression: 1.69x
         continuity: 0.92
-        score: "NDN 2/6, Markdown 4/6"
+        score: "NDN 2/6, Markdown 4/6"  # 6 dimensions: fact recovery, compression, noise, continuity, repeated-work, context size
         verdict: "Markdown wins. NDN reconstruction quality is the bottleneck."
       aoj_s32_v3:
         fact_recovery: 66%
         compression: 1.66x
         continuity: 0.92
-        score: "NDN 2/6, Markdown 4/6"
+        score: "NDN 2/6, Markdown 4/6"  # 6 dimensions (same as above)
         verdict: "Regression from v2. Loss weighting over-corrected."
     status: complete
 

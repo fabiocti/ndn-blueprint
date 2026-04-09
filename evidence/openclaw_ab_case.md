@@ -1,5 +1,7 @@
 # Case Study: OpenClaw Real A/B Test
 
+> **Note: Target names have been anonymized.**
+
 ## Summary
 
 The first real-world A/B comparison of NDN memory vs raw markdown memory on an actual AI agent's operational data. Markdown won overall on fact recovery. NDN provided compression and noise reduction. The test validated the AOJ subdomain and revealed the exact remaining bottleneck.
@@ -9,15 +11,15 @@ The first real-world A/B comparison of NDN memory vs raw markdown memory on an a
 ## Setup
 
 ### The Agent
-OpenClaw: an automated bug-bounty agent that performs reconnaissance, vulnerability scanning, and findings analysis across multiple targets. Runs on Hetzner VPS. Produces per-target operational journals in markdown format.
+OpenClaw: an automated bug-bounty agent that performs reconnaissance, vulnerability scanning, and findings analysis across multiple targets. Runs on a cloud VPS. Produces per-target operational journals in markdown format.
 
 ### The Data
 5 real target journals from OpenClaw campaigns:
-- `journal_vfsglobal.md`
-- `journal_dailymotion.md`
-- `journal_expressvpn.md`
-- `journal_harman.md`
-- `journal_pinelabs.md`
+- `journal_corp_alpha.md`
+- `journal_corp_bravo.md`
+- `journal_corp_charlie.md`
+- `journal_corp_delta.md`
+- `journal_corp_echo.md`
 
 Plus `MEMORY_server.md` (the agent's persistent memory file) and `bounty_daemon.log` (timeline).
 
@@ -26,7 +28,7 @@ Plus `MEMORY_server.md` (the agent's persistent memory file) and `bounty_daemon.
 
 | Slice | Description | Journals Available |
 |---|---|---|
-| S1 | 4 targets recon'd | VFS, Dailymotion, ExpressVPN, Harman |
+| S1 | 4 targets recon'd | Corp-Alpha, Corp-Bravo, Corp-Charlie, Corp-Delta |
 | S2 | All 5 targets complete | All 5 |
 | S3 | Mid-campaign | All 5 |
 | S4 | Heavy history (800 turns) | All 5 |
@@ -76,7 +78,7 @@ These advantages become more significant as campaign history grows beyond what f
 | S5 (full) | 21/21 | 15/21 (71%) | 1.63x | 1.00 |
 | **Average** | **100%** | **73%** | **1.69x** | **0.92** |
 
-Score: Markdown 4/6, NDN 2/6.
+Score: Markdown 4/6, NDN 2/6. (The 6 scoring dimensions are: fact recovery, compression, noise, continuity, repeated-work signals, and context size.)
 
 ### Progression Across All Tested Models
 

@@ -4,6 +4,29 @@ All notable changes to the NDN Blueprint package are documented here.
 
 ---
 
+## Unreleased
+
+### Planned
+- Additional real-world A/B tests for CONV and other domains
+- Router improvement (learned boundaries, confidence scoring)
+- Architectural entity preservation experiments (copy/pointer mechanisms)
+
+---
+
+## [0.1.1] — 2026-04-09
+
+### Recovered
+- Retrained HPRT reg_s32: model.pt now present locally (316MB). Metrics match original exactly.
+- Retrained AOJ v2 aoj_s32_v2: model.pt now present locally (316MB). val_loss=0.0014 vs original 0.0016.
+- Retrained CONV v2 conv_s64_v2: model.pt now present locally (316MB). val_loss=0.1648 (significant divergence from original training val_loss of 1.821 — likely due to retraining conditions).
+- All three checkpoints downloaded before server outage.
+
+### Updated
+- Node cards for hprt_s32, conv_s64_v2, aoj_s32_v2 updated to reflect model.pt presence
+- Checkpoints README updated with current inventory
+
+---
+
 ## [0.1.0] — 2026-04-09
 
 ### Created
@@ -19,7 +42,7 @@ All notable changes to the NDN Blueprint package are documented here.
 - Apache 2.0 license
 
 ### Verified
-- Cross-referenced all evidence numbers against `EXPERIMENT_JOURNAL.md`
+- Cross-referenced all evidence numbers against internal experiment records
 - Fixed AOJ v2 per-slice fact counts (S1: 16/19, S2: 9/15 — previously had wrong values from v3 comparison table)
 - Fixed compression token count (v2: 1,555 tokens, not 1,579 which was v3's number)
 - Fixed cross-domain summary table to use actual champion training metrics instead of S64-only comparison numbers
@@ -28,31 +51,8 @@ All notable changes to the NDN Blueprint package are documented here.
 - Sanitization check: no API keys, passwords, SSH keys, or personal identifiers found
 
 ### Known Gaps
-- AOJ v2 `model.pt` was recovered 9 Apr 2026 (retrain on Verda H100; 316MB locally). Not bit-identical to original; metrics within noise.
+- AOJ v2 `model.pt` was recovered 9 Apr 2026 (retrain on H100; 316MB locally). Not bit-identical to original; metrics within noise.
 - CONV-S64 v2 `model.pt` was recovered 9 Apr 2026 (retrain; 316MB locally).
 - HPRT reg_s32 `model.pt` was recovered 9 Apr 2026 (retrain; 316MB locally). Metrics match original training run.
 - HWM and HPRT node cards have internal metrics only — no real-world A/B or public benchmark evidence
 - AOJ v2 A/B has data leakage caveat (test journals were 5% of training data)
-
----
-
-## [0.1.1] — 2026-04-09
-
-### Recovered
-- Retrained HPRT reg_s32: model.pt now present locally (316MB). Metrics match original exactly.
-- Retrained AOJ v2 aoj_s32_v2: model.pt now present locally (316MB). val_loss=0.0014 vs original 0.0016.
-- Retrained CONV v2 conv_s64_v2: model.pt now present locally (316MB). val_loss=0.1648.
-- All three checkpoints downloaded before server outage.
-
-### Updated
-- Node cards for hprt_s32, conv_s64_v2, aoj_s32_v2 updated to reflect model.pt presence
-- Checkpoints README updated with current inventory
-
----
-
-## Unreleased
-
-### Planned
-- Additional real-world A/B tests for CONV and other domains
-- Router improvement (learned boundaries, confidence scoring)
-- Architectural entity preservation experiments (copy/pointer mechanisms)

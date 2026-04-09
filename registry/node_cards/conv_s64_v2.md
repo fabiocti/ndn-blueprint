@@ -113,6 +113,6 @@ _v2 is the first champion version for CONV. Prior attempts with synthetic-only t
 
 ## Notes
 
-**Retrained 9 Apr 2026 on Verda H100.** val_loss=0.1648, gap=9.54, num_tok_acc=97.5%.
+**Retrained 9 Apr 2026 on H100.** val_loss=0.1648, gap=9.54, num_tok_acc=97.5%. Note: retrained val_loss (0.1648) differs significantly from original training (1.821). The Internal Evaluation metrics above reflect the original training run.
 
 _CONV has the highest latent dependence of any domain tested (shuffled_gap=13.30, ablation_gap=12.00), consistent with conversational structure being heavily encoded in the latent. Real data was required for this domain — early attempts with purely synthetic dialogue templates caused catastrophic overfitting, producing nodes that memorized template patterns rather than learning conversational dynamics. LongMemEval shows high F1 retention relative to baseline on that benchmark (94.9% F1; two categories exceed baseline), but absolute F1 remains low at 0.074, and this domain has not been validated on a real-world A/B against markdown._

@@ -10,7 +10,7 @@
 | **Regime** | `[S16 / S32 / S64]` |
 | **Checkpoint** | `[checkpoint filename/path]` |
 | **Version** | `[e.g., v2]` |
-| **Status** | `[experimental / benchmarked / champion / deprecated]` |
+| **Status** | `[experimental / benchmarked / champion / failed / superseded / deprecated / archived]` |
 | **Date trained** | `[YYYY-MM-DD]` |
 | **Training hardware** | `[e.g., 1x H100 80GB]` |
 

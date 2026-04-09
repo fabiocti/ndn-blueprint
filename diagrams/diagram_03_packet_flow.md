@@ -16,23 +16,29 @@ flowchart LR
         ENC["Encode GPT-2 family"]
         LAT["Latent bottleneck K latents e.g. 32xD<br/>typical ~4x vs raw tokens"]
         PKT["MemoryPacket provenance idx"]
-        STORE[("Packet Store")]
-        TC --> TOK --> ENC --> LAT --> PKT --> STORE
+        TC --> TOK --> ENC --> LAT --> PKT
     end
+
+    STORE[("Packet Store")]
 
     subgraph READ["Read path later"]
         Q[Query / retrieval]
         DEC["Decode same-domain only"]
         REASM[Chunk reassembly]
         OUT[Reconstructed text]
-        STORE --> Q --> DEC --> REASM --> OUT
+        Q --> DEC --> REASM --> OUT
     end
+
+    PKT --> STORE
+    STORE --> Q
 ```
 
 ## Key Insight
 A packet is born in one domain node and can only be decoded by that same node. The packet carries its own provenance, making every piece of reconstructed text traceable.
 
 ## Layout — Left to right flow
+
+> **Note:** The following describes the full detailed pipeline. The Mermaid diagram above is a simplified visualization.
 
 ### Stage 1: Raw text arrives
 - Box: "Raw text" (e.g., a journal entry)
@@ -64,7 +70,7 @@ A packet is born in one domain node and can only be decoded by that same node. T
   - source_tokens: 128
   - timestamp: 2026-04-09T...
   - session_id: "session_42"
-  - compression: 4.0x
+  - compression: 4.0x  # latent ratio (128 tokens → 32 latents); end-to-end varies by domain (e.g., AOJ v2: 1.69x)
   - quality_est: 0.85
   - chunk_index: 1 of 3
   - checkpoint: "aoj_s32_v2"
@@ -78,7 +84,7 @@ A packet is born in one domain node and can only be decoded by that same node. T
 
 ### Stage 7: Retrieval
 - Box: "Retrieval Layer"
-- Query: "What did we find on vfsglobal?"
+- Query: "What did we find on corp-alpha?"
 - Selects relevant packets from store
 - Arrow from store up to retrieval
 

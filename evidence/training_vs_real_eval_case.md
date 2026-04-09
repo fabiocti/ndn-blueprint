@@ -1,5 +1,7 @@
 # Case Study: Training Metrics vs Real-World Evaluation
 
+> **Note: Target names have been anonymized.**
+
 ## Summary
 
 Good training metrics do not guarantee good real-world performance. AOJ v3 is the documented example: every internal metric improved, yet real A/B performance regressed by 7 percentage points. This case study explains what happened, why it matters, and how to avoid repeating the mistake.
@@ -17,7 +19,7 @@ Stronger token-level loss weighting for entity and digit tokens would improve pr
 ### Interventions
 - **Token-ID entity weighting**: encode known entity strings through the tokenizer, collect all sub-word token IDs (122 tokens identified), apply 3.0x loss weight
 - **Stronger digit weight**: increased from 3.0x to 5.0x
-- **Expanded SLD vocabulary**: added the specific OOV targets from the miss analysis (bostonacoustics, xvtest, jbl, etc.)
+- **Expanded SLD vocabulary**: added the specific OOV targets from the miss analysis (northwind-audio, testbed-labs, sonartech, etc.) (anonymized)
 
 ---
 
@@ -44,7 +46,7 @@ By every internal measure, v3 was the superior model.
 | Compression | 1.69x | 1.66x | ~same |
 | Continuity | 0.92 | 0.92 | same |
 
-The regression was concentrated in the two most fact-dense slices (S2 and S4).
+The regression was most severe on S4 (-15pp) and S1 (-10pp), with smaller declines on S2 (-7pp) and S5 (-4pp). Only S3 held steady.
 
 ---
 

@@ -44,7 +44,7 @@ Release from most-stable to least-stable. Documentation and standards first. Cod
 
 ## Phase 4: Core Architecture Code
 
-**What**: ndn-core repository — the CNDX encoder-decoder model, training loop, evaluation framework.
+**What**: ndn-core repository — the NDN encoder-decoder model, training loop, evaluation framework.
 
 **Why fourth**: The code is the primary artifact for reproducing training and inference. Releasing it allows others to reproduce and extend the work. But it should come after documentation so the context is established.
 

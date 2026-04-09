@@ -6,7 +6,7 @@ Problems that are currently unsolved in the NDN project. Listed in approximate p
 
 ## 1. Exact Rare-Token Preservation
 
-**The problem**: The model reconstructs the correct structure and format of text but substitutes out-of-vocabulary or rare entities with training priors. A journal entry about `bostonacoustics.com` gets reconstructed with a different domain name. An exact count of `1623` gets reconstructed as a different number.
+**The problem**: The model reconstructs the correct structure and format of text but substitutes out-of-vocabulary or rare entities with training priors. A journal entry about `northwind-audio.com` (anonymized) gets reconstructed with a different domain name. An exact count of `1623` gets reconstructed as a different number.
 
 **Why it matters**: For agent memory, entity identity is often the most important piece of information. An agent that remembers "we scanned 1500 hosts" when the real number was 1623 has a corrupted memory.
 
@@ -15,11 +15,13 @@ Problems that are currently unsolved in the NDN project. Listed in approximate p
 - 25% OOV domain names
 - 17% error/status strings
 
-The same facts miss repeatedly: `1623` (missed 5/5 times), `bostonacoustics.com` (4/5), `27 live hosts` (4/5).
+The same facts miss repeatedly: `1623` (missed 5/5 times), `northwind-audio.com` (4/5, anonymized), `27 live hosts` (4/5).
 
 **What has been tried and failed**:
-- Digit-aware loss weighting (3.0x): improved numeric token accuracy on eval but did not fix specific count recovery on real A/B
+- Digit-aware loss weighting (3.0x in v2, 5.0x in v3): improved numeric token accuracy on eval but did not fix specific count recovery on real A/B
 - Token-ID entity weighting (3.0x on 122 tokens): improved internal metrics but regressed real A/B from 73% to 66%
+
+Note: in AOJ v3, entity weighting (3.0x) and digit weighting (5.0x) were applied simultaneously; the regression cannot be attributed to either alone.
 - Expanded entity vocabulary in synthetic corpus: helped for in-vocabulary entities but cannot cover all possible OOV entities
 
 **Likely directions**: Copy/pointer mechanisms, entity-aware attention, retrieval-augmented reconstruction, or a hybrid approach where rare tokens are stored separately and reinserted during reconstruction.
@@ -30,7 +32,7 @@ The same facts miss repeatedly: `1623` (missed 5/5 times), `bostonacoustics.com`
 
 **The problem**: Domain names, URLs, and identifiers that were not in the training vocabulary are systematically replaced during reconstruction. The model has learned a distribution over entity names and draws from it when reconstructing.
 
-**Why it matters**: In bug-bounty / security / operational contexts, the exact target name is critical. Substituting `bostonacoustics.com` with `cloudflare.com` is not a minor error.
+**Why it matters**: In bug-bounty / security / operational contexts, the exact target name is critical. Substituting `northwind-audio.com` (anonymized) with a different domain is not a minor error.
 
 **Relationship to #1**: This is a specific case of the rare-token preservation problem, but it has a distinct character: domain names are compositional (SLD + TLD), can be arbitrarily novel, and appear in specific syntactic positions.
 
@@ -122,7 +124,7 @@ The same facts miss repeatedly: `1623` (missed 5/5 times), `bostonacoustics.com`
 
 ## 11. Internal Metrics vs Real-World Performance Divergence
 
-**The problem**: Internal eval metrics can improve while real-world performance degresses. This has been documented (AOJ v3) but not systematically studied.
+**The problem**: Internal eval metrics can improve while real-world performance regresses. This has been documented (AOJ v3) but not systematically studied.
 
 **Why it matters**: If internal metrics do not predict real-world performance, every change requires expensive real-world A/B testing. That constraint slows iteration.
 

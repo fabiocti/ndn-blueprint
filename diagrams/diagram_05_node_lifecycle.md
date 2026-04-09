@@ -9,6 +9,7 @@ Show the stages a node passes through from initial idea to champion or deprecati
 ## Diagram
 
 ```mermaid
+%% Note: some renderers may clip these notes; see text description below for full detail
 stateDiagram-v2
     [*] --> Idea
 

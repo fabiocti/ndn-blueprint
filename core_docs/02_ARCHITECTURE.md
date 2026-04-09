@@ -65,7 +65,7 @@ Current validated subdomains:
 
 ### Node
 
-A self-contained CNDX encoder-decoder pair. Each node:
+A self-contained encoder-decoder pair. Each node:
 
 - Has its own trained weights (~70M parameters based on GPT-2 architecture)
 - Has its own latent configuration (K regime)
@@ -136,9 +136,9 @@ Packets are opaque outside their originating node. Only the node that compressed
 | 1 node loaded | ~70M | ~280MB |
 | 2 nodes loaded | ~140M | ~560MB |
 | 4 nodes loaded | ~280M | ~1.1GB |
-| All 6 nodes loaded | ~420M | ~1.7GB |
+| All 7 nodes loaded | ~490M | ~2.0GB |
 
-NDN nodes are tiny relative to the reader LLM. Even loading all trained nodes simultaneously uses <2GB VRAM. The practical constraint is not memory but inference latency per encode/decode pass.
+NDN nodes are tiny relative to the reader LLM. Even loading all trained nodes simultaneously uses ~2GB VRAM. The practical constraint is not memory but inference latency per encode/decode pass.
 
 For agent use: keep the 2-3 most frequently used nodes GPU-resident. Swap others from disk as needed (~100ms cold load).
 
@@ -239,7 +239,7 @@ A subdomain is justified when:
 3. Training a dedicated node on the target text type measurably improves results
 4. The improvement is reproducible and survives held-out evaluation
 
-Example: OSA-S32 (trained on timestamped key-value traces) recovered only 14% of facts from markdown-formatted agent journals. Dedicated AOJ-S32 training recovered 54% (v1) and 73% (v2). The failure was domain-prior mismatch, not architecture limitation.
+Example: OSA-S32 (trained on timestamped key-value traces) recovered only 14% of facts from markdown-formatted agent journals. Dedicated AOJ-S32 training recovered 54% (v1) and 73% (v2) (test data was in training corpus). The failure was domain-prior mismatch, not architecture limitation.
 
 ### When a Node Should Be Deprecated
 
@@ -263,4 +263,4 @@ Deprecated nodes are archived, not deleted. Their benchmark results remain in th
 - **Memory importance scoring** — deciding what to keep and what to discard
 - **Copy/pointer mechanisms** — exact entity preservation for rare identifiers
 
-These are all potential future extensions. The current NDN is: route → compress → store → retrieve → reconstruct → fuse. Nothing more.
+These are all potential future extensions. The current NDN is: ingest → route → chunk → compress → store → retrieve → reconstruct → fuse. Nothing more.

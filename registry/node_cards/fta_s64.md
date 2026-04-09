@@ -57,7 +57,7 @@ Compresses and reconstructs formal technical artifacts, specifically Python sour
 | first_token_accuracy | `100%` |
 | exact_match | `0%` |
 | ablation_gap | `8.34` |
-| shuffled_gap | — |
+| shuffled_gap | `1.14` |
 | c25 / c50 / c75 | — |
 | numeric_token_acc | — |
 
@@ -69,6 +69,7 @@ Compresses and reconstructs formal technical artifacts, specifically Python sour
 | CODE-FACT1 | 55% binding | Single-hop variable binding accuracy |
 | CODE-FACT2 | 85% chain intact | Multi-hop binding chain integrity |
 | CODE-EXACT | 68.3% | Exact reconstruction quality |
+| CODE-TRACK | — | Not yet evaluated |
 
 ## Public Benchmark Results (if any)
 

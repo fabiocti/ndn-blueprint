@@ -35,7 +35,6 @@ graph TD
 
     OSA --> OSA_CORE
     OSA -.->|"subdomain · proxy failure evidence"| AOJ
-    AOJ -.->|"same semantic domain · different surface"| OSA
 
     NDN -.->|"unvalidated — awareness only"| FUTURE1
     NDN -.-> FUTURE2
@@ -45,6 +44,8 @@ graph TD
     style FUTURE2 fill:#f5f5f5,stroke-dasharray: 5 5
     style FUTURE3 fill:#f5f5f5,stroke-dasharray: 5 5
 ```
+
+> **Note:** AOJ shares the same semantic domain as OSA but has a different surface format — this relationship is modeled as a subdomain branch, not a bidirectional edge.
 
 ## Key Insight
 The tree grows from the top (broadest categories) downward (specialized subdomains). Each branch exists because existing nodes failed on a specific text type.
@@ -94,4 +95,4 @@ OSA
 - "Each branch justified by evidence"
 - "Subdomains require documented proxy failure"
 - "Greyed branches are hypothetical — no evidence yet"
-- Arrow from AOJ back to OSA: "same semantic domain, different surface format"
+- AOJ note: "same semantic domain as OSA, different surface format" (see note above the Key Insight section)

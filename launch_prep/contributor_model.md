@@ -92,6 +92,8 @@
 4. Real-world A/B testing (strongly preferred)
 5. Explanation of what changed and why it helped
 
+Use the A/B test report template (`templates/ab_test_report_template.md`) for documentation.
+
 ---
 
 ## What Will Be Rejected

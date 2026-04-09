@@ -18,7 +18,7 @@ This is not theoretical caution. The project has a documented case (AOJ v3) wher
 
 **What it does NOT tell you**: Whether the model will perform well on real data, whether it will recover specific facts, whether it will beat simpler baselines.
 
-**Required for**: All nodes at all stages. These are the minimum table stakes.
+**Required for**: All nodes at all stages. These are table stakes.
 
 ### Level 2: Held-Out Evaluation
 
@@ -85,7 +85,7 @@ Current test: OpenClaw A/B — 5 real bug-bounty session slices, comparing markd
 
 ### 1. Low loss is not enough
 
-A node with val_loss approaching zero on synthetic data may still fail on real data. The synthetic distribution is a subset of reality. Always test on held-out data and ideally real data.
+A node with val_loss approaching zero on synthetic data may still fail on real data. The synthetic distribution is a simplification of reality. Always test on held-out data and ideally real data.
 
 ### 2. Pretty internal metrics can lie
 
@@ -120,7 +120,7 @@ For any claim about practical usefulness, the comparison to raw markdown is mand
 
 Current honest comparison on the most demanding test (real OpenClaw A/B):
 - Markdown: 100% fact recovery
-- NDN (AOJ v2): 73% fact recovery, 1.69x compression
+- NDN (AOJ v2): 73% fact recovery (test data was in training corpus), 1.69x compression
 
 NDN compresses and reduces noise, but fact recovery is not yet competitive.
 

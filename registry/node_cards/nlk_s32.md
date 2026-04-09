@@ -66,7 +66,7 @@ Compresses and reconstructs encyclopedic factual prose. Trained on English Wikip
 |---|---|---|
 | WIKI-NIAH | 95% entity recall | Needle-in-a-haystack entity retrieval |
 | WIKI-FACT1 | 80% binding | Single-hop factual binding |
-| WIKI-TRACK | 82.5% final entity | Entity tracking through passage |
+| WIKI-FACT2 | 82.5% chain intact | Two-hop factual binding |
 | WIKI-EXACT | 94.2% | Exact reconstruction quality |
 
 ## Public Benchmark Results (if any)
@@ -101,7 +101,7 @@ _First version. No prior versions._
 | Training script | — |
 | Training log | — |
 | Checkpoint location | `checkpoints/wiki_s32/` |
-| model.pt | Yes (315 MB) |
+| model.pt | Yes (316 MB) |
 | Dataset composition | 100% real (English Wikipedia 20231101) |
 | Held-out policy | — |
 | Data leakage notes | — |

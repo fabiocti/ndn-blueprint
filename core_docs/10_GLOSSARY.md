@@ -9,7 +9,7 @@ A top-level category of information that shares structural and statistical prope
 A specialization within a domain, justified by evidence that proxy nodes from the parent domain demonstrably fail on the target text type. Example: AOJ (Agent Operational Journals) under OSA.
 
 **Node**
-A self-contained CNDX encoder-decoder pair trained on a specific domain or subdomain. Each node has its own weights (~70M parameters), latent configuration, and quality profile. Nodes are the atomic units of the NDN.
+A self-contained encoder-decoder pair trained on a specific domain or subdomain. Each node has its own weights (~70M parameters), latent configuration, and quality profile. Nodes are the atomic units of the NDN.
 
 **Packet**
 The unit of storage in the NDN. Contains a compressed latent tensor, metadata (domain, timestamp, session, compression ratio, quality estimate), and provenance (checkpoint, chunk index, retrieval path). Packets are opaque outside their originating node.
@@ -40,7 +40,7 @@ A node used on text from a domain it was not trained on. Proxy usage is diagnost
 The number of model parameters currently loaded on GPU. A single node is ~70M. Multiple nodes can be loaded simultaneously. Active params are a small fraction of total params when only a few nodes are resident.
 
 **Total Parameters**
-The sum of all trained node parameters in the NDN, whether loaded or on disk. With 6 nodes: ~420M total. Not all are active simultaneously.
+The sum of all trained node parameters in the NDN, whether loaded or on disk. With 7 champion nodes: ~490M total. Not all are active simultaneously.
 
 ---
 
@@ -90,8 +90,14 @@ A broader term for wrong-node failure. The model's learned domain prior (the sta
 
 ## Infrastructure Terms
 
+**NDN**
+Neural Domain Network. The modular memory architecture defined in this blueprint, consisting of specialized domain nodes connected by routing, storage, and fusion layers.
+
+**OpenClaw**
+An autonomous agent used as the primary integration test harness for NDN memory. Operates on real-world reconnaissance campaigns. The OpenClaw A/B test compares NDN-compressed memory against raw markdown memory.
+
 **CNDX**
-The underlying encoder-decoder architecture used by NDN nodes. Based on GPT-2 with a latent bottleneck layer. Each CNDX model can encode text into a fixed number of latent vectors and decode those vectors back into text.
+The underlying encoder-decoder model architecture used by NDN nodes. Based on GPT-2 with a latent bottleneck layer. Each CNDX model can encode text into a fixed number of latent vectors and decode those vectors back into text.
 
 **Packet Store**
 The persistent storage layer for memory packets. Currently implemented as SQLite. Indexed by domain, session, timestamp, and chunk index.

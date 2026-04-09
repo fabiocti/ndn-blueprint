@@ -20,10 +20,10 @@ flowchart TB
     subgraph INGEST["Write path · NDN memory"]
         SH["SessionHooks<br/>intercept · inject_budget_tokens"]
         SEG["Text segments"]
-        J["Journal files journal_*.md"]
+        J["Journal files · journal_*.md"]
         R["Router rule-based<br/>WORKFLOW / FINDINGS"]
         NODE["NDN node AOJ-S32 v2<br/>encode"]
-        MS[("Memory Store SQLite<br/>compressed packets")]
+        MS[("Packet Store · SQLite<br/>compressed packets")]
 
         J --> SH
         SH --> SEG
@@ -46,7 +46,7 @@ flowchart TB
     SH -.->|"Path B NDN fused · budget"| CTX
 
     subgraph SOURCES["Deployment · data sources"]
-        VPS["Hetzner VPS · daemon"]
+        VPS["Cloud VPS · daemon"]
         LOG["bounty_daemon.log"]
         MEM["MEMORY_server.md"]
     end
@@ -91,15 +91,15 @@ The NDN sits in the agent's memory layer, between session history and the agent 
     ↑ classifies journal text → WORKFLOW or FINDINGS
     |
 [Journal files]
-    journal_vfsglobal.md
-    journal_dailymotion.md
-    journal_expressvpn.md
-    journal_harman.md
-    journal_pinelabs.md
+    journal_corp_alpha.md
+    journal_corp_bravo.md
+    journal_corp_charlie.md
+    journal_corp_delta.md
+    journal_corp_echo.md
 ```
 
 ### Bottom: Data sources
-- "Hetzner VPS" → OpenClaw daemon runs here
+- "Cloud VPS" → OpenClaw daemon runs here
 - "bounty_daemon.log" → timeline and session boundaries
 - "MEMORY_server.md" → agent's persistent memory file
 - "journal_*.md" → per-target operational journals
@@ -107,7 +107,7 @@ The NDN sits in the agent's memory layer, between session history and the agent 
 ### A/B comparison box
 - Side-by-side comparison:
   - Side A: "2,626 tokens | 100% facts | 1.0x"
-  - Side B: "1,579 tokens | 73% facts | 1.69x"
+  - Side B: "1,555 tokens | 73% facts | 1.69x"
   - Verdict: "Markdown wins on facts. NDN wins on compression."
 
 ### Annotations at key components

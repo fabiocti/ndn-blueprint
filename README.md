@@ -41,7 +41,7 @@ This is not a model release, not a product launch, and not a claim of universal 
 
 ## Current status
 
-NDN has 7 champion nodes across 6 domains and 1 subdomain. All nodes use a ~70M parameter CNDX v2 encoder-decoder architecture with compression ratios of 2x–4x.
+NDN has 7 champion nodes across 6 domains and 1 subdomain. All nodes use a ~70M parameter encoder-decoder architecture with compression ratios of 2x–4x.
 
 **Validated:**
 - Domain-specific training consistently beats cross-domain use
@@ -73,7 +73,7 @@ See [core_docs/07_PROJECT_STATUS.md](core_docs/07_PROJECT_STATUS.md) for the ful
 
 ## What is intentionally excluded
 
-- **Training code** — the CNDX encoder-decoder training pipeline exists but is not part of this release. Blueprint first; code later.
+- **Training code** — the encoder-decoder training pipeline exists but is not part of this release. Blueprint first; code later.
 - **Model checkpoints** — binary weights are not distributed in this repository.
 - **Internal experiment logs** — the raw experiment journal is private for now; the evidence docs contain the relevant findings.
 - **Agent integration code** — the OpenClaw integration was a test harness, not a public API.

@@ -22,9 +22,9 @@ nodes:
       - Minor degradation on very rare proper nouns
       - Not suitable for exact-wording requirements
     benchmark_status:
-      val_loss: 0.72
-      ablation_gap: 7.27
-      shuffled_gap: 1.46
+      val_loss: 0.085
+      ablation_gap: 13.354
+      shuffled_gap: 18.750
       domain_native: WIKI-NIAH, WIKI-FACT1, WIKI-FACT2, WIKI-EXACT
     notes: Most thoroughly tested node.
 
@@ -42,7 +42,7 @@ nodes:
     known_failure_modes:
       - Same as S32 but with less compression benefit
     benchmark_status:
-      val_loss: 0.72
+      val_loss: 0.72  # TODO: needs verification — likely copy-paste from wrong S32 value
       domain_native: WIKI-NIAH, WIKI-FACT1, WIKI-FACT2, WIKI-EXACT
     notes: S32 preferred for this domain (structured content compresses well at 4x).
 
@@ -66,9 +66,9 @@ nodes:
       - Exact string literal recovery degrades for long literals
       - Python only — other languages untested
     benchmark_status:
-      val_loss: 0.30
+      val_loss: 0.225
       ablation_gap: 8.34
-      shuffled_gap: 3.02
+      shuffled_gap: 1.14
       domain_native: CODE-NIAH, CODE-FACT1, CODE-FACT2, CODE-EXACT, CODE-TRACK
     notes: S64 preferred for safety margin on fine-grained binding.
 
@@ -109,9 +109,9 @@ nodes:
       - Unusual entity names in state keys
       - Expects structured format — markdown prose compresses poorly
     benchmark_status:
-      val_loss: 0.18
-      ablation_gap: 8.86
-      shuffled_gap: 3.64
+      val_loss: 0.0000
+      ablation_gap: 1.905
+      shuffled_gap: 4.261
       domain_native: STATE-NIAH, STATE-FACT1, STATE-FACT2, STATE-TRACK, STATE-OVERRIDE
     notes: >
       Cleanest metrics of any domain. Fails as proxy for agent journals
@@ -177,7 +177,7 @@ nodes:
     maturity: champion
     champion_status: true
     local_path: checkpoints/reg_s32/
-    model_pt: false  # model.pt not present locally
+    model_pt: true  # recovered via retrain 9 Apr 2026
     best_for:
       - Policy documents with exact dates and thresholds
       - Compliance text
@@ -209,7 +209,7 @@ nodes:
     maturity: champion
     champion_status: true
     local_path: checkpoints/conv_s64_v2/
-    model_pt: false  # model.pt not present locally (only results.json and train.log)
+    model_pt: true  # recovered via retrain 9 Apr 2026
     best_for:
       - Multi-turn chat conversations
       - Conversation history compression
@@ -238,7 +238,7 @@ nodes:
     maturity: deprecated
     champion_status: false
     local_path: checkpoints/aoj_s32_v1/
-    model_pt: false  # Lost when Verda instance was terminated
+    model_pt: false  # Deprecated; superseded by v2
     best_for:
       - Agent operational journals (superseded by v2)
     benchmark_status:
@@ -259,7 +259,7 @@ nodes:
     maturity: champion
     champion_status: true
     local_path: checkpoints/aoj_s32_v2/
-    model_pt: false  # Lost when Verda instance was terminated — reproducible from training script
+    model_pt: true  # recovered via retrain 9 Apr 2026
     best_for:
       - Agent operational journals
       - Recon summaries
@@ -279,7 +279,7 @@ nodes:
     notes: >
       CURRENT BEST AOJ CHECKPOINT. model.pt lost but reproducible from
       train_aoj_s32_v2.sh. Entity-diverse corpus (204 SLDs, 52 TLDs,
-      5% real data mix, digit_weight=3.0).
+      5% real data mix, digit_weight=3.0, entity_weight=2.5 (0 tokens matched — regex bug, effectively disabled)).
 
   - node_id: aoj_s32_v3
     domain: OSA
@@ -291,7 +291,7 @@ nodes:
     local_path: checkpoints/aoj_s32_v3/
     model_pt: true  # 316MB, preserved locally
     best_for:
-      - NOTHING — regressed on real A/B. Preserved for reference only.
+      - None — regressed on real A/B. Preserved for reference only.
     known_failure_modes:
       - Over-corrected loss weighting distorted contextual recall
       - Internal metrics improved but real A/B regressed
@@ -304,7 +304,7 @@ nodes:
     notes: >
       FAILED EXPERIMENT. Token-ID entity weighting (122 tokens, 3.0x) +
       digit weight 5.0x. Better internal metrics than v2 but 7pp worse on
-      real A/B.       Documented negative result: loss weighting alone is not the path to
+      real A/B. Documented negative result: loss weighting alone is not the path to
       entity preservation.
 
   # --- Frontier Probes ---

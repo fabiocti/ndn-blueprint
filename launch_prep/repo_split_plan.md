@@ -10,16 +10,16 @@ When the NDN project is ready for open-source release, the code and documentatio
 
 ### ndn-core
 
-**Purpose**: The core architecture — CNDX encoder-decoder model, latent bottleneck, training loop, evaluation framework.
+**Purpose**: The core architecture — NDN encoder-decoder model, latent bottleneck, training loop, evaluation framework.
 
 **Contents**:
-- `cndx/` — model architecture (`native_model.py`), data loading (`data.py`), training (`native_train.py`)
+- `ndn/` — model architecture (`native_model.py`), data loading (`data.py`), training (`native_train.py`)
 - Core evaluation scripts (ablation gap, shuffled gap, corruption sensitivity)
 - Base configuration schemas
 - Unit tests for the core model
 
 **What belongs here**:
-- Anything needed to train a new CNDX node from scratch
+- Anything needed to train a new NDN node from scratch
 - The encoder-decoder architecture
 - The latent bottleneck mechanism
 - Standard training and evaluation code
@@ -158,9 +158,9 @@ ndn-integrations  ← depends on ndn-runtime
 
 ## Migration Notes
 
-The current monolithic workspace (`Codename - CNDX`) contains all of the above mixed together. Migration steps:
+The current monolithic workspace contains all of the above mixed together. Migration steps:
 
-1. Extract `cndx/` core model code → ndn-core
+1. Extract `ndn/` core model code → ndn-core
 2. Extract domain-specific generators and training scripts → ndn-nodes
 3. Extract benchmark code and A/B test framework → ndn-benchmarks
 4. Extract `openclaw_memory/` → ndn-runtime
