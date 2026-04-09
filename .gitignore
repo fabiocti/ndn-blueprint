@@ -74,8 +74,6 @@ openclaw_memory/
 *.png
 *.tar
 *.txt
-!ndn_blueprint/**/*.txt
-
 # === Old design docs (superseded by blueprint) ===
 NDN_ARCHITECTURE.md
 OPENCLAW_MEMORY_LAYER_PLAN.md
@@ -86,6 +84,18 @@ StatePatch Research.txt
 Note1.txt
 zoom_results.json
 exp58.log
+
+# === Internal docs not for public ===
+EXPERIMENT_JOURNAL.md
+NDN_NODE_REGISTRY_v0.md
+PUBLIC_RELEASE_CHECKLIST.md
+ndn_blueprint/
+
+# === Training code (separate release) ===
+cndx/
+
+# === Data ===
+ab_data/
 
 # === IDE / OS ===
 .vscode/
