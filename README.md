@@ -1,5 +1,9 @@
 # Neural Domain Network (NDN)
 
+<p align="center">
+  <img src="assets/banner.png" alt="NDN Banner" width="100%">
+</p>
+
 **An architecture for domain-native memory in AI agents.**
 
 ---
