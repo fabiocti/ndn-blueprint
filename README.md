@@ -16,12 +16,30 @@ The core idea: different kinds of information have fundamentally different shape
 
 Each domain gets its own node, its own training data, its own compression regime, and its own benchmark profile. A router classifies incoming artifacts and sends them to the appropriate node. Reconstruction is domain-native.
 
+### How it works
+
+```
+text artifact → router → specialist node → compressed packets → packet store
+                                                                     ↓
+reasoning LLM ← fused context ← reconstruction ← retrieval ← packet store
+```
+
+An incoming memory artifact is classified by a router, compressed by the appropriate domain node into latent packets, and stored. When memory is needed, relevant packets are retrieved, reconstructed by their originating node, and fused into the agent's context window.
+
+## Why use this instead of raw text + retrieval?
+
+- **Smaller, task-relevant context.** Compression ratios of 2x–4x mean more history fits in the same context window. As agent sessions grow beyond what fits in context, this matters.
+- **Less repeated work.** In one real-world test, NDN-compressed memory showed 97.8% fewer repeated-work signals than raw markdown memory.
+- **Different memory types handled differently.** Code, conversation, operational logs, and encyclopedic prose have different structures. One retrieval model treats them all the same. NDN routes each to a specialist that understands its shape.
+
+NDN is not yet universally better than markdown — see [Current status](#current-status) for honest limitations.
+
 ## What is this repository?
 
 This is the **architecture blueprint** for NDN. It contains:
 
 - The full architecture specification
-- A domain taxonomy with 6 validated top-level domains and 1 validated subdomain
+- A working taxonomy with 6 top-level domains and 1 validated subdomain
 - Registry files for domains, nodes, regimes, and benchmarks
 - Evidence and case studies from real experiments
 - Templates for contributing new nodes, subdomains, and benchmarks
@@ -50,7 +68,8 @@ NDN has 7 champion nodes across 6 domains and 1 subdomain. All nodes use a ~70M 
 **Validated:**
 - Domain-specific training consistently beats cross-domain use
 - Wrong-node failures are diagnostic (they reveal learned priors)
-- AOJ subdomain achieves 73% fact recovery vs 14–24% from proxy nodes (test data was in training corpus; see [evidence/aoj_subdomain_case.md](evidence/aoj_subdomain_case.md) for caveats)
+- AOJ subdomain achieves 73% fact recovery vs 14–24% from proxy nodes
+  > **Important caveat:** the 73% was measured on test data that was included in the training corpus (5% of total). See [evidence/aoj_subdomain_case.md](evidence/aoj_subdomain_case.md) for full details.
 - CONV-S64 v2 achieves 94.9% F1 retention on LongMemEval
 
 **Honest limitations:**
