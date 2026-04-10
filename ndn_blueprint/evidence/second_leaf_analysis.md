@@ -1,13 +1,14 @@
 # Second Leaf Analysis: Candidates Under AOJ
 
-**Date**: 11 April 2026
+**Date**: 10 April 2026
 **Purpose**: Decide which sibling leaf to validate next under OSA/AOJ
+**Status**: Historical — both candidates (RWJ, WS) have since been established as bloomings with benchmark results. See `03_TAXONOMY.md` for current status.
 
 ---
 
 ## Why a Second Leaf Matters
 
-One validated leaf (TDR) proves the pipeline works for one use case. A second leaf proves the tree structure is real — that AOJ genuinely contains multiple distinct patterns that share a compression node but differ in retrieval, reconstruction, and evaluation.
+One flagship leaf (TDR) proves the pipeline works for one use case. A second leaf proves the tree structure is real — that AOJ genuinely contains multiple distinct patterns that share a compression node but differ in retrieval, reconstruction, and evaluation.
 
 ---
 

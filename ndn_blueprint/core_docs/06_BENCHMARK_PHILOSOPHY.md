@@ -118,11 +118,12 @@ A node is not "good" based on training curves alone. It is good when:
 
 For any claim about practical usefulness, the comparison to raw markdown is mandatory. Markdown is lossless, simple, and always available. If NDN cannot match or exceed markdown on a specific task, that must be stated clearly.
 
-Current honest comparison on the most demanding test (real OpenClaw A/B):
-- Markdown: 100% fact recovery
-- NDN (AOJ v2): 73% fact recovery, 1.69x compression
+Current honest comparisons:
+- **OpenClaw AOJ journal A/B** — Markdown: 100%, NDN AOJ v2: 73% (1.69x compression). NDN loses on fact recovery at low compression.
+- **TDR flagship leaf (100 HackerOne reports, 1.15M tokens)** — NDN: 93–94% facts at 89–105x compression. Markdown is impossible at this scale (exceeds all context windows). NDN provides practical access to an otherwise inaccessible archive.
+- **RWJ blooming (257 files, 952K tokens)** — NDN: 84% facts at 50x compression vs oracle 100%. Competitive but not yet matching oracle.
 
-NDN compresses and reduces noise, but fact recovery is not yet competitive.
+The comparison is harness-specific. Where context window is not a constraint, markdown wins. Where scale makes markdown impossible, NDN provides high-fidelity compressed access.
 
 ### 7. Failure taxonomies are required
 

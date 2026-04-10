@@ -26,7 +26,7 @@ The HWM (Human Working Memory) model was trained on fragmented notes, reminders,
 ## Phase 1A: Subdomain Collection — IN PROGRESS
 - subfinder: 555 hosts
 - httpx: 169 live
-- Total merged: 673 hosts
+- Total merged: 673 unique subdomains
 - Target: vfsglobal.com
 ```
 

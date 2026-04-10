@@ -36,6 +36,29 @@ The best-performing checkpoint for a given domain or subdomain, validated by hel
 **Proxy**
 A node used on text from a domain it was not trained on. Proxy usage is diagnostic: if the proxy fails with domain-prior projection, a dedicated node is justified. Proxies are never promoted to champion for a domain they were not trained on.
 
+## Leaf Maturity Terms
+
+**Leaf**
+A specialized pipeline under a subdomain that targets a specific text type. A leaf combines a champion compression checkpoint with retrieval, ranking, entity extraction, and evaluation logic. Examples: TDR (disclosure reports), WS (workflow state), RWJ (recon workflow journals) under AOJ.
+
+**Seed**
+A hypothesized leaf that has not been tested. A text type has been identified as potentially distinct, but no benchmarks have been run.
+
+**Blooming**
+A leaf with first evidence of being a real branch. Initial benchmarks run, failure modes emerging, pipeline not yet frozen. Examples: WS (70% hits), RWJ (84% facts).
+
+**Baseline Leaf**
+A leaf with a frozen pipeline, dev + held-out benchmarks, documented failure modes, and a formal baseline declaration. Distinct from parent and siblings. Not yet proven at the rigor threshold.
+
+**Validated Leaf**
+A leaf proven robust on held-out data at or above the rigor threshold. Transfer evidence preferred but not required.
+
+**Flagship Leaf**
+The strongest evidence tier: validated + cross-corpus transfer + frozen champion pipeline. Example: TDR (90% hits, 93–94% facts, 89–105x compression, 5-corpus transfer at 95%).
+
+**Entity Side-Channel**
+A mechanism where regex-based extraction at compression time stores exact entities (domains, counts, ports, versions, etc.) alongside the latent blob. At reconstruction, decoded text is augmented with the preserved entity payload. The entity extractor is the primary tuning knob across leaves — same model, different patterns per domain.
+
 **Active Parameters**
 The number of model parameters currently loaded on GPU. A single node is ~70M. Multiple nodes can be loaded simultaneously. Active params are a small fraction of total params when only a few nodes are resident.
 

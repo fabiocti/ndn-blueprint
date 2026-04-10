@@ -201,13 +201,13 @@ The taxonomy is a living structure. New domains and subdomains are added when ev
 | AOJ v1 | 54% | 1.56x | Superseded |
 | **AOJ v2** | **73%** | **1.69x** | **Current champion** |
 | AOJ v3 | 66% | 1.66x | Failed — over-corrected loss weighting |
-| Markdown baseline | 100% | 1.00x | Still wins overall |
+| Markdown baseline | 100% | 1.00x | Wins on OpenClaw AOJ A/B (single-session compression test) |
 
 ---
 
 ## Validated Leaves (under AOJ)
 
-### OSA / AOJ / Technical Disclosure Reports (TDR) — VALIDATED FLAGSHIP
+### OSA / AOJ / Technical Disclosure Reports (TDR) — FLAGSHIP LEAF
 
 **Why it exists**: AOJ handles single-session compression, but agent memory often requires retrieval across 100+ accumulated reports. TDR provides the full pipeline: store, retrieve, isolate, reconstruct, rank, select.
 
@@ -221,7 +221,7 @@ The taxonomy is a living structure. New domains and subdomains are added when ev
 
 ---
 
-### OSA / AOJ / Workflow State (WS) — BASELINE
+### OSA / AOJ / Workflow State (WS) — BLOOMING
 
 **Why it exists**: Operational memory for infrastructure state — what machine is active, where credentials are, what expired, what the current blocker is. Motivated by live agent memory failures (Cursor/Opus losing operational continuity across sessions).
 
@@ -235,7 +235,7 @@ The taxonomy is a living structure. New domains and subdomains are added when ev
 
 ---
 
-### OSA / AOJ / Recon Workflow Journals (RWJ) — APPROACHING BASELINE LEAF
+### OSA / AOJ / Recon Workflow Journals (RWJ) — BLOOMING (approaching Baseline Leaf)
 
 **Why it exists**: Campaign narrative memory — what did we attack, what did we find, what pivot did we make, what was the progression. Distinct from WS (infrastructure state) and TDR (disclosure reports). Identified when 257 pentesting operational files were initially misclassified as WS but corpus profiling revealed 247/257 are campaign narrative.
 

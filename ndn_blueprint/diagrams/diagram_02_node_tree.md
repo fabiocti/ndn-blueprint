@@ -22,9 +22,9 @@ graph TD
     OSA_CORE["OSA core<br/>timestamped key-value traces"]
     AOJ["AOJ — Agent Operational Journals<br/>Champion regime: S32"]
 
-    TDR["🟢 TDR — Technical Disclosure Reports<br/>VALIDATED · 90% hits · 94% facts · 89–105x<br/>40q dev+held-out · 5 corpora transfer (95%)"]
-    WS["🟡 WS — Workflow State<br/>BASELINE · 70% hits · 64% facts · 182x<br/>14/20 ceiling confirmed structural"]
-    RWJ["🟠 RWJ — Recon Workflow Journals<br/>APPROACHING BASELINE · 84% facts · 50x compression<br/>257 real files · -16pp oracle gap<br/>100% retrieval · entity extractor expanded"]
+    TDR["🟢 TDR — Technical Disclosure Reports<br/>FLAGSHIP LEAF · 90% hits · 93–94% facts · 89–105x<br/>40q dev+held-out · 5 corpora transfer (95%)"]
+    WS["🟡 WS — Workflow State<br/>BLOOMING · 70% hits · 64% facts · 182x<br/>14/20 ceiling confirmed structural"]
+    RWJ["🟠 RWJ — Recon Workflow Journals<br/>BLOOMING (approaching Baseline Leaf) · 84% facts · 50x<br/>257 real files · -16pp oracle gap<br/>100% retrieval · entity extractor expanded"]
 
     FUTURE1["Multimodal Descriptions?"]
     FUTURE2["Temporal Event Sequences?"]
@@ -40,8 +40,8 @@ graph TD
     OSA --> OSA_CORE
     OSA -.->|"subdomain · proxy failure evidence"| AOJ
 
-    AOJ -->|"validated leaf"| TDR
-    AOJ -->|"baseline leaf"| WS
+    AOJ -->|"flagship leaf"| TDR
+    AOJ -->|"blooming"| WS
     AOJ -->|"approaching baseline"| RWJ
 
     NDN -.->|"unvalidated — awareness only"| FUTURE1
@@ -89,21 +89,21 @@ OSA
 ### Level 3: Leaves (under AOJ)
 ```
 AOJ
-├── 🟢 TDR (Technical Disclosure Reports) — VALIDATED FLAGSHIP
+├── 🟢 TDR (Technical Disclosure Reports) — FLAGSHIP LEAF
 │       Dev: 18/20 (90%) · Held-out: 18/20 (90%) · Combined: 36/40 (90%)
 │       94% fact recovery, 89–105x compression
 │       Transfers across 5 corpora (114/120 = 95%), zero code changes
 │       Champion pipeline: FTS5 → isolated reconstruction → heuristic ranking
 │       Failure mode: near-identical titles only
 │
-├── 🟡 WS (Workflow State) — BASELINE
+├── 🟡 WS (Workflow State) — BLOOMING
 │       All variants: 14/20 (70%) ceiling, 64% facts, 182x compression
 │       Extended entity extractor (+8 WS patterns), same isolation architecture
 │       Ceiling confirmed structural across 3 scoring variants
 │       Failure modes: session imbalance, temporal reasoning, sibling overlap
 │       Needs: temporal override, session balancing, source-aware retrieval
 │
-└── 🟠 RWJ (Recon Workflow Journals) — APPROACHING BASELINE LEAF
+└── 🟠 RWJ (Recon Workflow Journals) — BLOOMING (approaching Baseline Leaf)
         257 real pentesting files (952K tokens), human-authored campaigns
         v1 borrowed pipeline: 14/20 (70%), same ceiling as WS
         v2 doc-type-aware: Dev 20/20, Held-out 13/20 (keyword classifier too narrow)
@@ -122,9 +122,9 @@ AOJ
 
 ### Visual indicators
 - Solid lines for validated branches
-- Green box (🟢) for validated leaf nodes (TDR — dev + held-out + multi-corpus transfer)
-- Yellow box (🟡) for baseline leaf nodes (WS — benchmarked, structural ceiling identified, specialist engine not yet built)
-- Orange box (🟠) for approaching-baseline leaf nodes (RWJ — embedding classifier + expanded entity extractor, 84% facts at 50x compression, approaching 🌿 Baseline Leaf)
+- Green box (🟢) for flagship leaf nodes (TDR — dev + held-out + multi-corpus transfer, champion frozen)
+- Yellow box (🟡) for blooming nodes (WS — benchmarked, structural ceiling identified, specialist engine not yet built)
+- Orange box (🟠) for blooming nodes approaching baseline (RWJ — embedding classifier + expanded entity extractor, 84% facts at 50x compression, approaching Baseline Leaf)
 - Dashed lines for the subdomain connection (OSA → AOJ) with annotation: "justified by proxy failure: OSA-S32 → 14% fact recovery on journals"
 - Greyed-out / dotted boxes for unvalidated candidate domains
   - "Multimodal Descriptions?"

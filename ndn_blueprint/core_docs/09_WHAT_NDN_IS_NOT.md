@@ -14,11 +14,15 @@ An AI agent needs an orchestrator (the LLM that reads context, decides actions, 
 
 ## NDN is not guaranteed to beat markdown on every memory task
 
-As of April 2026, raw markdown still wins the most demanding real-world A/B test:
+On the original OpenClaw AOJ journal A/B test, raw markdown still wins:
 - Markdown: 100% fact recovery
-- NDN (best checkpoint): 73% fact recovery, 1.69x compression
+- NDN AOJ v2 (single-session compression): 73% fact recovery, 1.69x compression
 
-NDN offers compression and noise reduction. Markdown offers perfect fidelity. For tasks where every fact matters and context window is not a constraint, markdown is currently superior. Claiming otherwise would be false.
+On leaf-specific pipelines with entity side-channel at scale, the gap narrows substantially:
+- TDR flagship leaf: 93–94% fact recovery at 89–105x compression (100 reports, 1.15M tokens)
+- RWJ blooming: 84% fact recovery at 50x compression (257 files, 952K tokens)
+
+NDN offers compression and selective retrieval. Markdown offers perfect fidelity. For tasks where every fact matters and context window is not a constraint, markdown is currently superior. Where scale makes markdown impossible (1M+ tokens), NDN's leaf pipelines provide competitive fact recovery with practical compression.
 
 ## NDN is not permission to invent arbitrary taxonomy branches
 

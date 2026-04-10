@@ -131,3 +131,11 @@ The lifecycle is a funnel: many ideas, fewer candidates, fewer experiments, fewe
 - "Failed experiments are documented, not deleted"
 - "Champion ≠ beats markdown. Champion = best NDN checkpoint for this domain"
 - "Internal metrics alone never justify promotion past Experimental"
+
+## Note: Leaf Maturity Pipeline
+
+This diagram describes **checkpoint** lifecycle (how a compression model matures). Within a subdomain, individual **leaf-level pipelines** (which combine a champion checkpoint with retrieval, ranking, and entity extraction) progress through a separate maturity pipeline:
+
+**Seed → Blooming → Baseline Leaf → Validated Leaf → Flagship Leaf**
+
+See `04_NODE_LIFECYCLE.md` and `10_GLOSSARY.md` for definitions. The two lifecycles are orthogonal: a leaf uses a champion checkpoint but adds pipeline-level engineering on top.

@@ -54,15 +54,18 @@ Proven with empirical evidence:
 
 1. Domain-specific training consistently outperforms cross-domain use (measured by shuffled_gap across all 6 domains)
 2. Six top-level domains trained and evaluated with internal metrics and domain-native benchmarks
-3. One subdomain (AOJ) validated with real-world A/B testing
+3. One subdomain (AOJ) validated with real-world A/B testing and end-to-end runtime on H100
 4. Public benchmark result: 94.9% F1 retention on LongMemEval (500 questions, conversation domain)
-5. 2x-4x compression with substantial information retention
+5. Regime-level compression: 2x–4x. Leaf-level pipeline compression: 50x–105x with entity side-channel
 6. Wrong-node failures are diagnostic and guide taxonomy refinement
+7. First flagship leaf (TDR): 90% hits, 93–94% facts, 89–105x compression on 100 HackerOne reports, validated with held-out queries and 5-corpus transfer (114/120 = 95%)
+8. Entity side-channel (regex extraction + structured append) raises fact recovery from 14% to 100% on OOV test; entity extractor expansion is the primary tuning knob across bloomings (WS +31pp, RWJ +25pp)
+9. Isolation architecture validated: retrieve → isolate → reconstruct → rank → select (blending destroys specificity)
 
 ## What Still Needs Proof
 
-1. NDN has not yet beaten raw markdown on a real-world agent A/B test (best: 73% vs 100% fact recovery)
-2. Rare entity preservation remains unsolved at the architecture level
+1. On the original OpenClaw AOJ journal A/B, NDN has not beaten raw markdown (73% vs 100% fact recovery). Leaf-specific pipelines reach higher fact recovery (TDR 94%, RWJ 84%) on their respective benchmarks, but no single pipeline yet matches markdown across all operational text types
+2. Rare entity preservation remains unsolved at the model architecture level (the entity side-channel is a pragmatic workaround, not a learned solution)
 3. Routing calibration and multi-domain retrieval are basic
 4. No production deployment exists
 5. Scaling governance for many domains/subdomains is untested

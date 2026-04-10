@@ -22,7 +22,9 @@ The same facts miss repeatedly: `1623` (missed 5/5 times), `bostonacoustics.com`
 - Token-ID entity weighting (3.0x on 122 tokens): improved internal metrics but regressed real A/B from 73% to 66%
 - Expanded entity vocabulary in synthetic corpus: helped for in-vocabulary entities but cannot cover all possible OOV entities
 
-**Likely directions**: Copy/pointer mechanisms, entity-aware attention, retrieval-augmented reconstruction, or a hybrid approach where rare tokens are stored separately and reinserted during reconstruction.
+**Partial solution deployed**: The entity side-channel (regex extraction at compression + structured append at reconstruction) is a pragmatic Tier 1 solution. It raises fact recovery from 14% to 100% on controlled OOV tests, and entity extractor expansion has proven repeatable across bloomings (WS +31pp, RWJ +25pp). However, the extractor is regex-based — it cannot generalize to unseen entity types without new patterns.
+
+**Remaining open problem**: A learned copy/pointer mechanism within the decoder itself, entity-aware attention, or retrieval-augmented reconstruction that handles arbitrary OOV entities without manual regex engineering.
 
 ---
 
@@ -122,7 +124,7 @@ The same facts miss repeatedly: `1623` (missed 5/5 times), `bostonacoustics.com`
 
 ## 11. Internal Metrics vs Real-World Performance Divergence
 
-**The problem**: Internal eval metrics can improve while real-world performance degresses. This has been documented (AOJ v3) but not systematically studied.
+**The problem**: Internal eval metrics can improve while real-world performance regresses. This has been documented (AOJ v3) but not systematically studied.
 
 **Why it matters**: If internal metrics do not predict real-world performance, every change requires expensive real-world A/B testing. That constraint slows iteration.
 

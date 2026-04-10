@@ -259,7 +259,7 @@ nodes:
     maturity: champion
     champion_status: true
     local_path: checkpoints/aoj_s32_v2/
-    model_pt: false  # Lost when Verda instance was terminated — reproducible from training script
+    model_pt: true  # Retrained 9 Apr 2026 on Verda H100, 316MB, available locally
     best_for:
       - Agent operational journals
       - Recon summaries
@@ -270,14 +270,14 @@ nodes:
       - OOV domain names (25%)
       - Error/status strings (17%)
     benchmark_status:
-      val_loss: 0.0016
+      val_loss: 0.0014  # From retrained checkpoint (9 Apr 2026)
       shuffled_gap: 4.31
       exact_match: 100%
       ab_fact_recovery: 73%
       ab_compression: 1.69x
       ab_continuity: 0.92
     notes: >
-      CURRENT BEST AOJ CHECKPOINT. model.pt lost but reproducible from
+      CURRENT BEST AOJ CHECKPOINT. model.pt recovered (retrained 9 Apr 2026) from
       train_aoj_s32_v2.sh. Entity-diverse corpus (204 SLDs, 52 TLDs,
       5% real data mix, digit_weight=3.0).
 

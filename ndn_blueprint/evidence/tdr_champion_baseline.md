@@ -101,6 +101,21 @@ query → FTS5 MATCH (OR-joined terms, BM25 ranked) → top-k session_ids
 
 ---
 
+## Multi-Corpus Transfer (frozen pipeline, zero code changes)
+
+| Corpus | Queries | Hits | Hit Rate | Fact Recovery |
+|---|---|---|---|---|
+| HackerOne (primary) | 40 | 36 | 90% | 94% |
+| CIRCL/vulnerability | 20 | 19 | 95% | 96.7% |
+| GitHub Advisory 2023 | 20 | 20 | 100% | 96.7% |
+| APT campaign reports | 20 | 19 | 95% | 73.8% |
+| Structured threat intel | 20 | 20 | 100% | 87.0% |
+| **Total** | **120** | **114** | **95%** | **~87%** |
+
+All 6 misses share the same root cause: ambiguous or garbage titles.
+
+---
+
 ## Known Failure Mode
 
 **Near-identical titles.** All 4 misses across 40 queries are caused by multiple reports with the same or near-identical titles. The system cannot disambiguate:

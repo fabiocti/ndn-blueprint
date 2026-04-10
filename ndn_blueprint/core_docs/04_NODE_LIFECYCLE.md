@@ -1,8 +1,10 @@
 # Node Lifecycle
 
-## Maturity Stages
+## Checkpoint Maturity Stages
 
-Every node in the NDN progresses through a defined lifecycle. The stage determines what claims can be made about the node and how it can be used.
+Every compression checkpoint in the NDN progresses through a defined lifecycle. The stage determines what claims can be made about the checkpoint and how it can be used.
+
+> **Note**: This describes checkpoint-level maturity (Idea → Champion). For leaf-level maturity within a subdomain (e.g., how a leaf progresses from first evidence to frozen pipeline), see the **Leaf Maturity Pipeline** section below.
 
 ### 1. Idea
 
@@ -146,3 +148,43 @@ A node is retired (deprecated → archived) when:
 3. The project moves past the experimental phase where the node was relevant
 
 Retired nodes are never deleted. Their training configuration, evaluation results, and failure analyses are preserved as historical record.
+
+---
+
+## Leaf Maturity Pipeline
+
+Within a subdomain (e.g., AOJ), individual leaf-level pipelines progress through a separate maturity pipeline. This is orthogonal to checkpoint maturity — a leaf uses a champion checkpoint but adds retrieval, ranking, entity extraction, and evaluation logic on top.
+
+### Seed
+
+Hypothesized but untested. A text type has been identified as potentially distinct from existing leaves, but no benchmarks have been run.
+
+**What you can claim**: Nothing beyond "this looks like it might be different."
+
+### Blooming
+
+First evidence of a real branch. Initial benchmarks run, failure modes emerging, but the pipeline is not frozen and the evaluation may be incomplete.
+
+**Requirements**: At least one benchmark run on real or representative data. Documented failure modes. Evidence that the leaf is distinct from its siblings.
+
+**Current examples**: WS (70% hits, structural ceiling), RWJ (84% facts, approaching Baseline Leaf)
+
+### Baseline Leaf
+
+Frozen baseline with documented failure modes. Dev + held-out benchmarks complete, pipeline frozen, distinct from parent and siblings. Not yet proven on held-out data at the rigor threshold.
+
+**Requirements**: Frozen pipeline spec. Dev + held-out benchmarks with consistent results. Documented failure modes. Formal baseline declaration.
+
+### Validated Leaf
+
+Proven robust on held-out data (at or above the rigor threshold for the subdomain). Transfer evidence preferred but not strictly required.
+
+**Requirements**: Held-out accuracy at or above threshold. Consistent dev/held-out results. No unexplained regressions.
+
+### Flagship Leaf
+
+Champion — validated + cross-corpus transfer + frozen champion pipeline. The strongest evidence for a leaf's value.
+
+**Requirements**: All Validated Leaf requirements, plus cross-corpus transfer evidence with zero code changes, plus frozen champion baseline that future work must beat.
+
+**Current example**: TDR (90% hits, 93–94% facts, 89–105x compression, 5-corpus transfer at 95%)

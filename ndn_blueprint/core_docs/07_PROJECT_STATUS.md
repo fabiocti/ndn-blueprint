@@ -1,6 +1,6 @@
 # Project Status
 
-**Date**: 9 April 2026
+**Date**: 10 April 2026 (updated from 9 April)
 **Reporting standard**: Claims are conservative; limitations, failures, and negative results are stated explicitly.
 
 ---
@@ -24,8 +24,14 @@ NLK, FTA, OSA, HWM, HPRT, and CONV have all been trained, evaluated with interna
 | HPRT | reg_s32 | 0.000 | 2.35 | OVERRIDE 70%, FACT1 45% |
 | CONV | conv_s64_v2 | 1.821 | 13.30 | LongMemEval 94.9% F1 ret |
 
-### AOJ is a validated subdomain
-Agent Operational Journals under OSA. Proxy nodes failed (14-24% fact recovery). Dedicated training achieved 54% (v1) and 73% (v2). The improvement survives real-world A/B testing.
+### AOJ is a validated subdomain with leaf-level pipelines
+Agent Operational Journals under OSA. Proxy nodes failed (14–24% fact recovery). Dedicated training achieved 54% (v1) and 73% (v2). The improvement survives real-world A/B testing. The first flagship leaf (TDR) achieves 93–94% fact recovery at 89–105x compression on 100 HackerOne reports, validated with held-out queries and 5-corpus transfer (114/120 = 95%). Two additional bloomings (WS, RWJ) have been established with documented failure modes and progressive improvement.
+
+### Entity side-channel is a proven mechanism
+Regex-based entity extraction at compression time + structured append at reconstruction time raises fact recovery from 14% to 100% on controlled OOV test. Entity extractor expansion is a repeatable, high-leverage intervention: WS gained +31pp (35%→66.6%), RWJ gained +25pp (59%→84%). The entity layer is NDN's primary tuning knob — same pipeline, same model, different patterns per blooming.
+
+### Isolation architecture is validated
+Blending multiple retrieved sessions destroys fact specificity (15–25% fact recovery). Isolated per-session reconstruction produces 64–94% avg. This is a cross-leaf architectural finding: retrieve → isolate → reconstruct → rank → select is the correct pipeline.
 
 ### Wrong-node failures are diagnostic
 When a model trained on domain A reconstructs domain B text, the result reveals domain-specific priors. HWM-trained models reconstruct everything as notes. Wiki-trained models reconstruct code as prose. This phenomenon is consistent and informative.
@@ -61,11 +67,11 @@ Conversation shows ablation_gap +12.00 and shuffled_gap +13.30 — far higher th
 
 ## Unresolved
 
-### Markdown still wins the real-world A/B
-On the most demanding test (real OpenClaw sessions), raw markdown achieves 100% fact recovery vs NDN's 73%. NDN compresses and reduces noise, but does not yet match markdown on raw fact retention.
+### Markdown still wins the OpenClaw AOJ journal A/B
+On the original OpenClaw AOJ A/B test, raw markdown achieves 100% fact recovery vs NDN's 73%. Leaf-specific pipelines with entity side-channel reach higher fact recovery (TDR 94%, RWJ 84%) on their respective scale benchmarks, but no single pipeline yet matches markdown across all operational text types.
 
-### Rare entity preservation
-The model reconstructs the correct structure but substitutes out-of-vocabulary entities (domain names, exact counts, error strings) with training priors. This accounts for the majority of remaining misses (58% exact numeric counts, 25% OOV domain names, 17% error/status strings).
+### Rare entity preservation at the model level
+The encoder-decoder reconstructs correct structure but substitutes out-of-vocabulary entities with training priors. The entity side-channel is a pragmatic workaround (not a learned solution). A learned copy/pointer mechanism remains the open architectural goal.
 
 ### Loss weighting is not the solution to entity preservation
 AOJ v3 tested token-ID-based entity weighting (122 tokens at 3.0x) and stronger digit weight (5.0x). Internal metrics improved. Real A/B performance regressed from 73% to 66%. The intervention over-corrected.
@@ -77,7 +83,7 @@ The current router is rule-based with no calibration, no confidence scoring, and
 The OpenClaw integration was a test harness using synthetic session hooks. No live agent is currently running with NDN memory.
 
 ### Scaling governance is undefined
-The taxonomy has 6 domains and 1 subdomain. How to govern taxonomy growth at scale (dozens of domains, hundreds of subdomains) is an open organizational and technical problem.
+The taxonomy has 6 domains, 1 subdomain, and 3 leaf-level nodes (1 flagship, 2 blooming). How to govern taxonomy growth at scale (dozens of domains, hundreds of subdomains) is an open organizational and technical problem. The node maturity pipeline (Seed → Blooming → Baseline Leaf → Validated Leaf → Flagship Leaf) provides a framework but has only been exercised on TDR so far.
 
 ---
 

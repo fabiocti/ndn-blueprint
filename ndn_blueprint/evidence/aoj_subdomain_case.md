@@ -126,9 +126,9 @@ Internal metrics were misleading: every single internal metric improved, yet rea
 | AOJ v1 | 54% | Superseded |
 | **AOJ v2** | **73%** | **Champion** |
 | AOJ v3 | 66% | Failed (regression) |
-| Markdown | 100% | Still wins overall |
+| Markdown | 100% | Wins on OpenClaw AOJ A/B |
 
-**AOJ v2 is the current champion.** The v2 model.pt was lost when the training server was terminated. It is reproducible from the saved training script and data configuration.
+**AOJ v2 is the current champion.** The v2 model.pt was originally lost when the training server was terminated, but was successfully retrained on 9 April 2026 on a Verda H100 instance. The checkpoint is available locally (316MB).
 
 ---
 
@@ -148,8 +148,8 @@ Internal metrics were misleading: every single internal metric improved, yet rea
 
 ## What Remains Unsolved
 
-1. **Markdown still wins overall.** 100% vs 73%. The gap requires architectural changes (copy/pointer mechanisms, entity-aware attention), not more loss engineering.
+1. **Markdown still wins on the OpenClaw AOJ A/B.** 100% vs 73%. On leaf-specific pipelines with entity side-channel (TDR, RWJ), fact recovery is much higher (93–94%, 84%). The gap at the compression level requires architectural changes; the gap at the pipeline level is being closed by entity extraction and isolation.
 
-2. **The champion checkpoint is lost.** Reproducible from training configuration, but requires a GPU instance to retrain.
+2. **The champion checkpoint has been recovered.** Retrained 9 April 2026 on Verda H100. model.pt available locally (316MB).
 
 3. **The test data has a leakage caveat.** The 5 journals were in training. A fully clean held-out test would use new, unseen agent sessions.

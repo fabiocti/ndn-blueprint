@@ -254,6 +254,11 @@ Deprecated nodes are archived, not deleted. Their benchmark results remain in th
 
 ---
 
+## What This Architecture Includes Beyond the Core Pipeline
+
+- **Entity side-channel** — regex-based extraction at compression time stores exact entities (domains, counts, ports, versions, IPs, CVEs, tool names, etc.) alongside the latent blob. At reconstruction, the decoded narrative is augmented with the preserved entity payload. This raises fact recovery from 14% to 100% on OOV tests. The entity extractor is the primary tuning knob across leaf-level pipelines — same model, different patterns per domain.
+- **Isolation architecture** — retrieved candidates are reconstructed independently (per-session), then ranked and selected. Blending multiple retrieved sessions into a single reconstruction destroys fact specificity (25% fact recovery vs 84% isolated). This is a validated cross-leaf architectural finding.
+
 ## What This Architecture Does NOT Include (Yet)
 
 - **Memory consolidation** — merging old memories, summarizing, forgetting
@@ -261,6 +266,6 @@ Deprecated nodes are archived, not deleted. Their benchmark results remain in th
 - **Cross-domain retrieval** — finding memories by content similarity across domains
 - **Online learning** — updating node weights at runtime with new data
 - **Memory importance scoring** — deciding what to keep and what to discard
-- **Copy/pointer mechanisms** — exact entity preservation for rare identifiers
+- **Learned copy/pointer mechanisms** — the entity side-channel is a pragmatic solution; a learned mechanism that preserves rare identifiers within the decoder itself remains an open goal
 
-These are all potential future extensions. The current NDN is: route → compress → store → retrieve → reconstruct → fuse. Nothing more.
+These are all potential future extensions. The current NDN is: route → extract entities → compress → store → retrieve → isolate → reconstruct → rank → fuse.

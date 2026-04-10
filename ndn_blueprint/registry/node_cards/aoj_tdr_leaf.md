@@ -10,8 +10,9 @@
 | **Leaf** | `Technical Disclosure Reports` |
 | **Regime** | `S32` |
 | **Checkpoint** | `aoj_s32_v2` |
-| **Version** | `v1 (first validated leaf)` |
-| **Status** | `champion` |
+| **Version** | `v1` |
+| **Maturity** | `Flagship Leaf` |
+| **Status** | `champion (frozen)` |
 | **Date validated** | `2026-04-10` |
 | **Validation hardware** | `1x A100 80GB (Verda)` |
 
@@ -128,14 +129,14 @@ This is data-level ambiguity, not a system failure. The system cannot distinguis
 1. **Near-identical titles defeat the heuristic ranker** — 63% hit rate on the ambiguous bucket vs 100% on all others
 2. **Regex entity extraction is brittle** — hardcoded patterns, no semantic understanding of entity importance
 3. **Entity payload is uncompressed text** — dilutes the compression advantage (still 89–105x overall)
-4. **Single-corpus validation** — tested on HackerOne reports only, no cross-corpus transfer evidence yet
+4. **Entity extractor coverage varies by corpus** — fact recovery correlates with regex pattern coverage (96.7% on CVE/GHSA text, 73.8% on messy PDF-extracted APT reports)
 5. **AOJ v2 training data overlaps with A/B test data** — 5% real journal mix was from the same targets used in early A/B tests (not from HackerOne)
 
 ## Comparison: Why Not Just Use Markdown?
 
 | Approach | Context size (100 reports) | Fact recovery | Practical |
 |---|---|---|---|
-| Full markdown paste | 1,150,297 tokens | ~90% | **Impossible** — exceeds all context windows |
+| Full markdown paste | 1,150,297 tokens | ~100% | **Impossible** — exceeds all context windows |
 | Naive RAG (chunk retrieval) | ~5,000–20,000 tokens | Varies | Loses report structure, cross-chunk coherence |
 | **NDN TDR pipeline** | **~11,000 tokens** | **~94%** | **Yes** — fits in any modern context window |
 
@@ -155,6 +156,21 @@ The entire point of this leaf is that markdown *cannot* work at scale. At 100+ r
 
 ## Status
 
-**VALIDATED — FIRST LEAF NODE IN NDN TREE**
+**FLAGSHIP LEAF — FIRST IN NDN TREE**
 
 This is the first node that has been validated end-to-end: from ingestion through compression, storage, retrieval, isolated reconstruction, ranking, and output — on a public corpus, with held-out confirmation, at a scale where raw markdown is impossible.
+
+### Multi-Corpus Transfer (Phase 19b)
+
+The frozen TDR pipeline was applied unchanged to 4 additional corpora:
+
+| Corpus | Queries | Hits | Hit Rate | Fact Recovery | Compression |
+|---|---|---|---|---|---|
+| HackerOne (primary) | 40 | 36 | 90% | 94% | 89–105x |
+| CIRCL/vulnerability | 20 | 19 | 95% | 96.7% | 69x |
+| GitHub Advisory 2023 | 20 | 20 | 100% | 96.7% | 75x |
+| APT campaign reports | 20 | 19 | 95% | 73.8% | 90x |
+| Structured threat intel | 20 | 20 | 100% | 87.0% | 84x |
+| **Total** | **120** | **114** | **95%** | **~87%** | **69–105x** |
+
+Zero code changes between corpora. All 6 misses share the same root cause: ambiguous or garbage titles. The architecture transfers; the entity extractor coverage is the variable.

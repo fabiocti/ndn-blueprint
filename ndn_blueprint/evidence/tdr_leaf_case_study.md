@@ -1,4 +1,4 @@
-# Case Study: How the First Validated Leaf Emerged
+# Case Study: How the First Flagship Leaf Emerged
 
 **OSA → AOJ → Technical Disclosure Reports (TDR)**
 
@@ -111,7 +111,7 @@ The system had been extracting titles from the first line of the report body —
 
 ## Why Hybrid Packets Mattered
 
-The CNDX encoder-decoder compresses text into latent vectors. It captures narrative structure — phase progression, tool usage patterns, operational flow — but hallucninates specific entities. "subfinder found 555 hosts" becomes "nmap found 312 targets."
+The CNDX encoder-decoder compresses text into latent vectors. It captures narrative structure — phase progression, tool usage patterns, operational flow — but hallucinates specific entities. "subfinder found 555 hosts" becomes "nmap found 312 targets."
 
 The entity side-channel stores exact entities (domains, counts, ports, versions, IPs, HTTP statuses, CVEs) as regex-extracted JSON alongside the latent blob. At reconstruction time, the decoded text provides the narrative; the entity payload provides the truth.
 
@@ -182,7 +182,7 @@ The difference is 56 percentage points. Isolation is not an optimization — it 
 NDN
 └── OSA (Operational State Artifacts)
     └── AOJ (Agent Operational Journals)
-        └── 🟢 TDR (Technical Disclosure Reports) ← FIRST VALIDATED LEAF
+        └── 🟢 TDR (Technical Disclosure Reports) ← FLAGSHIP LEAF
 ```
 
 Next candidate siblings under AOJ:
