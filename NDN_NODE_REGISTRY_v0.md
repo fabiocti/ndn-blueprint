@@ -222,10 +222,56 @@ v3 changes: token-ID entity weighting (122 tokens, 3.0x), digit_weight=5.0, OOV 
 Entity weight mechanism failed in v2 (regex found 0 sub-word entity tokens). v3 used correct token-ID-based approach (122 tokens matched, 3.0x weight) + stronger digit weight (5.0x), but **regressed on real A/B** from 73% to 66%. Internal metrics improved (lower val_loss, earlier exact match, higher shuffled_gap), but real-world fact recovery went down. This rules out loss-level engineering as the path forward.
 
 ### What's Next
-The entity preservation problem likely requires **architectural intervention**: copy/pointer mechanisms, entity-aware attention, or retrieval-augmented approaches. Loss weighting has been tried and disproven.
+The entity preservation problem was addressed by the **hybrid packet format** (entity side-channel): regex-extracted entities stored alongside latent blobs, appended on reconstruction. This Tier 1 intervention raised fact recovery from 14% to 100% on controlled test without retraining.
 
 ### Status
-**v2 LOCKED as best — v3 failed (regression) — loss weighting ruled out — architectural changes needed**
+**v2 LOCKED as best — v3 failed (regression) — entity side-channel proven — first leaf validated (TDR)**
+
+---
+
+## Node 3b-i: OSA / AOJ / Technical Disclosure Reports (TDR) — FIRST VALIDATED LEAF
+
+**Short ID**: TDR
+**Canonical name**: OSA / AOJ / Technical Disclosure Reports
+**Parent**: AOJ (aoj_s32_v2)
+**Compression checkpoint**: `aoj_s32_v2` (same as parent — compression node shared, pipeline differs)
+**Date validated**: 2026-04-10
+
+### Purpose
+Full end-to-end pipeline for storing, retrieving, and reconstructing facts from an accumulated archive of 100+ technical disclosure reports (vulnerability write-ups, security advisories, bug bounty reports). This is the "search your past findings" memory — not a single session, but a growing archive that must be searched selectively at scale where raw markdown is impossible.
+
+### What Makes TDR Distinct from AOJ
+
+AOJ proves the compression node works on individual sessions. TDR proves the full retrieval-reconstruction pipeline works at scale. The key differences:
+
+1. **Retrieval is the bottleneck** — at 100+ reports / 1.15M tokens, you must find the right report
+2. **Isolation is mandatory** — blending entities from multiple reports destroys specificity (21% → 77% when isolated)
+3. **Metadata quality matters more than ranking intelligence** — title injection outperformed a 3B LLM reranker
+4. **Hybrid packets are required** — latent-only reconstruction hallucinates entities; the entity side-channel preserves exact facts
+
+### Champion Pipeline
+```
+query → FTS5 top-k → isolate each → reconstruct independently → heuristic rank → select best → output
+```
+
+### Benchmark Results (40-query combined: dev + held-out)
+
+| Bucket | Queries | Hits | Hit Rate |
+|---|---|---|---|
+| A-technical | 8 | 8/8 | 100% |
+| B-domain/ver | 8 | 8/8 | 100% |
+| C-CVE/vuln | 8 | 7/8 | 88% |
+| D-ambiguous | 8 | 5/8 | 63% |
+| E-sparse/NL | 8 | 8/8 | 100% |
+| **Total** | **40** | **36/40** | **90%** |
+
+Avg fact recovery: **~94%** | Compression: **89–105x** | On correct session: **100% (30/30)**
+
+### Failure Mode
+Near-identical titles only. All 4 misses across 40 queries are caused by reports with the same or near-identical titles. Every query with a unique title succeeds.
+
+### Status
+**VALIDATED — FIRST LEAF NODE IN NDN TREE**
 
 ---
 
@@ -254,5 +300,9 @@ The entity preservation problem likely requires **architectural intervention**: 
 | HPRT (reg_s32) | 32 | 4x | 0.000 | 2.35 | OVERRIDE 70%, FACT1 45% |
 | CONV (conv_s64_v2) | 64 | 2x | 1.821 | 13.30 | LongMemEval 94.9% F1 ret |
 | AOJ (aoj_s32_v2) | 32 | 4x | 0.002 | 4.31 | Real A/B 73% fact recovery |
+| **AOJ/TDR** | 32 | **89–105x** | — | — | **40-query: 90% hit, 94% facts (first validated leaf)** |
+| **AOJ/WS** | 32 | **182x** | — | — | **20-query: 70% hit, 64% facts (baseline leaf)** |
 
 Total params (7 nodes): ~490M. Active at any time: 1-2 nodes (~70-140M).
+
+Note: AOJ/TDR and AOJ/WS use the same compression model (aoj_s32_v2). The high compression ratios are at the pipeline level (retrieval + isolation), not the model level. WS uses an extended entity extractor with 8 additional patterns for operational state (paths, UUIDs, API keys, status keywords, percentages, KV pairs, SSH keys, checkpoints).

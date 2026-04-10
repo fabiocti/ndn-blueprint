@@ -205,6 +205,74 @@ The taxonomy is a living structure. New domains and subdomains are added when ev
 
 ---
 
+## Validated Leaves (under AOJ)
+
+### OSA / AOJ / Technical Disclosure Reports (TDR) — VALIDATED FLAGSHIP
+
+**Why it exists**: AOJ handles single-session compression, but agent memory often requires retrieval across 100+ accumulated reports. TDR provides the full pipeline: store, retrieve, isolate, reconstruct, rank, select.
+
+**Corpus**: Vulnerability disclosure reports (HackerOne, CIRCL, GitHub Advisory, APT campaigns, threat intelligence). Validated across 5 distinct corpora, 500+ reports, 1.15M+ tokens.
+
+**Champion pipeline**: Title-aware FTS5 retrieval → per-session isolated reconstruction → heuristic scoring (FTS5 rank + entity overlap + title term overlap). Hybrid packets: latent narrative scaffold + exact entity payload.
+
+**Results**: Dev: 18/20 (90%), 93% facts, 89x compression. Held-out: 18/20 (90%), 94% facts, 105x compression. Combined: 36/40 (90%). Multi-corpus transfer: 114/120 (95%) across 5 corpora with zero code changes.
+
+**Failure mode**: Near-identical titles (lexically overlapping report titles pick the same wrong session). Only failure mode across all 40 queries.
+
+---
+
+### OSA / AOJ / Workflow State (WS) — BASELINE
+
+**Why it exists**: Operational memory for infrastructure state — what machine is active, where credentials are, what expired, what the current blocker is. Motivated by live agent memory failures (Cursor/Opus losing operational continuity across sessions).
+
+**Corpus**: 49 sessions of auto-generated daemon logs, recon journals, and infrastructure state from OpenClaw deployment. 430K tokens.
+
+**Results**: All scoring variants converge to 14/20 (70%) hits, ~64% fact recovery, 182x compression. Ceiling confirmed structural across 3 independent scoring approaches.
+
+**Failure modes**: Session imbalance (39 daemon chunks flood FTS5), sibling-session overlap (two infra sessions both contain credentials), fact-level temporal reasoning (need "latest value" within a session, not just session-level recency).
+
+**Specialist engine needed**: Temporal override logic, session-count balancing, source-aware retrieval. Not yet built.
+
+---
+
+### OSA / AOJ / Recon Workflow Journals (RWJ) — APPROACHING BASELINE LEAF
+
+**Why it exists**: Campaign narrative memory — what did we attack, what did we find, what pivot did we make, what was the progression. Distinct from WS (infrastructure state) and TDR (disclosure reports). Identified when 257 pentesting operational files were initially misclassified as WS but corpus profiling revealed 247/257 are campaign narrative.
+
+**Corpus**: 257 real human-authored pentesting files (952K tokens): 125 submissions, 71 recon files, 27 operation journals, 17 operational docs. Multi-document-per-target structure (e.g., T-Mobile has journal + recon + submissions).
+
+**Champion pipeline**: Shared AOJ pipeline + embedding-based doc-type classifier (`all-MiniLM-L6-v2` sentence embeddings + prototype matching for journal/recon/submission) + expanded entity extractor (11 RWJ-specific categories: dollar amounts, comma numbers, K/M suffixes, CWEs, CVEs, GHSAs, MITRE T-numbers, env vars, hex hashes, 60+ tool names, bounty count nouns, code identifiers, shell commands).
+
+**Results progression**:
+- v1 borrowed pipeline: 14/20 (70%), same ceiling as WS
+- v2 keyword classifier: Dev 20/20, Held-out 13/20, Combined 33/40 (82%) — overfit
+- v3 embedding classifier: Dev 19/20, Held-out 16/20, Combined 35/40 (88%) — less overfit
+- v3 + entity expansion: **84% facts, 50x compression, -16pp oracle gap, 100% retrieval (40/40)**
+- Dev/held-out consistency: 84% vs 83% facts — not overfitting
+
+**Failure modes**: E-temporal bucket (~67% vs 100% oracle) — temporal facts embedded in narrative progression need more than entity extraction. Doc-type classification semantic edge cases (queries about findings-in-journals mapped to submission/recon prototypes).
+
+**Path to 🌿 Baseline Leaf**: Pipeline freeze, E-temporal improvement, formal baseline declaration.
+
+---
+
+## Cross-Leaf Architectural Findings
+
+| Property | TDR | WS | RWJ |
+|----------|-----|-----|-----|
+| **Corpus type** | Disclosure reports | Infra state / daemon logs | Campaign journals / recon / submissions |
+| **Entity vocabulary** | CVEs, domains, host counts, ports | Paths, UUIDs, API keys, status keywords | Dollars, counts, tools, security IDs, code identifiers |
+| **Retrieval ceiling (borrowed pipeline)** | 90% | 70% | 70% |
+| **Best result (specialist)** | 90% (validated, flagship) | 70% (no specialist yet) | 84% facts, 50x compression (entity expansion) |
+| **Fact recovery** | 93–94% | 64% | 84% (was 59% before entity expansion) |
+| **Oracle gap** | +2pp | N/A | -16pp (was -41pp) |
+| **Primary failure mode** | Near-identical titles | Session imbalance + temporal reasoning | E-temporal + doc-type semantic edges |
+| **Specialist lever** | Title-aware metadata | Temporal override (not yet built) | Embedding classifier + entity extractor |
+
+The 14/20 (70%) ceiling appears on both WS and RWJ when using the shared pipeline. This is a validated cross-leaf architectural property: heuristic-only ranking on multi-document-per-target data hits a natural boundary. Breaking past it requires leaf-specific logic — different logic for each leaf. Entity extractor expansion is a repeatable intervention: WS gained +31pp, RWJ gained +25pp. The entity layer is NDN's primary tuning knob.
+
+---
+
 ## Domains Under Consideration (Not Yet Validated)
 
 The following are plausible future domains that have not been empirically tested:

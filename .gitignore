@@ -64,6 +64,30 @@ timer.ps1
 ab_diagnostic.py
 diag_*.py
 
+# === Benchmark / experiment scripts ===
+scale_test_*.py
+ws_benchmark*.py
+ws_diag.py
+ws_schema_check.py
+ws_v3_*.py
+rwj_v*_benchmark.py
+rwj_v*_heldout.py
+rwj_v*_vs_markdown.py
+transfer_test.py
+transfer_blitz.py
+collect_pentest_corpus.py
+dump_titles.py
+measure_compression.py
+measure_real_compression.py
+github_md_downloader.py
+
+# === Downloaded data / corpus / backups ===
+github_md_corpus/
+server_backup/
+server_backup_final/
+*.json
+!ndn_blueprint/**/*.json
+
 # === Private integration code (not ready for public) ===
 openclaw_memory/
 
