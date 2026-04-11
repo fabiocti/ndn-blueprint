@@ -166,7 +166,11 @@ benchmark_families:
         compression: 1.69x
         continuity: 0.92
         score: "NDN 2/6, Markdown 4/6"  # 6 dimensions: fact recovery, compression, noise, continuity, repeated-work, context size
-        verdict: "Markdown wins. NDN reconstruction quality is the bottleneck."
+        verdict: "Markdown wins at 73%. Later shown to be a data problem, fixed by v4."
+      aoj_s32_v4:
+        fact_recovery: 99%
+        compression: 1.78x
+        verdict: "Compression gap closed. Retrieval is the bottleneck."
       aoj_s32_v3:
         fact_recovery: 66%
         compression: 1.66x

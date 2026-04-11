@@ -14,11 +14,12 @@ An AI agent needs an orchestrator (the LLM that reads context, decides actions, 
 
 ## NDN is not guaranteed to beat markdown on every memory task
 
-As of April 2026, raw markdown still wins the most demanding real-world A/B test:
+As of April 2026, AOJ v4 has closed the raw fact recovery gap:
 - Markdown: 100% fact recovery
-- NDN (best checkpoint): 73% fact recovery (with data leakage caveat — see evidence docs), 1.69x compression
+- NDN (AOJ v4): 99% fact recovery, 1.78x compression (FROZEN champion)
+- NDN (AOJ v2, superseded): 73% fact recovery (with data leakage caveat — see evidence docs), 1.69x compression
 
-NDN offers compression and noise reduction. Markdown offers perfect fidelity. For tasks where every fact matters and context window is not a constraint, markdown is currently superior. Claiming otherwise would be false.
+Raw reconstruction quality is now competitive. The remaining gap is retrieval: selecting the right compressed packets for a given query. For tasks where retrieval relevance is critical and context window is not a constraint, markdown may still be preferable until retrieval quality improves.
 
 ## NDN is not permission to invent arbitrary taxonomy branches
 
@@ -35,6 +36,7 @@ The project has a documented case where internal metrics improved while real-wor
 
 - AOJ v3 internal: lower val_loss, earlier exact match, higher shuffled_gap than v2
 - AOJ v3 real A/B: 66% fact recovery (down from v2's 73%, with data leakage caveat — see evidence docs)
+- AOJ v4: 99% fact recovery, 1.78x compression (FROZEN) — metric–reality alignment restored
 
 Training metrics are necessary for monitoring convergence. They are not sufficient for claiming practical value. When they conflict with real-world A/B results, the A/B results take precedence for practical claims.
 
@@ -52,4 +54,4 @@ Vector retrieval (embed → store → search by similarity → return chunks) an
 
 ## NDN is not "solved"
 
-The project has validated the core mechanism, tested it across multiple domains, produced a public benchmark result, and demonstrated real-world integration. But the primary open problem — rare entity preservation — is not solved. The routing layer is basic. The fusion layer is simple concatenation. There is no production deployment. Significant work remains before NDN can be claimed as a mature technology.
+The project has validated the core mechanism, tested it across multiple domains, produced a public benchmark result, and demonstrated real-world integration. Rare entity preservation — formerly the primary open problem — is largely addressed by AOJ v4 (99% fact recovery). The primary remaining bottleneck is retrieval quality. The routing layer is basic. The fusion layer is simple concatenation. There is no production deployment. Significant work remains before NDN can be claimed as a mature technology.

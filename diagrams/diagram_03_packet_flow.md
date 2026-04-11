@@ -73,7 +73,7 @@ A packet is born in one domain node and can only be decoded by that same node. T
   - compression: 4.0x  # latent ratio (128 tokens → 32 latents); end-to-end varies by domain (e.g., AOJ v2: 1.69x)
   - quality_est: 0.85
   - chunk_index: 1 of 3
-  - checkpoint: "aoj_s32_v2"
+  - checkpoint: "aoj_s32_v4"
 
 ### Stage 6: Storage
 - Box: "Packet Store"

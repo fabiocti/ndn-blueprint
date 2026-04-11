@@ -239,7 +239,7 @@ A subdomain is justified when:
 3. Training a dedicated node on the target text type measurably improves results
 4. The improvement is reproducible and survives held-out evaluation
 
-Example: OSA-S32 (trained on timestamped key-value traces) recovered only 14% of facts from markdown-formatted agent journals. Dedicated AOJ-S32 training recovered 54% (v1) and 73% (v2) (test data was in training corpus). The failure was domain-prior mismatch, not architecture limitation.
+Example: OSA-S32 (trained on timestamped key-value traces) recovered only 14% of facts from markdown-formatted agent journals. Dedicated AOJ-S32 training recovered 54% (v1), 73% (v2), and 99% (v4, 1.78x compression, FROZEN) (test data was in training corpus — data-leakage caveat applies). The failure was domain-prior mismatch, not architecture limitation. v4 closes the raw compression gap; the remaining bottleneck is retrieval, not compression.
 
 ### When a Node Should Be Deprecated
 

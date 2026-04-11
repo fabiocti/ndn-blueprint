@@ -190,7 +190,7 @@ The taxonomy is a living structure. New domains and subdomains are added when ev
 
 **Best known regime**: S32 (4x compression)
 
-**Current status**: Validated. AOJ v2 is the current champion checkpoint (73% fact recovery on real OpenClaw A/B (test data was in training corpus), 1.69x compression). AOJ v3 attempted stronger loss weighting but regressed to 66%. The remaining gap to markdown (27pp) is characterized as exact numeric counts (58%), OOV domain names (25%), and error/status strings (17%).
+**Current status**: Validated. AOJ v4 is the current champion checkpoint (99% fact recovery on real OpenClaw A/B, 1.78x compression, FROZEN). Test data was in the training corpus — data-leakage caveat applies. v2 (73%) is superseded; v3 attempted stronger loss weighting but regressed to 66%. The raw compression gap to markdown is effectively closed by v4; the remaining bottleneck is retrieval, not compression. Downstream evaluation: TDR = 90% (hits flagship quality bar), RWJ = 95% dev facts with v4, WS = PARKED 14/20.
 
 **Progression**:
 
@@ -199,9 +199,10 @@ The taxonomy is a living structure. New domains and subdomains are added when ev
 | OSA-S32 proxy | 14% | 2.00x | Failed — domain-prior mismatch |
 | HWM-S64 proxy | 24% | 1.26x | Failed — wrong domain entirely |
 | AOJ v1 | 54% | 1.56x | Superseded |
-| **AOJ v2** | **73%** | **1.69x** | **Current champion** |
+| AOJ v2 | 73% | 1.69x | Superseded |
 | AOJ v3 | 66% | 1.66x | Failed — over-corrected loss weighting |
-| Markdown baseline | 100% | 1.00x | Still wins overall |
+| **AOJ v4** | **99%** | **1.78x** | **Current champion (FROZEN)** |
+| Markdown baseline | 100% | 1.00x | Near-parity reached by v4 |
 
 ---
 

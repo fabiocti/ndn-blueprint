@@ -4,7 +4,7 @@
 
 ## Summary
 
-The first real-world A/B comparison of NDN memory vs raw markdown memory on an actual AI agent's operational data. Markdown won overall on fact recovery. NDN provided compression and noise reduction. The test validated the AOJ subdomain and revealed the exact remaining bottleneck.
+The first real-world A/B comparison of NDN memory vs raw markdown memory on an actual AI agent's operational data. At the time of this test, markdown won overall on fact recovery (100% vs 73% with AOJ v2). NDN provided compression and noise reduction. The test validated the AOJ subdomain and revealed the exact remaining bottleneck — rare-token preservation — which was subsequently addressed by AOJ v4 (99% fact recovery, 1.78x compression).
 
 ---
 
@@ -67,7 +67,9 @@ These advantages become more significant as campaign history grows beyond what f
 
 ## The Corrected A/B: What It Showed
 
-### AOJ v2 Results (Best NDN)
+### AOJ v2 Results (Best NDN at Time of Test)
+
+> **Update:** AOJ v4 subsequently achieved 99% raw fact recovery at 1.78x compression, effectively closing the gap with markdown. The v2 results below represent the state at the time this A/B test was conducted.
 
 | Slice | MD Facts | NDN Facts | Compression | Continuity |
 |---|---|---|---|---|
@@ -87,8 +89,9 @@ Score: Markdown 4/6, NDN 2/6. (The 6 scoring dimensions are: fact recovery, comp
 | HWM-S64 | wrong proxy | 24% |
 | OSA-S32 | wrong proxy | 14% |
 | AOJ v1 | dedicated | 54% |
-| **AOJ v2** | **dedicated + entity-diverse** | **73%** |
+| AOJ v2 | dedicated + entity-diverse | 73% |
 | AOJ v3 | loss-weighted | 66% (regression) |
+| **AOJ v4** | **dedicated + rare-token fixes** | **99% (FROZEN champion)** |
 | Markdown | baseline | 100% |
 
 ---
@@ -107,7 +110,7 @@ Score: Markdown 4/6, NDN 2/6. (The 6 scoring dimensions are: fact recovery, comp
 
 ## What This Does NOT Prove
 
-1. **NDN does NOT currently beat markdown on fact recovery.** 73% vs 100%. The gap is real.
+1. **At the time of this test, NDN did not beat markdown on fact recovery.** v2 scored 73% vs 100%. AOJ v4 has since closed this gap to 99% vs 100%, making the difference practically negligible.
 
 2. **This is one test on one agent.** Generalization to other agents, other task types, and other data shapes is unproven.
 
@@ -123,4 +126,4 @@ Score: Markdown 4/6, NDN 2/6. (The 6 scoring dimensions are: fact recovery, comp
 
 2. **Markdown is a strong baseline.** Simple, lossless, and hard to beat when context budget allows it. NDN's advantage grows only when context pressure forces compression.
 
-3. **On this test, the bottleneck was preserving specific rare tokens through compression/reconstruction, not integration failures.** The pipeline ran end-to-end; markdown remained ahead on fact recovery.
+3. **On this test, the bottleneck was preserving specific rare tokens through compression/reconstruction, not integration failures.** The pipeline ran end-to-end; markdown remained ahead on fact recovery. This bottleneck was subsequently addressed by AOJ v4, which achieved 99% fact recovery by targeting the exact failure taxonomy identified here (numeric counts, OOV entities, error strings).

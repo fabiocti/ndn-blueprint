@@ -6,7 +6,7 @@
 |---|---|
 | **Test name** | `[e.g., OpenClaw Real A/B v3]` |
 | **Side A** | `[e.g., Raw markdown memory]` |
-| **Side B** | `[e.g., NDN-compressed memory (AOJ v2)]` |
+| **Side B** | `[e.g., NDN-compressed memory (AOJ v4)]` |
 | **Data source** | `[e.g., OpenClaw bug-bounty agent sessions]` |
 | **Date** | `[YYYY-MM-DD]` |
 | **Evaluator** | `[name / handle]` |

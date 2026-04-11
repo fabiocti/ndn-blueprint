@@ -29,9 +29,9 @@ There are 7 champion nodes across 6 domains and 1 subdomain. "Champion" means it
 
 | Status | Description |
 |---|---|
-| Validated | Domain-specific training beats cross-domain use across all tested domains. AOJ subdomain justified by proxy failure evidence. |
-| Promising | CONV achieves 94.9% F1 retention on LongMemEval at 2x compression. |
-| Honest | On full real-world A/B testing, raw markdown still achieves higher fact recovery than NDN on real agent sessions. |
+| Validated | Domain-specific training beats cross-domain use across all tested domains. AOJ subdomain justified by proxy failure evidence. AOJ v4 is the FROZEN champion (99% fact recovery, 1.78x compression). TDR achieves 90% on flagship eval. RWJ achieves 95% on dev facts. |
+| Promising | CONV achieves 94.9% F1 retention on LongMemEval at 2x compression. WS is PARKED at 14/20 pending further work. |
+| Honest | AOJ v4 has effectively closed the fact-recovery gap with markdown (99% vs 100%). The remaining bottleneck is retrieval, not compression. |
 | Failed | AOJ v3 (stronger entity weighting) regressed on real A/B despite better internal metrics. Documented as a negative result. |
 
 ## Allowed claims
@@ -39,6 +39,9 @@ There are 7 champion nodes across 6 domains and 1 subdomain. "Champion" means it
 - NDN is a modular, domain-native memory architecture
 - Domain-specific compression outperforms cross-domain compression on internal benchmarks
 - AOJ is a validated subdomain with measurable real-world improvement over proxy nodes
+- AOJ v4 achieves 99% raw fact recovery at 1.78x compression, effectively matching markdown
+- TDR hits 90% on flagship evaluation; RWJ achieves 95% on dev facts
+- The current bottleneck is retrieval, not compression quality
 - Benchmark discipline is a core design principle
 - Wrong-node failures are informative and diagnostic
 

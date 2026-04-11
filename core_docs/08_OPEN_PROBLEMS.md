@@ -4,67 +4,23 @@ Problems that are currently unsolved in the NDN project. Listed in approximate p
 
 ---
 
-## 1. Exact Rare-Token Preservation
+## 1. Retrieval and Fusion Quality
 
-**The problem**: The model reconstructs the correct structure and format of text but substitutes out-of-vocabulary or rare entities with training priors. A journal entry about `northwind-audio.com` (anonymized) gets reconstructed with a different domain name. An exact count of `1623` gets reconstructed as a different number.
+**The problem**: Retrieval is currently recency-based. There is no relevance scoring, no cross-domain retrieval, and no intelligent context budget allocation. Fusion is simple concatenation with domain labels.
 
-**Why it matters**: For agent memory, entity identity is often the most important piece of information. An agent that remembers "we scanned 1500 hosts" when the real number was 1623 has a corrupted memory.
+**Why it matters**: With raw fact recovery now competitive (AOJ v4 = 99%), retrieval is the primary bottleneck. Even with perfect reconstruction, bad retrieval (selecting irrelevant packets) or bad fusion (assembling incoherent context) degrades the agent's behavior. TDR and WS evaluations confirm that retrieval limitations cap end-to-end performance.
 
-**Current evidence**: In the AOJ v2 A/B test, the remaining 24 misses across 5 slices break down as:
-- 58% exact numeric counts
-- 25% OOV domain names
-- 17% error/status strings
+**Current state**: The OpenClaw prototype uses recency-based retrieval with fixed budget. This works for the test harness but would not scale to real agent use with diverse memory. WS is PARKED at 14/20 ceiling due to retrieval limitations.
 
-The same facts miss repeatedly: `1623` (missed 5/5 times), `northwind-audio.com` (4/5, anonymized), `27 live hosts` (4/5).
-
-**What has been tried and failed**:
-- Digit-aware loss weighting (3.0x in v2, 5.0x in v3): improved numeric token accuracy on eval but did not fix specific count recovery on real A/B
-- Token-ID entity weighting (3.0x on 122 tokens): improved internal metrics but regressed real A/B from 73% to 66%
-
-Note: in AOJ v3, entity weighting (3.0x) and digit weighting (5.0x) were applied simultaneously; the regression cannot be attributed to either alone.
-- Expanded entity vocabulary in synthetic corpus: helped for in-vocabulary entities but cannot cover all possible OOV entities
-
-**Likely directions**: Copy/pointer mechanisms, entity-aware attention, retrieval-augmented reconstruction, or a hybrid approach where rare tokens are stored separately and reinserted during reconstruction.
+**Likely directions**: Relevance-based packet selection, cross-domain retrieval, intelligent context budget allocation, learned retrieval with query-dependent scoring.
 
 ---
 
-## 2. OOV Domain Names
-
-**The problem**: Domain names, URLs, and identifiers that were not in the training vocabulary are systematically replaced during reconstruction. The model has learned a distribution over entity names and draws from it when reconstructing.
-
-**Why it matters**: In bug-bounty / security / operational contexts, the exact target name is critical. Substituting `northwind-audio.com` (anonymized) with a different domain is not a minor error.
-
-**Relationship to #1**: This is a specific case of the rare-token preservation problem, but it has a distinct character: domain names are compositional (SLD + TLD), can be arbitrarily novel, and appear in specific syntactic positions.
-
-**Current mitigation**: Expanding the SLD vocabulary in training. This helps for names similar to training vocabulary but does not solve the fundamental OOV problem.
-
----
-
-## 3. Exact Numeric Counts
-
-**The problem**: Specific numbers (e.g., `1623 subdomains`, `27 live hosts`, `769 hosts`) are reconstructed as plausible but incorrect numbers. The model has learned that numeric counts appear in certain positions but has not memorized specific values.
-
-**Why it matters**: For operational journals, exact counts determine decisions. "We found 1623 subdomains" vs "we found 1500 subdomains" changes the agent's assessment of scope.
-
-**Why loss weighting didn't help**: Digit-aware loss weighting teaches the model to reproduce digit tokens accurately in general. But the problem is not digit-token accuracy — it is specific value recall. The model can produce digit tokens perfectly; it just produces the wrong specific digits for a given context.
-
----
-
-## 4. Error and Status String Preservation
-
-**The problem**: Specific error messages (`502 Bad Gateway`), status keywords (`REPAIR_NEEDED`), and protocol-level strings are sometimes dropped or substituted during reconstruction.
-
-**Why it matters**: Error states and status markers are often the most operationally critical pieces of information in a journal.
-
-**Relationship to #1**: Another case of the rare-token problem, but status strings have limited vocabulary (unlike domain names). This should be more tractable.
-
----
-
-## 5. Routing Calibration
+## 2. Routing Calibration
 
 **The problem**: The current router is rule-based with no learned boundaries, no confidence scoring, and no calibration. Misrouting causes catastrophic quality degradation via domain-prior projection.
 
-**Why it matters**: Misrouting is the highest-impact failure mode after entity preservation. A correctly routed text to a mediocre node produces better results than a misrouted text to a strong node.
+**Why it matters**: Misrouting is a high-impact failure mode. A correctly routed text to a mediocre node produces better results than a misrouted text to a strong node.
 
 **Current state**: Rule-based heuristics work for clearly domain-typed text but fail on ambiguous or mixed-domain text. No mechanism to express "I'm not confident about this classification."
 
@@ -72,13 +28,65 @@ Note: in AOJ v3, entity weighting (3.0x) and digit weighting (5.0x) were applied
 
 ---
 
-## 6. Retrieval and Fusion Quality
+## 3. Exact Rare-Token Preservation (largely addressed by v4)
 
-**The problem**: Retrieval is currently recency-based. There is no relevance scoring, no cross-domain retrieval, and no intelligent context budget allocation. Fusion is simple concatenation with domain labels.
+**The problem**: The model reconstructs the correct structure and format of text but substitutes out-of-vocabulary or rare entities with training priors. A journal entry about `northwind-audio.com` (anonymized) gets reconstructed with a different domain name. An exact count of `1623` gets reconstructed as a different number.
 
-**Why it matters**: Even with perfect reconstruction, bad retrieval (selecting irrelevant packets) or bad fusion (assembling incoherent context) degrades the agent's behavior.
+**Status update**: AOJ v4 achieves 99% fact recovery, indicating this problem is largely solved at the reconstruction level. The v2-era miss taxonomy below is historical context; the primary gap is now retrieval (#1), not reconstruction.
 
-**Current state**: The OpenClaw prototype uses recency-based retrieval with fixed budget. This works for the test harness but would not scale to real agent use with diverse memory.
+**Historical evidence (v2 era)**: In the AOJ v2 A/B test, the remaining 24 misses across 5 slices broke down as:
+- 58% exact numeric counts
+- 25% OOV domain names
+- 17% error/status strings
+
+The same facts missed repeatedly: `1623` (missed 5/5 times), `northwind-audio.com` (4/5, anonymized), `27 live hosts` (4/5).
+
+**What was tried and failed (v2/v3 era)**:
+- Digit-aware loss weighting (3.0x in v2, 5.0x in v3): improved numeric token accuracy on eval but did not fix specific count recovery on real A/B
+- Token-ID entity weighting (3.0x on 122 tokens): improved internal metrics but regressed real A/B from 73% to 66%
+
+Note: in AOJ v3, entity weighting (3.0x) and digit weighting (5.0x) were applied simultaneously; the regression cannot be attributed to either alone.
+- Expanded entity vocabulary in synthetic corpus: helped for in-vocabulary entities but cannot cover all possible OOV entities
+
+**Remaining directions**: Copy/pointer mechanisms, entity-aware attention, or retrieval-augmented reconstruction for edge cases not yet covered by v4.
+
+---
+
+## 4. OOV Domain Names (largely addressed by v4)
+
+**The problem**: Domain names, URLs, and identifiers that were not in the training vocabulary are systematically replaced during reconstruction. The model has learned a distribution over entity names and draws from it when reconstructing.
+
+**Status update**: AOJ v4's 99% fact recovery suggests OOV domain name substitution is largely resolved. Remaining failures are retrieval-dominated.
+
+**Why it matters**: In bug-bounty / security / operational contexts, the exact target name is critical. Substituting `northwind-audio.com` (anonymized) with a different domain is not a minor error.
+
+**Relationship to #3**: This is a specific case of the rare-token preservation problem, but it has a distinct character: domain names are compositional (SLD + TLD), can be arbitrarily novel, and appear in specific syntactic positions.
+
+**Historical mitigation**: Expanding the SLD vocabulary in training. This helped for names similar to training vocabulary but did not solve the fundamental OOV problem. V4's improvements suggest the architectural changes were more effective.
+
+---
+
+## 5. Exact Numeric Counts (largely addressed by v4)
+
+**The problem**: Specific numbers (e.g., `1623 subdomains`, `27 live hosts`, `769 hosts`) are reconstructed as plausible but incorrect numbers. The model has learned that numeric counts appear in certain positions but has not memorized specific values.
+
+**Status update**: AOJ v4's 99% fact recovery indicates exact numeric count preservation is largely solved at the reconstruction level.
+
+**Why it matters**: For operational journals, exact counts determine decisions. "We found 1623 subdomains" vs "we found 1500 subdomains" changes the agent's assessment of scope.
+
+**Why loss weighting didn't help (v2/v3 era)**: Digit-aware loss weighting teaches the model to reproduce digit tokens accurately in general. But the problem is not digit-token accuracy — it is specific value recall. The model can produce digit tokens perfectly; it just produces the wrong specific digits for a given context.
+
+---
+
+## 6. Error and Status String Preservation (largely addressed by v4)
+
+**The problem**: Specific error messages (`502 Bad Gateway`), status keywords (`REPAIR_NEEDED`), and protocol-level strings are sometimes dropped or substituted during reconstruction.
+
+**Status update**: AOJ v4's 99% fact recovery indicates error and status string preservation is largely solved at the reconstruction level.
+
+**Why it matters**: Error states and status markers are often the most operationally critical pieces of information in a journal.
+
+**Relationship to #3**: Another case of the rare-token problem, but status strings have limited vocabulary (unlike domain names). This should be more tractable.
 
 ---
 

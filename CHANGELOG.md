@@ -10,6 +10,28 @@ All notable changes to the NDN Blueprint package are documented here.
 - Additional real-world A/B tests for CONV and other domains
 - Router improvement (learned boundaries, confidence scoring)
 - Architectural entity preservation experiments (copy/pointer mechanisms)
+- Retrieval layer improvements (identified as current bottleneck)
+
+---
+
+## [0.2.0] — 2026-04-11
+
+### Promoted
+- AOJ v4 (`aoj_s32_v4`) promoted to FROZEN champion: 99% raw fact recovery, 1.78x compression. Effectively closes the gap with markdown (100%).
+- AOJ v2 (`aoj_s32_v2`) marked as superseded.
+
+### Evaluated
+- **TDR**: 90% hits on flagship evaluation.
+- **RWJ**: 95% dev facts confirmed.
+- **WS**: PARKED at 14/20 — further work deferred.
+
+### Identified
+- **Retrieval is the current bottleneck.** Compression quality (v4 at 99%) is no longer the limiting factor; retrieval-layer improvements are now the priority.
+
+### Updated
+- Evidence files, case studies, and diagrams updated to reflect v4 champion status.
+- Stale "markdown still wins" claims corrected across documentation.
+- Node cards and registry references updated from `aoj_s32_v2` to `aoj_s32_v4`.
 
 ---
 
@@ -33,7 +55,7 @@ All notable changes to the NDN Blueprint package are documented here.
 - Initial blueprint package with full directory structure
 - 11 core documentation files (`00_OVERVIEW.md` through `10_GLOSSARY.md`)
 - 5 registry YAML files (`domains.yaml`, `subdomains.yaml`, `nodes.yaml`, `regimes.yaml`, `benchmark_families.yaml`)
-- 7 champion node cards (`nlk_s32`, `fta_s64`, `osa_s32`, `hwm_s64`, `hprt_s32`, `conv_s64_v2`, `aoj_s32_v2`)
+- 7 champion node cards (`nlk_s32`, `fta_s64`, `osa_s32`, `hwm_s64`, `hprt_s32`, `conv_s64_v2`, `aoj_s32_v4`)
 - 5 evidence/case study files (conversation memory, OpenClaw A/B, AOJ subdomain, proxy failure, training vs real eval)
 - 5 launch preparation files (repo split plan, release order, contributor model, governance, risks)
 - 5 templates (node card, subdomain proposal, benchmark report, failure analysis, A/B test report)

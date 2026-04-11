@@ -10,7 +10,7 @@
 | **Regime** | `S32` |
 | **Checkpoint** | `aoj_s32_v2` |
 | **Version** | `v2` |
-| **Status** | `champion` |
+| **Status** | `superseded` |
 | **Date trained** | `2026-04-09` |
 | **Training hardware** | `1x H100 80GB` |
 
@@ -94,9 +94,9 @@ _No public benchmarks applied._
 
 ## Champion / Proxy Status
 
-- [x] Champion for this subdomain (AOJ under OSA)
+- [ ] Champion for this subdomain (AOJ under OSA)
 - [ ] Proxy tested on other domains
-- [ ] Superseded by newer version
+- [x] Superseded by newer version — aoj_s32_v4 (99% fact recovery, 1.78x compression)
 - [ ] Deprecated
 
 ## Comparison to Prior Versions (if applicable)
@@ -105,8 +105,9 @@ _No public benchmarks applied._
 |---|---|---|---|
 | OSA proxy (baseline) | Fact recovery | 14% | OSA parent node used as proxy — failed on agent journals |
 | AOJ v1 | Fact recovery | 54% | First dedicated AOJ training; 3.9x over OSA proxy |
-| **AOJ v2 (champion)** | Fact recovery | 73% | 1.35x over v1 (73/54), 5.2x over OSA proxy (73/14) |
-| AOJ v3 (attempted) | Fact recovery | 66% | Regressed with stronger loss weighting; v2 remains champion |
+| AOJ v2 (superseded) | Fact recovery | 73% | 1.35x over v1 (73/54), 5.2x over OSA proxy (73/14) |
+| AOJ v3 (attempted) | Fact recovery | 66% | Regressed with stronger loss weighting |
+| **AOJ v4 (champion)** | Fact recovery | 99% | 1.78x compression. Gap closed; retrieval is the bottleneck |
 
 ## Provenance
 

@@ -9,7 +9,7 @@
 **Mitigation**:
 - Lead with limitations in all documentation (`09_WHAT_NDN_IS_NOT.md`)
 - Project status page (`07_PROJECT_STATUS.md`) has explicit "Proven / Promising / Unresolved / Failed" sections
-- Real-world A/B results (markdown still wins) are prominently documented
+- Real-world A/B results are prominently documented (AOJ v4 now achieves 99% vs markdown's 100%; retrieval is the remaining bottleneck)
 - Never use "breakthrough" language in official documentation
 
 ---
@@ -127,12 +127,12 @@
 
 ## 10. Premature Release Damage
 
-**Risk**: Releasing before the project is ready creates a negative first impression that is hard to reverse. Especially if the "markdown still wins" result is the headline.
+**Risk**: Releasing before the project is ready creates a negative first impression that is hard to reverse.
 
-**Likelihood**: Medium. Depends on release timing and framing.
+**Likelihood**: Medium. Depends on release timing and framing. Mitigated by v4's strong results (99% fact recovery effectively closes the markdown gap).
 
 **Mitigation**:
 - Release documentation first (Phase 1-3), code later
 - Frame honestly: "research project with validated results, not finished product"
-- Lead with what works, be upfront about what doesn't
-- Time the code release to coincide with a meaningful result (not necessarily "beats markdown" — a well-documented honest result is compelling)
+- Lead with what works (v4 at 99%, TDR at 90%, RWJ at 95%), be upfront about what doesn't (WS parked at 14/20, retrieval bottleneck)
+- v4 provides a strong headline result alongside honest documentation of remaining gaps

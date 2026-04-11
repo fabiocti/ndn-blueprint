@@ -54,14 +54,14 @@ Proven with empirical evidence:
 
 1. Domain-specific training consistently outperforms cross-domain use (measured by shuffled_gap across all 6 domains)
 2. Six top-level domains trained and evaluated with internal metrics and domain-native benchmarks
-3. One subdomain (AOJ) validated with real-world A/B testing
+3. One subdomain (AOJ) validated with real-world A/B testing — v4 reaches 99% fact recovery (1.78x compression, FROZEN); three downstream evaluation leaves completed (TDR 90%, RWJ 95%, WS PARKED 14/20)
 4. Public benchmark result: 94.9% F1 retention on LongMemEval (500 questions, conversation domain)
 5. 2x–4x compression at the champion node level with substantial information retention (S16 at ~8x exists but is experimental-only)
 6. Wrong-node failures are diagnostic and guide taxonomy refinement
 
 ## What Still Needs Proof
 
-1. NDN has not yet beaten raw markdown on a real-world agent A/B test (best: 73% vs 100% fact recovery) (test data was included in training corpus; see evidence/aoj_subdomain_case.md for caveats)
+1. AOJ v4 reaches 99% raw fact recovery (1.78x compression) on the OpenClaw A/B test, closing the compression gap with markdown — but test data was included in the training corpus (data-leakage caveat; see evidence/aoj_subdomain_case.md). TDR regression testing scores 90%, hitting the flagship quality bar, yet retrieval-level evaluation (RWJ) shows the end-to-end bottleneck has shifted from compression to retrieval
 2. Rare entity preservation remains unsolved at the architecture level
 3. Routing calibration and multi-domain retrieval are basic
 4. No production deployment exists

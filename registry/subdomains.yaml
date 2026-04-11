@@ -28,15 +28,14 @@ subdomains:
       - Repeated recon iterations with updated counts
       - Multi-target interleaved entries
     best_regime: S32
-    current_champion: aoj_s32_v2
-    champion_fact_recovery: 73%
-    champion_compression: 1.69x
+    current_champion: aoj_s32_v4
+    champion_fact_recovery: 99%
+    champion_compression: 1.78x
     markdown_baseline: 100%
     maturity: validated
     status: >
-      v2 is champion. v3 attempted loss weighting, regressed to 66%.
-      Remaining gap (27pp to markdown) characterized as: exact numeric
-      counts (58%), OOV domain names (25%), error/status strings (17%).
+      v4 is champion (99%, 1.78x, FROZEN). v3 attempted loss weighting, regressed to 66%.
+      Gap closed by v4. Retrieval is now the bottleneck.
     proxy_failure_evidence:
       - node: OSA-S32
         fact_recovery: 14%

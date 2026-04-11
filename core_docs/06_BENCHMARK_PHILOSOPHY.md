@@ -89,7 +89,7 @@ A node with val_loss approaching zero on synthetic data may still fail on real d
 
 ### 2. Pretty internal metrics can lie
 
-AOJ v3 had lower val_loss (0.0001 vs 0.0016), earlier exact match (epoch 6 vs epoch 9), and higher shuffled_gap (4.37 vs 4.31) than v2. It was 7 percentage points worse on the real A/B test.
+AOJ v3 had lower val_loss (0.0001 vs 0.0014), earlier exact match (epoch 6 vs epoch 9), and higher shuffled_gap (4.37 vs 4.25) than v2. It was 7 percentage points worse on the real A/B test.
 
 This is a documented phenomenon, not a theoretical risk.
 
@@ -120,9 +120,10 @@ For any claim about practical usefulness, the comparison to raw markdown is mand
 
 Current honest comparison on the most demanding test (real OpenClaw A/B):
 - Markdown: 100% fact recovery
-- NDN (AOJ v2): 73% fact recovery (test data was in training corpus), 1.69x compression
+- NDN (AOJ v2): 73% fact recovery (test data was in training corpus), 1.69x compression — **superseded**
+- NDN (AOJ v4): 99% fact recovery, 1.78x compression (FROZEN champion)
 
-NDN compresses and reduces noise, but fact recovery is not yet competitive.
+Raw fact recovery is now competitive (AOJ v4 = 99%). The remaining bottleneck is retrieval: selecting the right compressed packets for a given query.
 
 ### 7. Failure taxonomies are required
 

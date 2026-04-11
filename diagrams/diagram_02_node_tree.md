@@ -73,8 +73,9 @@ OSA
 ├── OSA core (timestamped key-value traces)
 └── AOJ (Agent Operational Journals) — S32 champion
     ├── v1 (54% fact recovery) — superseded
-    ├── v2 (73% fact recovery) — CHAMPION
-    └── v3 (66% fact recovery) — failed, regression
+    ├── v2 (73% fact recovery) — superseded
+    ├── v3 (66% fact recovery) — failed, regression
+    └── v4 (99% fact recovery, 1.78x) — FROZEN CHAMPION
 ```
 
 ### Annotations per domain

@@ -256,8 +256,8 @@ nodes:
     subdomain: AOJ
     checkpoint_name: aoj_s32_v2
     regime: S32
-    maturity: champion
-    champion_status: true
+    maturity: superseded
+    champion_status: false
     local_path: checkpoints/aoj_s32_v2/
     model_pt: true  # recovered via retrain 9 Apr 2026
     best_for:
@@ -277,9 +277,32 @@ nodes:
       ab_compression: 1.69x
       ab_continuity: 0.92
     notes: >
-      CURRENT BEST AOJ CHECKPOINT. model.pt lost but reproducible from
+      Superseded by aoj_s32_v4. model.pt lost but reproducible from
       train_aoj_s32_v2.sh. Entity-diverse corpus (204 SLDs, 52 TLDs,
       5% real data mix, digit_weight=3.0, entity_weight=2.5 (0 tokens matched — regex bug, effectively disabled)).
+
+  - node_id: aoj_s32_v4
+    domain: OSA
+    subdomain: AOJ
+    checkpoint_name: aoj_s32_v4
+    regime: S32
+    maturity: champion
+    champion_status: true
+    local_path: checkpoints/aoj_s32_v4/
+    model_pt: true
+    best_for:
+      - Agent operational journals
+      - Recon summaries
+      - Tool output + host count preservation
+      - Multi-target interleaved entries
+    benchmark_status:
+      ab_fact_recovery: 99%
+      ab_compression: 1.78x
+    training_data: "50% real GitHub + 45% synthetic + 5% OpenClaw real"
+    data_leakage_caveat: true
+    notes: >
+      FROZEN base candidate. Raw fact recovery near-parity with markdown.
+      Retrieval is now the bottleneck.
 
   - node_id: aoj_s32_v3
     domain: OSA

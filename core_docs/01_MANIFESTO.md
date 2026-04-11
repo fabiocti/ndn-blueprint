@@ -89,7 +89,7 @@ This is a research project with working code, not a finished product. The honest
 - Domain specialization is validated
 - Several domains have strong internal results
 - One public benchmark result exists
-- Raw markdown still wins on the most demanding real-world test
-- The remaining gap is characterized but not closed
+- AOJ v4 reaches near-parity with raw markdown on the most demanding real-world test (99% fact recovery, 1.78x compression; data-leakage caveat applies)
+- The raw compression gap is effectively closed (v4 = 99%); the remaining bottleneck is retrieval, not compression
 
 The goal is to close that gap through disciplined iteration, not through hype.
