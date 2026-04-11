@@ -45,7 +45,7 @@ A specialized pipeline under a subdomain that targets a specific text type. A le
 A hypothesized leaf that has not been tested. A text type has been identified as potentially distinct, but no benchmarks have been run.
 
 **Blooming**
-A leaf with first evidence of being a real branch. Initial benchmarks run, failure modes emerging, pipeline not yet frozen. Examples: WS (70% hits), RWJ (84% facts).
+A leaf with first evidence of being a real branch. Initial benchmarks run, failure modes emerging, pipeline not yet frozen. Example: RWJ (95% dev facts with v4 engine). Note: WS (70% hits) is now PARKED — structural ceiling confirmed with both v2 and v4 engines.
 
 **Baseline Leaf**
 A leaf with a frozen pipeline, dev + held-out benchmarks, documented failure modes, and a formal baseline declaration. Distinct from parent and siblings. Not yet proven at the rigor threshold.

@@ -136,7 +136,7 @@ Packets are opaque outside their originating node. Only the node that compressed
 | 1 node loaded | ~70M | ~280MB |
 | 2 nodes loaded | ~140M | ~560MB |
 | 4 nodes loaded | ~280M | ~1.1GB |
-| All 6 nodes loaded | ~420M | ~1.7GB |
+| All 7 nodes loaded | ~490M | ~2.0GB |
 
 NDN nodes are tiny relative to the reader LLM. Even loading all trained nodes simultaneously uses <2GB VRAM. The practical constraint is not memory but inference latency: each encode/decode pass takes ~50ms per chunk on H100.
 

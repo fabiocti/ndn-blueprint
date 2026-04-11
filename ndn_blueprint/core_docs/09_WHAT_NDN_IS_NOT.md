@@ -21,7 +21,7 @@ On the OpenClaw AOJ journal A/B test, v4 reaches near-parity with markdown:
 
 On leaf-specific pipelines with entity side-channel at scale:
 - TDR flagship leaf: 93–94% fact recovery at 89–105x compression (100 reports, 1.15M tokens)
-- RWJ blooming: 84% fact recovery at 50x compression (257 files, 952K tokens)
+- RWJ blooming: 84% fact recovery at 50x compression (257 files, 952K tokens). With v4 engine: dev 95% facts at 63x compression.
 
 At the single-session level, v4 nearly closes the gap (99% vs 100%). At scale, where markdown is impossible (1M+ tokens), NDN's leaf pipelines provide competitive fact recovery with practical compression. NDN is not yet lossless, and the 1% gap at single-session and the larger gaps at scale mean markdown remains superior where context window is not a constraint. Data leakage caveat: v4's test journals were in training (same 5% overlap as v2).
 

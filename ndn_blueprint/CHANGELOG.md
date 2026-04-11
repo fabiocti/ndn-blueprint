@@ -10,7 +10,7 @@ All notable changes to the NDN Blueprint package are documented here.
 - Initial blueprint package with full directory structure
 - 11 core documentation files (`00_OVERVIEW.md` through `10_GLOSSARY.md`)
 - 5 registry YAML files (`domains.yaml`, `subdomains.yaml`, `nodes.yaml`, `regimes.yaml`, `benchmark_families.yaml`)
-- 7 champion node cards (`nlk_s32`, `fta_s64`, `osa_s32`, `hwm_s64`, `hprt_s32`, `conv_s64_v2`, `aoj_s32_v2`)
+- 7 champion node cards (`nlk_s32`, `fta_s64`, `osa_s32`, `hwm_s64`, `hprt_s32`, `conv_s64_v2`, `aoj_s32_v4`)
 - 5 evidence/case study files (conversation memory, OpenClaw A/B, AOJ subdomain, proxy failure, training vs real eval)
 - 5 launch preparation files (repo split plan, release order, contributor model, governance, risks)
 - 5 templates (node card, subdomain proposal, benchmark report, failure analysis, A/B test report)
@@ -47,6 +47,19 @@ All notable changes to the NDN Blueprint package are documented here.
 ### Updated
 - Node cards for hprt_s32, conv_s64_v2, aoj_s32_v2 updated to reflect model.pt presence
 - Checkpoints README updated with current inventory
+
+---
+
+## [0.2.0] — 2026-04-11
+
+### Updated
+- AOJ v4 is champion (99% fact recovery, 1.78x compression, FROZEN)
+- v4 trained on 50% real GitHub + 45% synthetic + 5% OpenClaw real
+- v2 (73%) superseded, v3 (66%) failed
+- TDR scale with v4: 17/20 (85%), 91% facts, 86x — retrieval is the bottleneck
+- RWJ + v4 engine: Dev 95% facts (+11pp), Held-out 77.5%
+- WS + v4: 14/20 ceiling confirmed, PARKED
+- All three leaves confirmed retrieval-limited, not compression-limited
 
 ---
 

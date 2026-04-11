@@ -228,7 +228,7 @@ The taxonomy is a living structure. New domains and subdomains are added when ev
 
 **Corpus**: 49 sessions of auto-generated daemon logs, recon journals, and infrastructure state from OpenClaw deployment. 430K tokens.
 
-**Results**: All scoring variants converge to 14/20 (70%) hits, ~64% fact recovery, 182x compression. Ceiling confirmed structural across 3 independent scoring approaches AND across 2 base models (v2 and v4). v4 improved fact recovery to 67.8% (+3.8pp) but zero hit improvement — same 14/20 ceiling, same 6 misses. The bottleneck is retrieval/session-imbalance, not compression quality.
+**Results**: All scoring variants converge to 14/20 (70%) hits. v2 engine: 64% facts, 182x compression. v4 engine: 67.8% facts, 176x compression. Ceiling confirmed structural across 3 independent scoring approaches AND across 2 base models (v2 and v4). v4 improved fact recovery by +3.8pp but zero hit improvement — same 14/20 ceiling, same 6 misses. The bottleneck is retrieval/session-imbalance, not compression quality.
 
 **Failure modes**: Session imbalance (39 daemon chunks flood FTS5), sibling-session overlap (two infra sessions both contain credentials), fact-level temporal reasoning (need "latest value" within a session, not just session-level recency).
 

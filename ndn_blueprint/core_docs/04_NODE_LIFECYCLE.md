@@ -167,7 +167,7 @@ First evidence of a real branch. Initial benchmarks run, failure modes emerging,
 
 **Requirements**: At least one benchmark run on real or representative data. Documented failure modes. Evidence that the leaf is distinct from its siblings.
 
-**Current examples**: WS (70% hits, structural ceiling), RWJ (84% facts, approaching Baseline Leaf)
+**Current examples**: RWJ (95% dev facts with v4 engine, approaching Baseline Leaf). Note: WS (70% hits, structural ceiling) is now PARKED — see 03_TAXONOMY.md.
 
 ### Baseline Leaf
 

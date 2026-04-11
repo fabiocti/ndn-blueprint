@@ -89,7 +89,7 @@ A node with val_loss approaching zero on synthetic data may still fail on real d
 
 ### 2. Pretty internal metrics can lie
 
-AOJ v3 had lower val_loss (0.0001 vs 0.0016), earlier exact match (epoch 6 vs epoch 9), and higher shuffled_gap (4.37 vs 4.31) than v2. It was 7 percentage points worse on the real A/B test.
+AOJ v3 had lower val_loss (0.0001 vs 0.0014), earlier exact match (epoch 6 vs epoch 9), and higher shuffled_gap (4.37 vs 4.25) than v2. It was 7 percentage points worse on the real A/B test.
 
 This is a documented phenomenon, not a theoretical risk.
 
@@ -121,7 +121,7 @@ For any claim about practical usefulness, the comparison to raw markdown is mand
 Current honest comparisons:
 - **OpenClaw AOJ journal A/B** — Markdown: 100%, NDN AOJ v4: 99% (1.78x compression). Near-parity. Prior champion v2 was at 73% — the gap was a data problem, not architecture. Data leakage caveat: 5% OpenClaw test data in training (same caveat as v2).
 - **TDR flagship leaf (100 HackerOne reports, 1.15M tokens)** — NDN v4: 91% facts at 86x compression; NDN v2: 93–94% facts at 89–105x. v4 is slightly worse at scale (17/20 vs 18/20 hits) — retrieval is now the bottleneck, not compression. Markdown is impossible at this scale (exceeds all context windows).
-- **RWJ blooming (257 files, 952K tokens)** — NDN: 84% facts at 50x compression vs oracle 100%. Competitive but not yet matching oracle.
+- **RWJ blooming (257 files, 952K tokens)** — NDN: 84% facts at 50x compression vs oracle 100%. With v4 engine: dev 95% facts at 63x compression. Competitive but not yet matching oracle.
 
 The comparison is harness-specific. At single-session scale, v4 nearly matches markdown (99% vs 100%). At large scale, where markdown is impossible, NDN provides high-fidelity compressed access. v4's slightly worse TDR result compared to v2 shows that improving compression quality does not automatically improve pipeline performance — retrieval and ranking matter independently.
 

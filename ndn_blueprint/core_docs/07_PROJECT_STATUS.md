@@ -61,7 +61,7 @@ AOJ v4 achieves 99% fact recovery at 1.78x compression on the same 5-slice test 
 In that test, NDN-compressed memory showed 97.8% fewer repeated-work signals than the markdown arm. That is one metric on one harness; it suggests less redundant-looking context under compression, not a general guarantee, and fact recovery on the same test remained below markdown.
 
 ### The architecture scales to many nodes cheaply
-Each node is ~70M parameters (~280MB). Six nodes together use <2GB VRAM. The architecture is designed for many specialized nodes running concurrently, and the memory overhead is trivial compared to the reader LLM. But this has not been tested at scale (>6 nodes).
+Each node is ~70M parameters (~280MB). Seven nodes together use <2GB VRAM. The architecture is designed for many specialized nodes running concurrently, and the memory overhead is trivial compared to the reader LLM. But this has not been tested at scale (>6 nodes).
 
 ### Latent dependence varies meaningfully across domains
 Conversation shows ablation_gap +12.00 and shuffled_gap +13.30 — far higher than any other domain. This means the latent representation is doing more representational work for conversation than for structured text. The practical implications are still being explored.
@@ -89,7 +89,7 @@ The current router is rule-based with no calibration, no confidence scoring, and
 The OpenClaw integration was a test harness using synthetic session hooks. No live agent is currently running with NDN memory.
 
 ### Scaling governance is undefined
-The taxonomy has 6 domains, 1 subdomain, and 3 leaf-level nodes (1 flagship, 2 blooming). How to govern taxonomy growth at scale (dozens of domains, hundreds of subdomains) is an open organizational and technical problem. The node maturity pipeline (Seed → Blooming → Baseline Leaf → Validated Leaf → Flagship Leaf) provides a framework but has only been exercised on TDR so far.
+The taxonomy has 6 domains, 1 subdomain, and 3 leaf-level nodes (1 flagship, 1 blooming, 1 parked). How to govern taxonomy growth at scale (dozens of domains, hundreds of subdomains) is an open organizational and technical problem. The node maturity pipeline (Seed → Blooming → Baseline Leaf → Validated Leaf → Flagship Leaf) provides a framework but has only been exercised on TDR so far.
 
 ---
 

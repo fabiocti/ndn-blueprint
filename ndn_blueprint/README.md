@@ -96,7 +96,7 @@ The following have empirical evidence behind them:
 
 ---
 
-## What Remains Unresolved
+## Open Questions and Current Limits
 
 1. **Single-session fact recovery is essentially solved.** AOJ v4 achieves 99% fact recovery at 1.78x compression on the same 5-slice OpenClaw A/B test where v2 scored 73%. Markdown (100%, 1.0x) retains a 1pp edge on raw facts but no longer dominates. The remaining gap is in scale retrieval: TDR scale benchmark with v4 scores 17/20 (85%), 91% fact recovery, 86x compression — slightly below v2's 18/20 (93%, 89x). Retrieval, not compression, is now the bottleneck.
 

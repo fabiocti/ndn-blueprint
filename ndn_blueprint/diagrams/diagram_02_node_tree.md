@@ -23,8 +23,8 @@ graph TD
     AOJ["AOJ — Agent Operational Journals<br/>Champion: v4 (99%) · regime: S32"]
 
     TDR["🟢 TDR — Technical Disclosure Reports<br/>FLAGSHIP LEAF · 90% hits · 93–94% facts · 89–105x<br/>40q dev+held-out · 5 corpora transfer (95%)"]
-    WS["🟡 WS — Workflow State<br/>BLOOMING · 70% hits · 64% facts · 182x<br/>14/20 ceiling confirmed structural"]
-    RWJ["🟠 RWJ — Recon Workflow Journals<br/>BLOOMING (approaching Baseline Leaf) · 84% facts · 50x<br/>257 real files · -16pp oracle gap<br/>100% retrieval · entity extractor expanded"]
+    WS["🟡 WS — Workflow State<br/>PARKED · 70% hits · 64–68% facts · 176–182x<br/>14/20 ceiling confirmed structural (v2+v4)"]
+    RWJ["🟠 RWJ — Recon Workflow Journals<br/>BLOOMING (approaching Baseline Leaf) · Dev 95% facts (v4 engine) · 63x<br/>257 real files · oracle gap narrowing<br/>100% retrieval · entity extractor expanded"]
 
     FUTURE1["Multimodal Descriptions?"]
     FUTURE2["Temporal Event Sequences?"]
@@ -41,7 +41,7 @@ graph TD
     OSA -.->|"subdomain · proxy failure evidence"| AOJ
 
     AOJ -->|"flagship leaf"| TDR
-    AOJ -->|"blooming"| WS
+    AOJ -->|"parked"| WS
     AOJ -->|"approaching baseline"| RWJ
 
     NDN -.->|"unvalidated — awareness only"| FUTURE1
@@ -97,19 +97,20 @@ AOJ
 │       Champion pipeline: FTS5 → isolated reconstruction → heuristic ranking
 │       Failure mode: near-identical titles only
 │
-├── 🟡 WS (Workflow State) — BLOOMING
-│       All variants: 14/20 (70%) ceiling, 64% facts, 182x compression
+├── 🟡 WS (Workflow State) — PARKED
+│       All variants: 14/20 (70%) ceiling. v2 engine: 64% facts, 182x. v4 engine: 67.8% facts, 176x.
 │       Extended entity extractor (+8 WS patterns), same isolation architecture
-│       Ceiling confirmed structural across 3 scoring variants
+│       Ceiling confirmed structural across 3 scoring variants AND 2 base models (v2, v4)
 │       Failure modes: session imbalance, temporal reasoning, sibling overlap
-│       Needs: temporal override, session balancing, source-aware retrieval
+│       PARKED: needs architectural changes, not better base models
 │
 └── 🟠 RWJ (Recon Workflow Journals) — BLOOMING (approaching Baseline Leaf)
         257 real pentesting files (952K tokens), human-authored campaigns
         v1 borrowed pipeline: 14/20 (70%), same ceiling as WS
-        v2 doc-type-aware: Dev 20/20, Held-out 13/20 (keyword classifier too narrow)
+        v2 keyword classifier: Dev 20/20, Held-out 13/20 (keyword classifier too narrow)
         v3 embedding classifier: Dev 19/20, Held-out 16/20, Combined 35/40 (88%)
         v3 + entity expansion: 84% facts, 50x compression, -16pp oracle gap
+        v3 + AOJ v4 engine: Dev 95% facts (+11pp), Held-out 77.5%. Combined 34/40 (85%)
         Retrieval: 40/40 (100%) — pipeline always finds the target
         Entity extractor: +11 RWJ-specific categories (dollars, counts, tools, IDs)
         Remaining gap: E-temporal (67%) and doc-type semantic edge cases
@@ -124,8 +125,8 @@ AOJ
 ### Visual indicators
 - Solid lines for validated branches
 - Green box (🟢) for flagship leaf nodes (TDR — dev + held-out + multi-corpus transfer, champion frozen)
-- Yellow box (🟡) for blooming nodes (WS — benchmarked, structural ceiling identified, specialist engine not yet built)
-- Orange box (🟠) for blooming nodes approaching baseline (RWJ — embedding classifier + expanded entity extractor, 84% facts at 50x compression, approaching Baseline Leaf)
+- Yellow box (🟡) for parked nodes (WS — benchmarked, structural ceiling confirmed with v2+v4, needs architectural changes not better models)
+- Orange box (🟠) for blooming nodes approaching baseline (RWJ — embedding classifier + expanded entity extractor, 95% dev facts with v4 engine, approaching Baseline Leaf)
 - Dashed lines for the subdomain connection (OSA → AOJ) with annotation: "justified by proxy failure: OSA-S32 → 14% fact recovery on journals"
 - Greyed-out / dotted boxes for unvalidated candidate domains
   - "Multimodal Descriptions?"
@@ -142,5 +143,5 @@ AOJ
 - **14/20 (70%) ceiling** confirmed on both WS and RWJ using the shared/borrowed pipeline — this is the boundary where generic heuristic ranking stops working on multi-document-per-target data
 - **100% retrieval** confirmed across 40 RWJ queries — the pipeline finds the right neighborhood every time; the problem is always ranking, never retrieval
 - **Each leaf has a distinct failure mode**: TDR = near-identical titles, WS = session imbalance + temporal reasoning, RWJ = document-type disambiguation + temporal reasoning within sessions
-- **Leaf-specific engineering is the path**: doc-type-aware retrieval broke RWJ from 70% to 88%, entity extractor expansion raised facts from 59% to 84%. WS likely needs temporal-override logic. The tree structure justifies itself by revealing different problems at each leaf
-- **Entity extractor expansion is a repeatable intervention**: WS gained +31pp (35%→66.6%), RWJ gained +25pp (59%→84%). The entity layer is NDN's primary "tuning knob" — same model, same pipeline, different patterns per leaf
+- **Leaf-specific engineering is the path**: doc-type-aware retrieval broke RWJ from 70% to 88%, entity extractor expansion raised facts from 59% to 84% (now 95% dev with v4 engine). WS likely needs temporal-override logic. The tree structure justifies itself by revealing different problems at each leaf
+- **Entity extractor expansion is a repeatable intervention**: WS gained +31pp (35%→66.6%), RWJ gained +25pp (59%→84%, now 95% dev with v4 engine). The entity layer is NDN's primary "tuning knob" — same model, same pipeline, different patterns per leaf

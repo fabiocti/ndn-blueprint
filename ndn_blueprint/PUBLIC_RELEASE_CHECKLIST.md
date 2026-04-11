@@ -48,7 +48,7 @@
 - AOJ v4 achieves 99% fact recovery on real OpenClaw A/B (vs markdown 100%), trained on 50% real GitHub + 45% synthetic + 5% OpenClaw real
 - NDN achieves 1.78x compression on agent journals (v4; v2 was 1.69x)
 - Repeated-work signals reduced by 97.8% in OpenClaw test
-- Each node is ~83M parameters, total NDN is ~579M for 7 champions
+- Each node is ~70M parameters, total NDN is ~490M for 7 champions
 - Architecture scales cheaply (active params = 1-2 nodes at inference)
 
 ## Forbidden Claims
