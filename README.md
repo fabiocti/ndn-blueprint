@@ -68,13 +68,14 @@ NDN has 7 champion nodes across 6 domains and 1 subdomain. All nodes use a ~70M 
 **Validated:**
 - Domain-specific training consistently beats cross-domain use
 - Wrong-node failures are diagnostic (they reveal learned priors)
-- AOJ subdomain achieves 73% fact recovery vs 14–24% from proxy nodes
-  > **Important caveat:** the 73% was measured on test data that was included in the training corpus (5% of total). See [evidence/aoj_subdomain_case.md](evidence/aoj_subdomain_case.md) for full details.
+- AOJ v4 achieves 99% fact recovery at 1.78x compression on real OpenClaw A/B (vs 14–24% from proxy nodes)
+  > **Important caveat:** the test data was included in the training corpus (5% of total). See [evidence/aoj_subdomain_case.md](evidence/aoj_subdomain_case.md) for full details. Earlier versions: v2 scored 73%, v3 regressed to 66% — the gap was a training data problem, not architecture.
 - CONV-S64 v2 achieves 94.9% F1 retention on LongMemEval
+- Three downstream leaves evaluated: TDR (flagship, 90% hits at 89x compression), RWJ (95% dev fact recovery), WS (parked at structural 14/20 ceiling)
 
 **Honest limitations:**
-- On full real-world A/B against raw markdown, markdown still achieves 100% fact recovery vs NDN's best of 73%
-- Rare entity preservation (OOV names, exact counts) remains unsolved
+- At scale, retrieval is the bottleneck — TDR with v4 scores 17/20 (85%), slightly below v2's 18/20 (90%). Compression is solved; retrieval/ranking is not
+- Rare entity preservation (OOV names, exact counts) largely mitigated by real-data training but no learned architectural solution yet
 - Internal training metrics can be misleading — real-world A/B is the only trustworthy signal
 - Router is basic and rule-based, not calibrated
 
