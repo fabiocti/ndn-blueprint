@@ -2,7 +2,7 @@
 
 ## Summary
 
-The first real-world A/B comparison of NDN memory vs raw markdown memory on an actual AI agent's operational data. Markdown won overall on fact recovery. NDN provided compression and noise reduction. The test validated the AOJ subdomain and revealed the exact remaining bottleneck.
+The first real-world A/B comparison of NDN memory vs raw markdown memory on an actual AI agent's operational data. In the original v2 test, markdown won overall on fact recovery (100% vs 73%). v4 later achieved near-parity (99% vs 100% at 1.78x compression), showing the gap was a data problem, not architecture. The test validated the AOJ subdomain and revealed the exact remaining bottleneck.
 
 ---
 
@@ -122,3 +122,23 @@ Score: Markdown 4/6, NDN 2/6.
 2. **Markdown is a strong baseline.** Simple, lossless, and hard to beat when context budget allows it. NDN's advantage grows only when context pressure forces compression.
 
 3. **On this test, the bottleneck was preserving specific rare tokens through compression/reconstruction, not integration failures.** The pipeline ran end-to-end; markdown remained ahead on fact recovery.
+
+---
+
+## v4 Addendum (April 2026)
+
+AOJ v4 was trained on 50% real GitHub journals + 45% synthetic + 5% OpenClaw real and re-evaluated on the same 5 slices with the same scoring.
+
+| Metric | v2 | v4 |
+|---|---|---|
+| Fact recovery | 73% | 99% |
+| Compression | 1.69x | 1.78x |
+| val_loss | 0.0014 | 0.0020 |
+
+The 73% ceiling was a data problem, not an architectural limitation. Real training data closed the gap to near-parity with markdown (99% vs 100%).
+
+**TDR scale comparison:** v4 is slightly worse than v2 at TDR scale (17/20 hits, 91% facts, 86x compression vs v2's 18/20, 93%, 89x). This indicates retrieval is now the primary bottleneck — improved compression quality does not automatically improve pipeline performance.
+
+**Data leakage caveat:** The same 5 OpenClaw journals were in v4's training set (same 5% overlap as v2). A fully clean held-out test would use new, unseen agent sessions.
+
+**Key takeaway:** The v2/v3 investigation into loss weighting was chasing the wrong bottleneck. The real problem was training data distribution — synthetic journals did not match the diversity of real operational text. v4's GitHub journal data provided the distributional coverage that synthetic generation could not.

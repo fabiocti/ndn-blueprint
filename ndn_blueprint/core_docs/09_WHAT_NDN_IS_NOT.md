@@ -14,15 +14,16 @@ An AI agent needs an orchestrator (the LLM that reads context, decides actions, 
 
 ## NDN is not guaranteed to beat markdown on every memory task
 
-On the original OpenClaw AOJ journal A/B test, raw markdown still wins:
+On the OpenClaw AOJ journal A/B test, v4 reaches near-parity with markdown:
 - Markdown: 100% fact recovery
-- NDN AOJ v2 (single-session compression): 73% fact recovery, 1.69x compression
+- NDN AOJ v4 (single-session compression): 99% fact recovery, 1.78x compression
+- NDN AOJ v2 (prior champion): 73% fact recovery, 1.69x compression — the 73% ceiling was a data problem, not architecture
 
-On leaf-specific pipelines with entity side-channel at scale, the gap narrows substantially:
+On leaf-specific pipelines with entity side-channel at scale:
 - TDR flagship leaf: 93–94% fact recovery at 89–105x compression (100 reports, 1.15M tokens)
 - RWJ blooming: 84% fact recovery at 50x compression (257 files, 952K tokens)
 
-NDN offers compression and selective retrieval. Markdown offers perfect fidelity. For tasks where every fact matters and context window is not a constraint, markdown is currently superior. Where scale makes markdown impossible (1M+ tokens), NDN's leaf pipelines provide competitive fact recovery with practical compression.
+At the single-session level, v4 nearly closes the gap (99% vs 100%). At scale, where markdown is impossible (1M+ tokens), NDN's leaf pipelines provide competitive fact recovery with practical compression. NDN is not yet lossless, and the 1% gap at single-session and the larger gaps at scale mean markdown remains superior where context window is not a constraint. Data leakage caveat: v4's test journals were in training (same 5% overlap as v2).
 
 ## NDN is not permission to invent arbitrary taxonomy branches
 
@@ -41,6 +42,8 @@ The project has a documented case where internal metrics improved while real-wor
 - AOJ v3 real A/B: 66% fact recovery (down from v2's 73%)
 
 Training metrics are necessary for monitoring convergence. They are not sufficient for claiming practical value. When they conflict with real-world A/B results, the A/B results take precedence for practical claims.
+
+_**v4 postscript:** AOJ v4 (99% fact recovery) showed the v2/v3 gap was primarily a training data problem — real GitHub journal data closed most of the gap that loss weighting could not. However, v4's TDR scale result is slightly worse than v2 (17/20 vs 18/20 hits, 91% vs 93% facts), indicating that retrieval rather than compression is now the primary bottleneck. The lesson from v3 still holds: internal metrics alone are not sufficient evidence._
 
 ## NDN is not a finished product
 

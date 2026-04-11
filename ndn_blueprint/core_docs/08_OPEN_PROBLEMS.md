@@ -10,12 +10,14 @@ Problems that are currently unsolved in the NDN project. Listed in approximate p
 
 **Why it matters**: For agent memory, entity identity is often the most important piece of information. An agent that remembers "we scanned 1500 hosts" when the real number was 1623 has a corrupted memory.
 
-**Current evidence**: In the AOJ v2 A/B test, the remaining 24 misses across 5 slices break down as:
+**Current evidence**: In the AOJ v2 A/B test, the remaining 24 misses across 5 slices broke down as:
 - 58% exact numeric counts
 - 25% OOV domain names
 - 17% error/status strings
 
-The same facts miss repeatedly: `1623` (missed 5/5 times), `bostonacoustics.com` (4/5), `27 live hosts` (4/5).
+The same facts missed repeatedly: `1623` (missed 5/5 times), `bostonacoustics.com` (4/5), `27 live hosts` (4/5).
+
+**v4 update**: AOJ v4 (trained on 50% real GitHub journals + 45% synthetic + 5% OpenClaw real) achieved 99% fact recovery on the same test, showing the 73% ceiling was primarily a data problem, not an architectural limitation. However, v4's TDR scale result is slightly worse than v2 (17/20 vs 18/20 hits, 91% vs 93% facts), indicating that **retrieval is now the primary bottleneck**, not compression quality. The rare-token problem is substantially mitigated at single-session scale by better training data, but remains relevant at pipeline scale where retrieval and ranking errors dominate. Data leakage caveat: same 5% OpenClaw overlap as v2.
 
 **What has been tried and failed**:
 - Digit-aware loss weighting (3.0x): improved numeric token accuracy on eval but did not fix specific count recovery on real A/B

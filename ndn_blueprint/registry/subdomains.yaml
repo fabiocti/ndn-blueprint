@@ -28,15 +28,19 @@ subdomains:
       - Repeated recon iterations with updated counts
       - Multi-target interleaved entries
     best_regime: S32
-    current_champion: aoj_s32_v2
-    champion_fact_recovery: 73%
-    champion_compression: 1.69x
+    current_champion: aoj_s32_v4
+    champion_fact_recovery: 99%
+    champion_compression: 1.78x
     markdown_baseline: 100%
     maturity: validated
     status: >
-      v2 is champion. v3 attempted loss weighting, regressed to 66%.
-      Remaining gap (27pp to markdown) characterized as: exact numeric
-      counts (58%), OOV domain names (25%), error/status strings (17%).
+      v4 is champion (99% fact recovery, 1.78x compression). Near-parity
+      with markdown (99% vs 100%). The 73% v2 ceiling was a data problem,
+      not architecture — real GitHub journal training data closed the gap.
+      v2 (73%) superseded. v3 attempted loss weighting, regressed to 66%.
+      TDR scale: v4 slightly lower than v2 (17/20 vs 18/20, 91% vs 93%
+      facts) — retrieval is now the bottleneck, not compression.
+      Data leakage caveat: 5% OpenClaw test data in training (same as v2).
     proxy_failure_evidence:
       - node: OSA-S32
         fact_recovery: 14%

@@ -167,7 +167,7 @@ benchmark_families:
         continuity: 0.92
         training_data: "100% synthetic (entity-diverse)"
         score: "NDN 2/6, Markdown 4/6"
-        verdict: "Markdown wins. NDN reconstruction quality is the bottleneck."
+        verdict: "Markdown wins at 73%. Later shown to be a data problem — v4 reached 99% with real training data."
       aoj_s32_v3:
         fact_recovery: 66%
         compression: 1.66x

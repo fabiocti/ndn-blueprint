@@ -10,7 +10,7 @@
 | **Regime** | `S32` |
 | **Checkpoint** | `aoj_s32_v2` |
 | **Version** | `v2` |
-| **Status** | `champion` |
+| **Status** | `superseded` |
 | **Date trained** | `2026-04-09` |
 | **Training hardware** | `1x H100 80GB (Verda)` |
 
@@ -94,9 +94,9 @@ _No public benchmarks applied._
 
 ## Champion / Proxy Status
 
-- [x] Champion for this subdomain (AOJ under OSA)
+- [ ] Champion for this subdomain (AOJ under OSA)
 - [ ] Proxy tested on other domains
-- [ ] Superseded by newer version
+- [x] Superseded by newer version (v4 at 99% fact recovery)
 - [ ] Deprecated
 
 ## Comparison to Prior Versions (if applicable)
@@ -104,8 +104,9 @@ _No public benchmarks applied._
 | Version | Key Metric | Value | Notes |
 |---|---|---|---|
 | v1 (implicit) | — | — | OSA parent node: 14% fact recovery on agent journals |
-| **v2 (champion)** | Fact recovery | 73% | 5.2x improvement over parent OSA proxy |
-| v3 (attempted) | Fact recovery | 66% | Regressed with stronger loss weighting; v2 remains champion |
+| v2 (superseded) | Fact recovery | 73% | 5.2x improvement over parent OSA proxy; was champion until v4 |
+| v3 (attempted) | Fact recovery | 66% | Regressed with stronger loss weighting |
+| **v4 (champion)** | Fact recovery | 99% | 1.78x compression; real GitHub data closed the gap. TDR scale: 17/20 hits (v2 was 18/20) |
 
 ## Provenance
 
@@ -128,3 +129,5 @@ _AOJ was created as a subdomain of OSA after two proxy failures: OSA parent (14%
 _The entity_weight=2.5 parameter was configured but matched zero tokens due to a regex bug, meaning entity loss weighting was effectively disabled during training. Despite this, v2 outperforms v3 (which attempted stronger loss weighting but regressed to 66%)._
 
 _Provenance caveat: The 5% real journal data used in training overlaps with A/B test journals. The model saw its test data during training and still only achieved 73% fact recovery, setting a ceiling for this architecture on this data distribution._
+
+_**Superseded by v4 (April 2026).** v4 achieved 99% fact recovery at 1.78x compression using 50% real GitHub journals + 45% synthetic + 5% OpenClaw real. The 73% ceiling was a data problem, not architecture. v4 has a slightly worse TDR scale result (17/20 vs v2's 18/20), indicating retrieval is now the primary bottleneck rather than compression quality. Same data leakage caveat applies to v4 (5% OpenClaw test data in training)._

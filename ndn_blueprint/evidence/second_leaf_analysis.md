@@ -114,7 +114,7 @@ The memory challenge is **aggregation** — what is the total token usage? How m
 **Start with Recon Workflow Journals (RWJ).**
 
 Reasons:
-1. We already have the original AOJ A/B test data on these exact journals (73% fact recovery baseline)
+1. We already have the original AOJ A/B test data on these exact journals (73% fact recovery baseline, v2; now superseded by v4 at 99%)
 2. The temporal-override challenge is a real distinct problem that TDR does not test
 3. The data is ready — no new collection needed
 4. It tests whether the same AOJ S32 v2 compression works for a different retrieval pattern (latest-state vs historical-search)

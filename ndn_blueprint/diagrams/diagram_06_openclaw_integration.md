@@ -22,7 +22,7 @@ flowchart TB
         SEG["Text segments"]
         J["Journal files journal_*.md"]
         R["Router rule-based<br/>WORKFLOW / FINDINGS"]
-        NODE["NDN node AOJ-S32 v2<br/>encode"]
+        NODE["NDN node AOJ-S32 v4<br/>encode"]
         MS[("Memory Store SQLite<br/>compressed packets")]
 
         J --> SH
@@ -81,7 +81,7 @@ The NDN sits in the agent's memory layer, between session history and the agent 
 [FusedContext]
     ↑ assembled from multi-domain reconstructions
     |
-[Compressor]  ←→  [AOJ-S32 v2 Node]
+[Compressor]  ←→  [AOJ-S32 v4 Node]
     ↑               encode() / decode()
     |
 [MemoryStore (SQLite)]
@@ -107,8 +107,8 @@ The NDN sits in the agent's memory layer, between session history and the agent 
 ### A/B comparison box
 - Side-by-side comparison:
   - Side A: "2,626 tokens | 100% facts | 1.0x"
-  - Side B: "1,579 tokens | 73% facts | 1.69x"
-  - Verdict: "Markdown wins on facts. NDN wins on compression."
+  - Side B (v4): "~1,475 tokens | 99% facts | 1.78x"
+  - Verdict: "Near-parity. v4 closes the gap (99% vs 100%). Prior v2 was 73%."
 
 ### Annotations at key components
 
@@ -118,7 +118,7 @@ The NDN sits in the agent's memory layer, between session history and the agent 
 - "No text routed to CONVERSATION (journals are not dialogue)"
 
 **Compressor**:
-- "Loads AOJ-S32 v2 checkpoint"
+- "Loads AOJ-S32 v4 checkpoint"
 - "Encodes journal chunks into latent packets"
 - "Decodes packets back to text on retrieval"
 
@@ -131,5 +131,5 @@ The NDN sits in the agent's memory layer, between session history and the agent 
 - "This is the only real-world integration tested"
 - "The agent cannot tell whether it is reading markdown or NDN memory"
 - "Same agent, same journals, different memory path"
-- "Markdown still wins on fact recovery (100% vs 73%)"
-- "NDN provides 1.69x compression"
+- "v4 reaches near-parity with markdown (99% vs 100%)"
+- "NDN provides 1.78x compression"

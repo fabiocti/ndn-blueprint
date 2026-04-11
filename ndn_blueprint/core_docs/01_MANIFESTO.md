@@ -90,7 +90,7 @@ This is a research project with working code, not a finished product. The honest
 - Several domains have strong internal results
 - One public benchmark result exists
 - One flagship leaf (TDR) achieves 93–94% fact recovery at 89–105x compression with 5-corpus transfer
-- On the original OpenClaw AOJ journal A/B, raw markdown still wins (100% vs 73%)
+- On the OpenClaw AOJ journal A/B, v4 reaches near-parity with markdown (99% vs 100%). Prior champion v2 was at 73% — the gap was a data problem, not architecture. Data leakage caveat: 5% OpenClaw test data in training
 - Leaf-specific pipelines with entity side-channel reach much higher fact recovery at scale
 
 The goal is to close the remaining gaps through disciplined iteration, not through hype.

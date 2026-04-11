@@ -63,7 +63,7 @@ A mechanism where regex-based extraction at compression time stores exact entiti
 The number of model parameters currently loaded on GPU. A single node is ~70M. Multiple nodes can be loaded simultaneously. Active params are a small fraction of total params when only a few nodes are resident.
 
 **Total Parameters**
-The sum of all trained node parameters in the NDN, whether loaded or on disk. With 6 nodes: ~420M total. Not all are active simultaneously.
+The sum of all trained node parameters in the NDN, whether loaded or on disk. With 7 nodes: ~490M total. Not all are active simultaneously.
 
 ---
 

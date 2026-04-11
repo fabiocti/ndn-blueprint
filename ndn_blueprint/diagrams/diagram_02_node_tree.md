@@ -20,7 +20,7 @@ graph TD
     CONV["CONV — Conversational Memory<br/>Champion regime: S64"]
 
     OSA_CORE["OSA core<br/>timestamped key-value traces"]
-    AOJ["AOJ — Agent Operational Journals<br/>Champion regime: S32"]
+    AOJ["AOJ — Agent Operational Journals<br/>Champion: v4 (99%) · regime: S32"]
 
     TDR["🟢 TDR — Technical Disclosure Reports<br/>FLAGSHIP LEAF · 90% hits · 93–94% facts · 89–105x<br/>40q dev+held-out · 5 corpora transfer (95%)"]
     WS["🟡 WS — Workflow State<br/>BLOOMING · 70% hits · 64% facts · 182x<br/>14/20 ceiling confirmed structural"]
@@ -82,8 +82,9 @@ OSA
 ├── OSA core (timestamped key-value traces)
 └── AOJ (Agent Operational Journals) — S32 champion
     ├── v1 (54% fact recovery) — superseded
-    ├── v2 (73% fact recovery) — CHAMPION
-    └── v3 (66% fact recovery) — failed, regression
+    ├── v2 (73% fact recovery) — superseded (data problem, not architecture)
+    ├── v3 (66% fact recovery) — failed, regression
+    └── v4 (99% fact recovery, 1.78x) — CHAMPION (TDR scale: 17/20 vs v2's 18/20)
 ```
 
 ### Level 3: Leaves (under AOJ)

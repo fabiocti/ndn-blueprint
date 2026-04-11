@@ -9,7 +9,7 @@
 **Mitigation**:
 - Lead with limitations in all documentation (`09_WHAT_NDN_IS_NOT.md`)
 - Project status page (`07_PROJECT_STATUS.md`) has explicit "Proven / Promising / Unresolved / Failed" sections
-- Real-world A/B results (markdown still wins) are prominently documented
+- Real-world A/B results (v4 near-parity: 99% vs markdown's 100%; prior v2 was 73%) are prominently documented
 - Never use "breakthrough" language in official documentation
 
 ---
@@ -129,10 +129,10 @@
 
 **Risk**: Releasing before the project is ready creates a negative first impression that is hard to reverse. Especially if the "markdown still wins" result is the headline.
 
-**Likelihood**: Medium. Depends on release timing and framing.
+**Likelihood**: Medium. Depends on release timing and framing. v4's near-parity result (99% vs 100%) reduces this risk — the headline is no longer "markdown wins" but "near-parity with caveats."
 
 **Mitigation**:
 - Release documentation first (Phase 1-3), code later
 - Frame honestly: "research project with validated results, not finished product"
-- Lead with what works, be upfront about what doesn't
-- Time the code release to coincide with a meaningful result (not necessarily "beats markdown" — a well-documented honest result is compelling)
+- Lead with what works, be upfront about what doesn't (v4 TDR scale is slightly worse than v2; data leakage caveat)
+- Time the code release to coincide with a meaningful result (v4's near-parity is a strong honest result)

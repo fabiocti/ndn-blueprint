@@ -124,11 +124,12 @@ Internal metrics were misleading: every single internal metric improved, yet rea
 | OSA proxy | 14% | Failed |
 | HWM proxy | 24% | Failed |
 | AOJ v1 | 54% | Superseded |
-| **AOJ v2** | **73%** | **Champion** |
+| AOJ v2 | 73% | Superseded (was champion; 73% ceiling was a data problem) |
 | AOJ v3 | 66% | Failed (regression) |
-| Markdown | 100% | Wins on OpenClaw AOJ A/B |
+| **AOJ v4** | **99%** | **Champion** (1.78x compression; real GitHub data closed the gap) |
+| Markdown | 100% | Near-parity with v4 on OpenClaw AOJ A/B |
 
-**AOJ v2 is the current champion.** The v2 model.pt was originally lost when the training server was terminated, but was successfully retrained on 9 April 2026 on a Verda H100 instance. The checkpoint is available locally (316MB).
+**AOJ v4 is the current champion.** v4 achieved 99% fact recovery at 1.78x compression using 50% real GitHub journals + 45% synthetic + 5% OpenClaw real. The 73% v2 ceiling was a data problem, not architecture. v4's TDR scale result is slightly worse than v2 (17/20 vs 18/20 hits, 91% vs 93% facts) — retrieval is now the primary bottleneck. The v2 model.pt was originally lost when the training server was terminated, but was successfully retrained on 9 April 2026 on a Verda H100 instance. Data leakage caveat: 5% OpenClaw test data in training (same as v2).
 
 ---
 
@@ -148,8 +149,8 @@ Internal metrics were misleading: every single internal metric improved, yet rea
 
 ## What Remains Unsolved
 
-1. **Markdown still wins on the OpenClaw AOJ A/B.** 100% vs 73%. On leaf-specific pipelines with entity side-channel (TDR, RWJ), fact recovery is much higher (93–94%, 84%). The gap at the compression level requires architectural changes; the gap at the pipeline level is being closed by entity extraction and isolation.
+1. **v4 reaches near-parity with markdown on the OpenClaw AOJ A/B.** 99% vs 100%. The 73% v2 ceiling was a data problem — real GitHub journal training data closed the gap. On leaf-specific pipelines with entity side-channel (TDR, RWJ), fact recovery is 93–94% and 84% respectively. v4's TDR scale result is slightly worse than v2 (17/20 vs 18/20 hits, 91% vs 93% facts), indicating retrieval is now the primary bottleneck rather than compression.
 
-2. **The champion checkpoint has been recovered.** Retrained 9 April 2026 on Verda H100. model.pt available locally (316MB).
+2. **v4 is the current champion.** Trained with 50% real GitHub journals + 45% synthetic + 5% OpenClaw real. The v2 checkpoint was retrained 9 April 2026 on Verda H100 and is available locally (316MB).
 
-3. **The test data has a leakage caveat.** The 5 journals were in training. A fully clean held-out test would use new, unseen agent sessions.
+3. **The test data has a leakage caveat.** The 5 OpenClaw journals were in training for both v2 and v4. A fully clean held-out test would use new, unseen agent sessions.

@@ -64,7 +64,7 @@ Proven with empirical evidence:
 
 ## What Still Needs Proof
 
-1. On the original OpenClaw AOJ journal A/B, NDN has not beaten raw markdown (73% vs 100% fact recovery). Leaf-specific pipelines reach higher fact recovery (TDR 94%, RWJ 84%) on their respective benchmarks, but no single pipeline yet matches markdown across all operational text types
+1. On the OpenClaw AOJ journal A/B, v4 reaches near-parity with markdown (99% vs 100% fact recovery, 1.78x compression). The prior champion v2 was at 73% — the gap was a data problem, not architecture. Leaf-specific pipelines reach TDR 94% and RWJ 84% on their respective benchmarks. v4's TDR scale result is slightly worse than v2 (17/20 vs 18/20), indicating retrieval is now the bottleneck. Data leakage caveat applies (5% OpenClaw test data in training)
 2. Rare entity preservation remains unsolved at the model architecture level (the entity side-channel is a pragmatic workaround, not a learned solution)
 3. Routing calibration and multi-domain retrieval are basic
 4. No production deployment exists
