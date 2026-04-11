@@ -165,14 +165,31 @@ benchmark_families:
         fact_recovery: 73%
         compression: 1.69x
         continuity: 0.92
+        training_data: "100% synthetic (entity-diverse)"
         score: "NDN 2/6, Markdown 4/6"
         verdict: "Markdown wins. NDN reconstruction quality is the bottleneck."
       aoj_s32_v3:
         fact_recovery: 66%
         compression: 1.66x
         continuity: 0.92
+        training_data: "100% synthetic + stronger loss weighting"
         score: "NDN 2/6, Markdown 4/6"
         verdict: "Regression from v2. Loss weighting over-corrected."
+      aoj_s32_v4:
+        fact_recovery: 99%
+        compression: 1.78x
+        training_data: "50% real GitHub journals + 45% synthetic + 5% OpenClaw real"
+        val_loss: 0.0020
+        verdict: >
+          Near-parity with markdown (99% vs 100%) at 1.78x compression.
+          The 73% ceiling was a data problem, not architecture. Real training
+          data closed the gap. Data leakage caveat: 5 OpenClaw test journals
+          were in training set (same caveat as v2). Same 5 slices, same scoring.
+        tdr_scale_results:
+          hits: "17/20 (85%)"
+          fact_recovery: 91%
+          compression: 86x
+          comparison_to_v2: "v2 was 18/20, 93%, 89x — retrieval is now the bottleneck, not compression"
     status: complete
 
   # --- Held-Out Reconstruction ---

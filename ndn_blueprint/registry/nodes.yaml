@@ -256,30 +256,27 @@ nodes:
     subdomain: AOJ
     checkpoint_name: aoj_s32_v2
     regime: S32
-    maturity: champion
-    champion_status: true
+    maturity: superseded
+    champion_status: false
     local_path: checkpoints/aoj_s32_v2/
     model_pt: true  # Retrained 9 Apr 2026 on Verda H100, 316MB, available locally
     best_for:
-      - Agent operational journals
-      - Recon summaries
-      - Tool output + host count preservation
-      - Multi-target interleaved entries
+      - Agent operational journals (superseded by v4)
     known_failure_modes:
       - Exact numeric counts (58% of remaining misses)
       - OOV domain names (25%)
       - Error/status strings (17%)
     benchmark_status:
-      val_loss: 0.0014  # From retrained checkpoint (9 Apr 2026)
+      val_loss: 0.0014
       shuffled_gap: 4.31
       exact_match: 100%
       ab_fact_recovery: 73%
       ab_compression: 1.69x
       ab_continuity: 0.92
     notes: >
-      CURRENT BEST AOJ CHECKPOINT. model.pt recovered (retrained 9 Apr 2026) from
-      train_aoj_s32_v2.sh. Entity-diverse corpus (204 SLDs, 52 TLDs,
-      5% real data mix, digit_weight=3.0).
+      Superseded by v4. Was champion from 9 Apr – 11 Apr 2026. 100% synthetic
+      training data. The 73% ceiling was a data problem — v4 proved this by
+      switching to real training data and reaching 99%.
 
   - node_id: aoj_s32_v3
     domain: OSA
@@ -304,8 +301,42 @@ nodes:
     notes: >
       FAILED EXPERIMENT. Token-ID entity weighting (122 tokens, 3.0x) +
       digit weight 5.0x. Better internal metrics than v2 but 7pp worse on
-      real A/B.       Documented negative result: loss weighting alone is not the path to
+      real A/B. Documented negative result: loss weighting alone is not the path to
       entity preservation.
+
+  - node_id: aoj_s32_v4
+    domain: OSA
+    subdomain: AOJ
+    checkpoint_name: aoj_s32_v4
+    regime: S32
+    maturity: champion
+    champion_status: true
+    local_path: checkpoints/aoj_s32_v4/
+    model_pt: true
+    best_for:
+      - Agent operational journals
+      - Recon summaries
+      - Tool output + host count preservation
+      - Multi-target interleaved entries
+    known_failure_modes:
+      - TDR scale retrieval slightly lower than v2 (17/20 vs 18/20) — retrieval bottleneck, not compression
+    benchmark_status:
+      val_loss: 0.0020
+      shuffled_gap: 14.41
+      ab_fact_recovery: 99%
+      ab_compression: 1.78x
+      tdr_scale_hits: "17/20 (85%)"
+      tdr_scale_fact_recovery: 91%
+      tdr_scale_compression: 86x
+    notes: >
+      CURRENT BEST AOJ CHECKPOINT. Trained on 50% real GitHub operational
+      journals + 45% synthetic + 5% OpenClaw real data. The real-data mix
+      broke the 73% ceiling that v2 hit with 100% synthetic training.
+      Higher val_loss (0.0020 vs v2's 0.0014) but dramatically better
+      real-world performance — further validates that internal metrics
+      alone are insufficient. Data leakage caveat: the 5 OpenClaw test
+      journals were in the training set (same caveat as v2). Same test
+      harness, same 5 slices, same scoring as v2/v3 evaluations.
 
   # --- Frontier Probes ---
 

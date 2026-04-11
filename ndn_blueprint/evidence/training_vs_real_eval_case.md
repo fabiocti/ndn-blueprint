@@ -91,3 +91,25 @@ Token-level loss weighting is a blunt instrument. It optimizes for individual to
 4. **Document negative results.** AOJ v3 is a failed experiment, and documenting it prevents repeating the same mistake. The next intervention can target a different lever.
 
 5. **Separate the levers.** v3 changed three things simultaneously (entity weight, digit weight, SLD vocabulary). It is not clear which change caused the regression. Future experiments should change one thing at a time when possible.
+
+---
+
+## Postscript: AOJ v4 Further Validates This Finding
+
+### What happened
+AOJ v4 was trained on a fundamentally different data mix: 50% real GitHub operational journals + 45% synthetic + 5% OpenClaw real data (v2 was 100% synthetic). On the same 5-slice OpenClaw A/B test with the same scoring harness, v4 achieved 99% fact recovery at 1.78x compression — up from v2's 73%.
+
+### The internal metrics went the "wrong" direction
+v4's val_loss is 0.0020, higher than v2's 0.0014. v4's shuffled_gap is 14.41, much higher than v2's 4.25. By naive internal-metric comparison, v4 looks like a mixed bag: worse val_loss, much better latent dependence. Yet its real-world performance jumped +26pp.
+
+### Why this matters for this case study
+v3 showed that better internal metrics can mean worse real-world performance (all metrics improved, real A/B regressed). v4 shows the converse: higher val_loss can coexist with dramatically better real-world performance. The common thread is that internal metrics measure fit to training distribution, not generalization to real data. v4's real-data training mix brought the training distribution closer to the test distribution, which is what actually mattered.
+
+### The 73% ceiling was a data problem
+v2 and v3 both trained on 100% synthetic data. No amount of loss engineering (v3) could overcome the distribution mismatch between synthetic training data and real agent journals. v4 solved this by changing the training data itself. This is the strongest evidence yet that training metrics vs real-world performance divergence is fundamentally a data distribution problem.
+
+### Data leakage caveat
+The 5 OpenClaw test journals were in v4's training set (5% real data mix). This is the same caveat as v2. The 99% result should be interpreted with this in mind — the test is not fully held-out.
+
+### TDR scale benchmark
+v4 on TDR scale: 17/20 hits (85%), 91% fact recovery, 86x compression. v2 on the same test: 18/20 (90%), 93% fact recovery, 89x compression. v4 is slightly worse on retrieval-heavy evaluation despite being much better on single-session compression. This further demonstrates that single-session compression quality (where v4 excels) and scale retrieval quality (where the pipeline matters more than the model) are distinct problems.

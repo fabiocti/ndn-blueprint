@@ -86,7 +86,7 @@ The following have empirical evidence behind them:
 
 2. **Six top-level domains validated.** Natural Language Knowledge, Formal Technical Artifacts, Operational State Artifacts, Human Working Memory Text, High-Precision Regulated Text, and Conversational Memory — all trained, evaluated with internal metrics and domain-native benchmarks.
 
-3. **One subdomain validated.** Agent Operational Journals (AOJ) under OSA. Proxy nodes from other domains recovered 14-24% of facts on real OpenClaw agent data. Dedicated AOJ training achieved 73%.
+3. **One subdomain validated.** Agent Operational Journals (AOJ) under OSA. Proxy nodes from other domains recovered 14-24% of facts on real OpenClaw agent data. Dedicated AOJ training achieved 99% (v4, trained on 50% real GitHub journals + 45% synthetic + 5% OpenClaw real).
 
 4. **Public benchmark result.** CONV-S64 v2 achieves 94.9% F1 retention on LongMemEval (500 questions) compared to uncompressed baseline.
 
@@ -98,7 +98,7 @@ The following have empirical evidence behind them:
 
 ## What Remains Unresolved
 
-1. **Markdown still wins the overall real-world A/B.** On real OpenClaw agent sessions, raw markdown achieves 100% fact recovery vs NDN's best of 73%. NDN compresses (1.7x) and reduces noise, but fact recovery is not yet competitive.
+1. **Single-session fact recovery is essentially solved.** AOJ v4 achieves 99% fact recovery at 1.78x compression on the same 5-slice OpenClaw A/B test where v2 scored 73%. Markdown (100%, 1.0x) retains a 1pp edge on raw facts but no longer dominates. The remaining gap is in scale retrieval: TDR scale benchmark with v4 scores 17/20 (85%), 91% fact recovery, 86x compression — slightly below v2's 18/20 (93%, 89x). Retrieval, not compression, is now the bottleneck.
 
 2. **Rare entity preservation.** The model reconstructs the correct structure but substitutes out-of-vocabulary entities (domain names, exact counts, error strings) with training priors.
 

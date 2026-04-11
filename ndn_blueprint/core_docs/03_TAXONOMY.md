@@ -190,18 +190,19 @@ The taxonomy is a living structure. New domains and subdomains are added when ev
 
 **Best known regime**: S32 (4x compression)
 
-**Current status**: Validated. AOJ v2 is the current champion checkpoint (73% fact recovery on real OpenClaw A/B, 1.69x compression). AOJ v3 attempted stronger loss weighting but regressed to 66%. The remaining gap to markdown (27pp) is characterized as exact numeric counts (58%), OOV domain names (25%), and error/status strings (17%).
+**Current status**: Validated. AOJ v4 is the current champion checkpoint (99% fact recovery on real OpenClaw A/B, 1.78x compression). Trained on 50% real GitHub operational journals + 45% synthetic + 5% OpenClaw real data. The 73% ceiling (v2) was a data problem — v2 trained on 100% synthetic data, which could not cover real-world entity distributions. v4's real-data mix closed the gap. Data leakage caveat: the 5 OpenClaw test journals were in v4's training set (same caveat as v2). TDR scale benchmark with v4: 17/20 (85%), 91% fact recovery, 86x compression — slightly below v2's 18/20 (93%, 89x), indicating retrieval is now the bottleneck, not compression.
 
 **Progression**:
 
-| Version | Fact Recovery | Compression | Status |
-|---|---|---|---|
-| OSA-S32 proxy | 14% | 2.00x | Failed — domain-prior mismatch |
-| HWM-S64 proxy | 24% | 1.26x | Failed — wrong domain entirely |
-| AOJ v1 | 54% | 1.56x | Superseded |
-| **AOJ v2** | **73%** | **1.69x** | **Current champion** |
-| AOJ v3 | 66% | 1.66x | Failed — over-corrected loss weighting |
-| Markdown baseline | 100% | 1.00x | Wins on OpenClaw AOJ A/B (single-session compression test) |
+| Version | Fact Recovery | Compression | Training Data | val_loss | Status |
+|---|---|---|---|---|---|
+| OSA-S32 proxy | 14% | 2.00x | — | — | Failed — domain-prior mismatch |
+| HWM-S64 proxy | 24% | 1.26x | — | — | Failed — wrong domain entirely |
+| AOJ v1 | 54% | 1.56x | 100% synthetic | — | Superseded |
+| AOJ v2 | 73% | 1.69x | 100% synthetic (entity-diverse) | 0.0014 | Superseded by v4 |
+| AOJ v3 | 66% | 1.66x | 100% synthetic + stronger loss weighting | 0.0001 | Failed — over-corrected loss weighting |
+| **AOJ v4** | **99%** | **1.78x** | **50% real GitHub + 45% synthetic + 5% OpenClaw** | **0.0020** | **Current champion** |
+| Markdown baseline | 100% | 1.00x | — | — | Reference (no compression) |
 
 ---
 

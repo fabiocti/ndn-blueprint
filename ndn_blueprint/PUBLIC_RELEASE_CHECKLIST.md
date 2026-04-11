@@ -33,11 +33,11 @@
 ## Still Weak (Fix Before Publishing)
 
 - [ ] CONV v2 entity-rich augmentation code was reconstructed, not original — metrics close but not bit-identical
-- [ ] AOJ v2 has data leakage caveat (test journals were 5% of training data) — must be prominently disclosed
+- [ ] AOJ v4 has data leakage caveat (test journals were in 5% OpenClaw real training data, same caveat as v2) — must be prominently disclosed
 - [ ] HWM and HPRT have no real-world A/B or public benchmark evidence — only internal metrics
 - [ ] No live production deployment exists — must not imply production readiness
 - [ ] Router is rule-based with no learned calibration — must not overclaim routing quality
-- [ ] Markdown still wins the only real A/B test — must be stated clearly in any public framing
+- [ ] AOJ v4 achieves 99% fact recovery (vs markdown 100%) on single-session A/B — near-parity, but TDR scale retrieval is slightly below v2. Must frame accurately: compression is solved, retrieval is the new bottleneck
 
 ## Allowed Claims
 
@@ -45,15 +45,15 @@
 - Wrong-node failures are diagnostic and reproducible
 - AOJ is a validated subdomain (proxy failure → dedicated training → progressive improvement)
 - CONV v2 achieves 94.9% F1 retention on LongMemEval (500 questions)
-- AOJ v2 achieves 73% fact recovery on real OpenClaw A/B (vs markdown 100%)
-- NDN achieves 1.69x compression on agent journals
+- AOJ v4 achieves 99% fact recovery on real OpenClaw A/B (vs markdown 100%), trained on 50% real GitHub + 45% synthetic + 5% OpenClaw real
+- NDN achieves 1.78x compression on agent journals (v4; v2 was 1.69x)
 - Repeated-work signals reduced by 97.8% in OpenClaw test
 - Each node is ~83M parameters, total NDN is ~579M for 7 champions
 - Architecture scales cheaply (active params = 1-2 nodes at inference)
 
 ## Forbidden Claims
 
-- Do NOT claim NDN beats markdown on real-world tasks (it doesn't yet)
+- Do NOT claim NDN beats markdown on real-world tasks (v4 is at 99% vs 100% — near-parity, not superiority; TDR scale retrieval is slightly below v2)
 - Do NOT claim "near-lossless" without qualification
 - Do NOT claim AGI, general intelligence, or universal memory
 - Do NOT claim production-ready
