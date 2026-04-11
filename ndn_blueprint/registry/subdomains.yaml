@@ -34,12 +34,12 @@ subdomains:
     markdown_baseline: 100%
     maturity: validated
     status: >
-      v4 is champion (99% fact recovery, 1.78x compression). Near-parity
-      with markdown (99% vs 100%). The 73% v2 ceiling was a data problem,
-      not architecture — real GitHub journal training data closed the gap.
-      v2 (73%) superseded. v3 attempted loss weighting, regressed to 66%.
-      TDR scale: v4 slightly lower than v2 (17/20 vs 18/20, 91% vs 93%
-      facts) — retrieval is now the bottleneck, not compression.
+      v4 is FROZEN base candidate (99% fact recovery, 1.78x compression).
+      No more base training. Downstream leaf evaluation complete:
+      TDR: 17/20 (85%), 91% facts — retrieval-limited.
+      RWJ: dev 95% facts (+11pp from v2 engine), held-out 15/20 — classifier-limited.
+      WS: 14/20 ceiling confirmed with v4 — PARKED (structural).
+      All three leaves are now retrieval-limited, not compression-limited.
       Data leakage caveat: 5% OpenClaw test data in training (same as v2).
     proxy_failure_evidence:
       - node: OSA-S32

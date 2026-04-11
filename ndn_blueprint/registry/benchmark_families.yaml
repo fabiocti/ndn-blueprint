@@ -190,6 +190,18 @@ benchmark_families:
           fact_recovery: 91%
           compression: 86x
           comparison_to_v2: "v2 was 18/20, 93%, 89x — retrieval is now the bottleneck, not compression"
+        rwj_v3_results:
+          dev_hits: "19/20 (95%)"
+          dev_fact_recovery: 95%
+          held_out_hits: "15/20 (75%)"
+          held_out_fact_recovery: 77.5%
+          compression: 63x
+          comparison_to_v2_engine: "v2 engine was 84% dev facts, 83% held-out. v4 improved dev +11pp, held-out hits regressed 16→15 (retrieval noise)"
+        ws_results:
+          hits: "14/20 (70%)"
+          fact_recovery: 67.8%
+          compression: 176x
+          comparison_to_v2_engine: "v2 engine was 64% facts, same 14/20 ceiling. Structural — PARKED"
     status: complete
 
   # --- Held-Out Reconstruction ---

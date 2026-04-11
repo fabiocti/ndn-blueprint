@@ -1,6 +1,6 @@
 # Project Status
 
-**Date**: 10 April 2026 (updated from 9 April)
+**Date**: 11 April 2026 (updated from 10 April)
 **Reporting standard**: Claims are conservative; limitations, failures, and negative results are stated explicitly.
 
 ---
@@ -25,7 +25,10 @@ NLK, FTA, OSA, HWM, HPRT, and CONV have all been trained, evaluated with interna
 | CONV | conv_s64_v2 | 1.821 | 13.30 | LongMemEval 94.9% F1 ret |
 
 ### AOJ is a validated subdomain with leaf-level pipelines
-Agent Operational Journals under OSA. Proxy nodes failed (14–24% fact recovery). Dedicated training achieved 54% (v1), 73% (v2), and 99% (v4). The v4 champion was trained on 50% real GitHub journals + 45% synthetic + 5% OpenClaw real data — the jump from 73% to 99% demonstrated the v2 ceiling was a data problem, not an architecture limitation. Data leakage caveat: the 5 OpenClaw test journals were in the training set (same caveat as v2). The first flagship leaf (TDR) achieves 93–94% fact recovery at 89–105x compression on 100 HackerOne reports, validated with held-out queries and 5-corpus transfer (114/120 = 95%). TDR scale with v4: 17/20 (85%), 91% facts, 86x compression — slightly below v2's 18/20 (93%, 89x), indicating retrieval is now the bottleneck. Two additional bloomings (WS, RWJ) have been established with documented failure modes and progressive improvement.
+Agent Operational Journals under OSA. Proxy nodes failed (14–24% fact recovery). Dedicated training achieved 54% (v1), 73% (v2), and 99% (v4). v4 is now FROZEN as base candidate — no more base training until all downstream evaluation completes. v4 was trained on 50% real GitHub journals + 45% synthetic + 5% OpenClaw real data. Data leakage caveat: the 5 OpenClaw test journals were in the training set (same caveat as v2). Three downstream leaves evaluated with v4:
+- **TDR** (flagship): 17/20 (85%), 91% facts, 86x compression — compression solved, retrieval is the bottleneck
+- **RWJ** (blooming): v4 engine improved dev fact recovery from 84% to 95% (+11pp), held-out hits regressed from 16/20 to 15/20 (retrieval noise). Combined 34/40 (85%)
+- **WS** (PARKED): 14/20 ceiling confirmed with v4 — same 6 misses, fact recovery +3.8pp (64%→68%) but zero hit improvement. Ceiling is structural (retrieval/session-imbalance), not compression
 
 ### Entity side-channel is a proven mechanism
 Regex-based entity extraction at compression time + structured append at reconstruction time raises fact recovery from 14% to 100% on controlled OOV test. Entity extractor expansion is a repeatable, high-leverage intervention: WS gained +31pp (35%→66.6%), RWJ gained +25pp (59%→84%). The entity layer is NDN's primary tuning knob — same pipeline, same model, different patterns per blooming.
@@ -67,8 +70,11 @@ Conversation shows ablation_gap +12.00 and shuffled_gap +13.30 — far higher th
 
 ## Unresolved
 
-### Scale retrieval is the new bottleneck
-AOJ v4 essentially matches markdown on single-session fact recovery (99% vs 100%). But TDR scale benchmark with v4 scores 17/20 (85%), 91% facts, 86x compression — slightly below v2's 18/20 (93%, 89x). The retrieval pipeline, not the compression model, is now the limiting factor. Leaf-specific pipelines with entity side-channel reach 84–94% fact recovery on their respective scale benchmarks.
+### Scale retrieval is the bottleneck across all three leaves
+AOJ v4 essentially matches markdown on single-session fact recovery (99% vs 100%). But all three downstream leaves are now retrieval-limited, not compression-limited:
+- **TDR**: 17/20 (85%), 91% facts — near-identical titles cause misranking
+- **RWJ**: v4 improved dev facts from 84% to 95% but held-out retrieval slightly regressed (16/20→15/20). Doc-type classifier and sibling overlap are the failure modes
+- **WS**: 14/20 structural ceiling confirmed with v4 — session imbalance, temporal reasoning, sibling overlap. PARKED.
 
 ### Rare entity preservation at the model level
 The encoder-decoder reconstructs correct structure but substitutes out-of-vocabulary entities with training priors. The entity side-channel is a pragmatic workaround (not a learned solution). A learned copy/pointer mechanism remains the open architectural goal.
@@ -120,8 +126,9 @@ Note: AOJ v4 is the current champion (trained on 50% real GitHub + 45% synthetic
 
 Priority order, not all required immediately:
 
-1. **Scale retrieval improvement** — v4 solved single-session compression (99%) but TDR scale retrieval regressed slightly (17/20 vs v2's 18/20). Retrieval pipeline tuning is now the primary bottleneck.
-2. **Router improvement** — learned routing with calibrated confidence. Misrouting is currently the largest failure mode after retrieval.
-3. **Architectural entity preservation** — copy/pointer mechanisms, entity-aware attention, or retrieval augmentation for rare identifiers. Less urgent now that v4's real-data training closed most of the entity gap, but still the long-term goal for a learned solution.
-4. **Additional domain A/B tests** — test CONV and other domains on real-world tasks, not just AOJ on OpenClaw.
-5. **Multi-domain integration test** — test the full NDN (multiple nodes active, router selecting, fusion assembling) on a realistic agent workflow.
+1. **TDR retrieval improvement** — v4 solved single-session compression (99%) but TDR scale retrieval regressed slightly (17/20 vs v2's 18/20). Two-stage reranking, title disambiguation, and ambiguity handling are the next levers. No more base model training for TDR.
+2. **RWJ classifier refinement** — v4 improved dev fact recovery from 84% to 95% but held-out hits regressed (16/20→15/20). Doc-type classifier and retrieval pipeline need improvement, not the base model.
+3. **Router improvement** — learned routing with calibrated confidence. Misrouting is currently the largest failure mode after retrieval.
+4. **Architectural entity preservation** — copy/pointer mechanisms, entity-aware attention, or retrieval augmentation for rare identifiers. Less urgent now that v4's real-data training closed most of the entity gap, but still the long-term goal for a learned solution.
+5. **Additional domain A/B tests** — test CONV and other domains on real-world tasks, not just AOJ on OpenClaw.
+6. **New domain exploration** — only after TDR retrieval and RWJ classifier improvements are landed.

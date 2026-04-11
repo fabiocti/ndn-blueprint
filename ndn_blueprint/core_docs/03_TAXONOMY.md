@@ -222,17 +222,17 @@ The taxonomy is a living structure. New domains and subdomains are added when ev
 
 ---
 
-### OSA / AOJ / Workflow State (WS) — BLOOMING
+### OSA / AOJ / Workflow State (WS) — PARKED
 
 **Why it exists**: Operational memory for infrastructure state — what machine is active, where credentials are, what expired, what the current blocker is. Motivated by live agent memory failures (Cursor/Opus losing operational continuity across sessions).
 
 **Corpus**: 49 sessions of auto-generated daemon logs, recon journals, and infrastructure state from OpenClaw deployment. 430K tokens.
 
-**Results**: All scoring variants converge to 14/20 (70%) hits, ~64% fact recovery, 182x compression. Ceiling confirmed structural across 3 independent scoring approaches.
+**Results**: All scoring variants converge to 14/20 (70%) hits, ~64% fact recovery, 182x compression. Ceiling confirmed structural across 3 independent scoring approaches AND across 2 base models (v2 and v4). v4 improved fact recovery to 67.8% (+3.8pp) but zero hit improvement — same 14/20 ceiling, same 6 misses. The bottleneck is retrieval/session-imbalance, not compression quality.
 
 **Failure modes**: Session imbalance (39 daemon chunks flood FTS5), sibling-session overlap (two infra sessions both contain credentials), fact-level temporal reasoning (need "latest value" within a session, not just session-level recency).
 
-**Specialist engine needed**: Temporal override logic, session-count balancing, source-aware retrieval. Not yet built.
+**Status**: PARKED. Breaking past 14/20 requires architectural changes (session typing, temporal-override reasoning, source-aware retrieval), not better base models. v4 confirmed this definitively.
 
 ---
 
@@ -250,10 +250,11 @@ The taxonomy is a living structure. New domains and subdomains are added when ev
 - v3 embedding classifier: Dev 19/20, Held-out 16/20, Combined 35/40 (88%) — less overfit
 - v3 + entity expansion: **84% facts, 50x compression, -16pp oracle gap, 100% retrieval (40/40)**
 - Dev/held-out consistency: 84% vs 83% facts — not overfitting
+- **v3 + AOJ v4 engine**: Dev 19/20 (95%), **95% facts** (+11pp); Held-out 15/20 (75%), 77.5% facts. Combined 34/40 (85%). v4 dramatically improved reconstruction quality on correct picks but held-out retrieval slightly regressed (classifier/sibling overlap noise)
 
 **Failure modes**: E-temporal bucket (~67% vs 100% oracle) — temporal facts embedded in narrative progression need more than entity extraction. Doc-type classification semantic edge cases (queries about findings-in-journals mapped to submission/recon prototypes).
 
-**Path to 🌿 Baseline Leaf**: Pipeline freeze, E-temporal improvement, formal baseline declaration.
+**Path to Baseline Leaf**: Retrieval/classifier improvements (held-out hit regression needs fixing), E-temporal improvement, formal baseline declaration. Base compression is now solved with v4 — focus is entirely on the pipeline shell.
 
 ---
 
@@ -264,9 +265,9 @@ The taxonomy is a living structure. New domains and subdomains are added when ev
 | **Corpus type** | Disclosure reports | Infra state / daemon logs | Campaign journals / recon / submissions |
 | **Entity vocabulary** | CVEs, domains, host counts, ports | Paths, UUIDs, API keys, status keywords | Dollars, counts, tools, security IDs, code identifiers |
 | **Retrieval ceiling (borrowed pipeline)** | 90% | 70% | 70% |
-| **Best result (specialist)** | 90% (validated, flagship) | 70% (no specialist yet) | 84% facts, 50x compression (entity expansion) |
-| **Fact recovery** | 93–94% | 64% | 84% (was 59% before entity expansion) |
-| **Oracle gap** | +2pp | N/A | -16pp (was -41pp) |
+| **Best result (specialist)** | 90% (validated, flagship) | 70% (PARKED — structural) | 95% dev facts with v4 engine (approaching Baseline Leaf) |
+| **Fact recovery** | 93–94% | 68% (v4 engine) | 95% dev / 77.5% held-out (v4 engine) |
+| **Oracle gap** | +2pp | N/A | narrowing — v4 closed compression gap, retrieval is remaining |
 | **Primary failure mode** | Near-identical titles | Session imbalance + temporal reasoning | E-temporal + doc-type semantic edges |
 | **Specialist lever** | Title-aware metadata | Temporal override (not yet built) | Embedding classifier + entity extractor |
 
